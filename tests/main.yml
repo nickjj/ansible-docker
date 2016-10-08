@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  remote_user: travis
+  become: True
+
+  roles:
+    - ansible-docker

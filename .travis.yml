@@ -1,0 +1,29 @@
+---
+language: "python"
+python: "2.7"
+
+env:
+  - SITE_AND_INVENTORY="tests/main.yml -i tests/inventory"
+
+install:
+  - "pip install ansible==2.1"
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
+script:
+  - "ansible-playbook $SITE_AND_INVENTORY --syntax-check"
+  - "ansible-playbook $SITE_AND_INVENTORY --connection=local -vvvv"
+  - >
+    ansible-playbook $SITE_AND_INVENTORY --connection=local
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+  - >
+    docker --version
+    | grep -q 'version'
+    && (echo 'Docker version test: pass' && exit 0)
+    || (echo 'Docker version test: fail' && exit 1)
+  - >
+    docker-compose --version
+    | grep -q 'version'
+    && (echo 'Docker Compose test: pass' && exit 0)
+    || (echo 'Docker Compose test: fail' && exit 1)

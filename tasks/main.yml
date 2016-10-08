@@ -1,0 +1,70 @@
+---
+
+- name: Fail if Docker version is < 1.10.0
+  fail:
+    msg: 'docker_version must be >= 1.10.0, yours is set to {{ docker_version }}.'
+  when: docker_version | version_compare('1.10.0', '<')
+
+- name: Get upstream APT GPG key
+  apt_key:
+    id: '{{ docker_apt_key }}'
+    keyserver: '{{ ansible_local.core.keyserver
+                   if (ansible_local|d() and ansible_local.core|d() and
+                       ansible_local.core.keyserver)
+                   else "hkp://pool.sks-keyservers.net" }}'
+    state: 'present'
+
+- name: Configure upstream APT repository
+  apt_repository:
+    repo: '{{ docker_repository }}'
+    state: 'present'
+    update_cache: True
+
+- name: Install Docker dependencies and Docker
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - 'apt-transport-https'
+    - 'ca-certificates'
+    - 'aufs-tools'
+    - 'docker-engine={{ docker_version }}-0~{{ docker_distribution_release }}'
+
+- name: Remove Upstart config file
+  file:
+    path: '/etc/default/docker'
+    state: 'absent'
+
+- name: Generate systemd unit file
+  template:
+    src: 'etc/systemd/system/docker.service.j2'
+    dest: '/etc/systemd/system/docker.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: docker_register_systemd_service
+
+- name: Reload systemd daemon
+  command: 'systemctl daemon-reload'
+  notify:
+    - Restart Docker
+  when: (docker_register_systemd_service|d() and
+         docker_register_systemd_service|changed)
+
+- name: Add specific users to 'docker' group
+  user:
+    name: '{{ item }}'
+    groups: 'docker'
+    append: True
+  with_items: '{{ docker_users }}'
+  when: item|d()
+
+- name: Install Docker Compose
+  get_url:
+    url: 'https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64'
+    dest: '/usr/local/bin/docker-compose'
+    force: True
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  when: docker_install_docker_compose
