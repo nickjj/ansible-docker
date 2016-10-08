@@ -32,7 +32,6 @@ docker_users: []
 # A list of Docker options as they would appear on the command line, such as:
 # docker_options:
 #   - '--dns 8.8.8.8'
-#   - '--'
 docker_options: []
 
 # The APT GPG key id used to sign the Docker package.
