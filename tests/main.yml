@@ -1,6 +1,7 @@
 ---
 
 - hosts: localhost
+  become: True
 
   roles:
     - ansible-docker
