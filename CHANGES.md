@@ -1,5 +1,11 @@
 # Changelog
 
+### v0.1.2
+
+*Released: October 9th 2016*
+
+- Fix apt.cache https could not be found error
+
 ### v0.1.1
 
 *Released: October 9th 2016*

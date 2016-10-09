@@ -5,6 +5,15 @@
     msg: 'docker_version must be >= 1.10.0, yours is set to {{ docker_version }}.'
   when: docker_version | version_compare('1.10.0', '<')
 
+- name: Install Docker dependencies
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - 'apt-transport-https'
+    - 'ca-certificates'
+    - 'aufs-tools'
+
 - name: Get upstream APT GPG key
   apt_key:
     id: '{{ docker_apt_key }}'
@@ -19,15 +28,6 @@
     repo: '{{ docker_repository }}'
     state: 'present'
     update_cache: True
-
-- name: Install Docker dependencies
-  apt:
-    name: '{{ item }}'
-    state: 'present'
-  with_items:
-    - 'apt-transport-https'
-    - 'ca-certificates'
-    - 'aufs-tools'
 
 - name: Install Docker
   apt:
