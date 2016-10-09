@@ -40,6 +40,14 @@
     path: '/etc/default/docker'
     state: 'absent'
 
+- name: Ensure systemd directory exists
+  file:
+    path: '/etc/systemd/system'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
 - name: Generate systemd unit file
   template:
     src: 'etc/systemd/system/docker.service.j2'
