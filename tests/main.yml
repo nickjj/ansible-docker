@@ -1,6 +1,11 @@
 ---
 
-- hosts: all
+- hosts: localhost
+
+  pre_tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: True
 
   roles:
-    - this_role
+    - ansible-docker
