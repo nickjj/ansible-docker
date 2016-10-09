@@ -8,17 +8,16 @@ env:
     init: '/lib/systemd/systemd'
   - distro: 'debian8'
     init: '/lib/systemd/systemd'
-  - SITE_AND_INVENTORY='tests/main.yml -i tests/inventory'
 
 install:
   - 'pip install ansible==2.1'
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
-  - "ansible-playbook $SITE_AND_INVENTORY --syntax-check"
-  - "ansible-playbook $SITE_AND_INVENTORY --connection=local -vvvv"
+  - 'ansible-playbook tests/main.yml -i tests/inventory --syntax-check'
+  - 'ansible-playbook tests/main.yml -i tests/inventory --connection=local'
   - >
-    ansible-playbook $SITE_AND_INVENTORY --connection=local
+    ansible-playbook tests/main.yml -i tests/inventory --connection=local
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
