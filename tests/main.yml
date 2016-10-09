@@ -1,8 +1,11 @@
 ---
 
-- hosts: localhost
-  remote_user: travis
-  become: True
+- hosts: all
+
+  # pre_tasks:
+  #   - name: Update APT cache
+  #     apt:
+  #       update_cache: True
 
   roles:
-    - ansible-docker
+    - this_role

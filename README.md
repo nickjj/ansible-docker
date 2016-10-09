@@ -3,6 +3,11 @@
 It is an [Ansible](http://www.ansible.com/home) role to install Docker and
 Docker Compose.
 
+##### Supported platforms:
+
+- Ubuntu 16.04 LTS (Xenial)
+- Debian 8 (Jessie)
+
 ### What problem does it solve and why is it useful?
 
 If you're like me, you probably love Docker. This role lets you install a
@@ -86,10 +91,6 @@ If you're looking for an Ansible role to create users, then check out my
 ## Installation
 
 `$ ansible-galaxy install nickjj.docker`
-
-## Requirements
-
-Tested on Ubuntu 16.04 LTS but it should work on Debian Jessie+ too.
 
 ## Ansible Galaxy
 
