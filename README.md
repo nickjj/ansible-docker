@@ -55,6 +55,9 @@ docker_distribution_release: '{{ ansible_local.core.distribution_release
 
 # Address of the Docker repository.
 docker_repository: 'deb https://apt.dockerproject.org/repo {{ docker_distribution | lower }}-{{ docker_distribution_release }} main'
+
+# How long should the apt-cache last in seconds?
+docker_apt_cache_time: 86400
 ```
 
 ## Example playbook

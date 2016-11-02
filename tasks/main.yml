@@ -34,6 +34,7 @@
     name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution_release }}'
     state: 'present'
     update_cache: True
+    cache_valid_time: '{{ docker_apt_cache_time }}'
 
 - name: Remove Upstart config file
   file:
