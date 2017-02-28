@@ -31,7 +31,7 @@
 
 - name: Install Docker
   apt:
-    name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution_release }}'
+    name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution | lower }}-{{ docker_distribution_release }}'
     state: 'present'
     update_cache: True
     cache_valid_time: '{{ docker_apt_cache_time }}'
