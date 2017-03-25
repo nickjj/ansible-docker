@@ -13,6 +13,13 @@
     - 'apt-transport-https'
     - 'ca-certificates'
     - 'aufs-tools'
+    - 'python-pip'
+
+- pip:
+    name: docker
+- pip:
+    name: docker-py
+    
 
 - name: Get upstream APT GPG key
   apt_key:
