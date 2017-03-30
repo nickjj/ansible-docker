@@ -97,5 +97,5 @@
   shell: python /home/{{ ansible_ssh_user }}/get-pip.py
   when: which_pip | failed
 
-- name: Install docker-py
-  pip: name=docker-py state=present
+- name: Install docker
+  pip: name=docker state=present
