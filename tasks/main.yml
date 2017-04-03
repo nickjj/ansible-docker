@@ -31,7 +31,7 @@
 
 - name: Install Docker
   apt:
-    name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution_release }}'
+    name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution | lower }}-{{ docker_distribution_release }}'
     state: 'present'
     update_cache: True
     cache_valid_time: '{{ docker_apt_cache_time }}'
@@ -82,3 +82,20 @@
     group: 'root'
     mode: '0755'
   when: docker_install_docker_compose
+
+- name: check pip
+  command: which pip
+  register: which_pip
+  ignore_errors: true
+  changed_when: false
+
+- name: Get Install pip
+  get_url: url=https://bootstrap.pypa.io/get-pip.py dest=/home/{{ ansible_ssh_user }}/get-pip.py
+  when: which_pip | failed
+
+- name: Install pip
+  shell: python /home/{{ ansible_ssh_user }}/get-pip.py
+  when: which_pip | failed
+
+- name: Install docker
+  pip: name=docker state=present
