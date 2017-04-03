@@ -20,7 +20,8 @@ docker_distribution_release: '{{ ansible_local.core.distribution_release
                                  if (ansible_local|d() and ansible_local.core|d() and
                                      ansible_local.core.distribution_release|d())
                                  else ansible_distribution_release }}'
-
-docker_repository: 'deb https://apt.dockerproject.org/repo {{ docker_distribution | lower }}-{{ docker_distribution_release }} main'
+#main/testing/experimental
+docker_repository_stream: 'main'
+docker_repository: 'deb https://apt.dockerproject.org/repo {{ docker_distribution | lower }}-{{ docker_distribution_release }} {{ docker_repository_stream }}'
 
 docker_apt_cache_time: 86400
