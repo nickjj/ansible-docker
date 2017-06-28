@@ -1,9 +1,9 @@
 ---
 
-- name: Fail if Docker version is < 1.10.0
+- name: Fail if Docker version is < 17.03
   fail:
-    msg: 'docker_version must be >= 1.10.0, yours is set to {{ docker_version }}.'
-  when: docker_version | version_compare('1.10.0', '<')
+    msg: 'docker_version must be >= 17.03, yours is set to {{ docker_version }}.'
+  when: docker_version | version_compare('17.03', '<')
 
 - name: Install Docker dependencies
   apt:
@@ -12,7 +12,7 @@
   with_items:
     - 'apt-transport-https'
     - 'ca-certificates'
-    - 'aufs-tools'
+    - 'software-properties-common'
 
 - name: Get upstream APT GPG key
   apt_key:
@@ -31,7 +31,7 @@
 
 - name: Install Docker
   apt:
-    name: 'docker-engine={{ docker_version }}-0~{{ docker_distribution_release }}'
+    name: 'docker-{{ docker_edition }}={{ docker_version }}~{{ docker_edition }}-0~{{ docker_distribution | lower }}'
     state: 'present'
     update_cache: True
     cache_valid_time: '{{ docker_apt_cache_time }}'

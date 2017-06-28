@@ -2,7 +2,7 @@
 
 galaxy_info:
   author: Nick Janetakis
-  description: Install Docker and Docker Compose.
+  description: Install Docker and optionally Docker Compose.
   company:
   license: license MIT
   min_ansible_version: 2.0
@@ -14,6 +14,7 @@ galaxy_info:
   - name: Debian
     versions:
     - jessie
+    - stretch
 
   categories:
   - system

@@ -1,14 +1,17 @@
 ---
 
-docker_version: '1.12.1'
+docker_edition: 'ce'
+docker_channel: 'edge'
+
+docker_version: '17.06.0'
 docker_install_docker_compose: True
-docker_compose_version: '1.8.1'
+docker_compose_version: '1.14.0'
 
 docker_users: []
 
 docker_options: []
 
-docker_apt_key: '58118E89F3A912897C070ADBF76221572C52609D'
+docker_apt_key: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
 
 # The OS distribution and distribution release, thanks https://github.com/debops.
 # Doing it this way doesn't depend on having lsb-release installed.
@@ -21,6 +24,6 @@ docker_distribution_release: '{{ ansible_local.core.distribution_release
                                      ansible_local.core.distribution_release|d())
                                  else ansible_distribution_release }}'
 
-docker_repository: 'deb https://apt.dockerproject.org/repo {{ docker_distribution | lower }}-{{ docker_distribution_release }} main'
+docker_repository: 'deb [arch=amd64] https://download.docker.com/linux/{{ docker_distribution | lower }} {{ docker_distribution_release }} {{ docker_channel }}'
 
 docker_apt_cache_time: 86400

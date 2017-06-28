@@ -1,17 +1,21 @@
 ## What is ansible-docker? [![Build Status](https://secure.travis-ci.org/nickjj/ansible-docker.png)](http://travis-ci.org/nickjj/ansible-docker)
 
 It is an [Ansible](http://www.ansible.com/home) role to install Docker and
-Docker Compose.
+optionally Docker Compose.
 
-##### Supported platforms:
+##### Supported platforms
 
 - Ubuntu 16.04 LTS (Xenial)
 - Debian 8 (Jessie)
+- Debian 9 (Stretch)
 
 ### What problem does it solve and why is it useful?
 
-If you're like me, you probably love Docker. This role lets you install a
-specific version of Docker as well as Docker Compose.
+If you're like me, you probably love Docker. This role lets you install a specific
+version of Docker as well as Docker Compose.
+
+If you don't know what Docker is, or are looking to become an expert with it
+then check out [Dive Into Docker: The Complete Docker Course for Developers](https://diveintodocker.com/courses/dive-into-docker?utm_source=ansibledocker&utm_medium=github&utm_campaign=readmetop).
 
 ## Role variables
 
@@ -20,13 +24,19 @@ Below is a list of default values along with a description of what they do.
 ```
 ---
 
-# This role only supports Docker 1.10.0 and above, also make sure you include
-# the trailing .0 for versions that end in 0, such as 1.12.0.
-docker_version: '1.12.1'
+# Do you want to install Community Edition ('ce') or Enterprise Edition ('ee')?
+docker_edition: 'ce'
+
+# Do you want to install Docker through the 'stable' or 'edge' channel?
+# Stable gets updated every quarter and Edge gets updated every month.
+docker_channel: 'edge'
+
+# What version of Docker do you want to install?
+docker_version: '17.06.0'
 
 # Optionally install a specific version of Docker Compose.
 docker_install_docker_compose: True
-docker_compose_version: '1.8.1'
+docker_compose_version: '1.14.0'
 
 # A list of users to be added to the Docker group. For example if you have a
 # user of 'deploy', then you'll want to set docker_users: ['deploy'] here.
@@ -40,7 +50,7 @@ docker_users: []
 docker_options: []
 
 # The APT GPG key id used to sign the Docker package.
-docker_apt_key: '58118E89F3A912897C070ADBF76221572C52609D'
+docker_apt_key: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
 
 # The OS distribution and distribution release, thanks https://github.com/debops.
 # Doing it this way doesn't depend on having lsb-release installed.
@@ -54,7 +64,7 @@ docker_distribution_release: '{{ ansible_local.core.distribution_release
                                  else ansible_distribution_release }}'
 
 # Address of the Docker repository.
-docker_repository: 'deb https://apt.dockerproject.org/repo {{ docker_distribution | lower }}-{{ docker_distribution_release }} main'
+docker_repository: 'deb [arch=amd64] https://download.docker.com/linux/{{ docker_distribution | lower }} {{ docker_distribution_release }} {{ docker_channel }}'
 
 # How long should the apt-cache last in seconds?
 docker_apt_cache_time: 86400
