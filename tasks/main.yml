@@ -31,7 +31,7 @@
 
 - name: Install Docker
   apt:
-    name: 'docker-{{ docker_edition }}={{ docker_version }}~{{ docker_edition }}-0~{{ docker_distribution | lower }}'
+    name: 'docker-{{ docker_edition }}={{ docker_version }}~{{ docker_edition }}-0~{{ docker_distribution | lower }}-{{ docker_distribution_release | lower }}'
     state: 'present'
     update_cache: True
     cache_valid_time: '{{ docker_apt_cache_time }}'
