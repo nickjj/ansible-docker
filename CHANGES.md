@@ -1,5 +1,12 @@
 # Changelog
 
+### v17.12
+
+*Released: January 11th 2018*
+
+- Default to Docker v17.12 on the CE edge channel
+- Default to Docker Compose v1.18
+
 ### v17.06
 
 *Released: June 28th 2017*
