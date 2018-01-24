@@ -1,6 +1,16 @@
 ---
 
+services: "docker"
+
+env:
+  - distro: "ubuntu1604"
+  - distro: "debian8"
+  - distro: "debian9"
+
 script:
-  # TODO: Write real tests, but running Docker within Docker ends up being a
-  # problem and that's necessary to test various versions of Ubuntu/Debian.
-  - 'exit 0'
+  # Download test shim.
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/nickjj/d12353b5b601e33cd62fda111359957a/raw
+  - chmod +x ${PWD}/tests/test.sh
+
+  # Run tests.
+  - ${PWD}/tests/test.sh

@@ -1,29 +1,22 @@
 ---
 
-docker_edition: 'ce'
-docker_channel: 'edge'
+docker_edition: "ce"
+docker_channel: "edge"
 
-docker_version: '17.12.0'
+docker_version: "18.01.0"
 docker_install_docker_compose: True
-docker_compose_version: '1.18.0'
+docker_compose_version: "1.18.0"
 
 docker_users: []
 
+docker_cron_tasks:
+  - job: docker system prune -f
+    name: "Docker clean up"
+    schedule: ["0", "0", "1", "*", "*"]
+
 docker_options: []
 
-docker_apt_key: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
-
-# The OS distribution and distribution release, thanks https://github.com/debops.
-# Doing it this way doesn't depend on having lsb-release installed.
-docker_distribution: '{{ ansible_local.core.distribution
-                         if (ansible_local|d() and ansible_local.core|d() and
-                             ansible_local.core.distribution|d())
-                         else ansible_distribution }}'
-docker_distribution_release: '{{ ansible_local.core.distribution_release
-                                 if (ansible_local|d() and ansible_local.core|d() and
-                                     ansible_local.core.distribution_release|d())
-                                 else ansible_distribution_release }}'
-
-docker_repository: 'deb [arch=amd64] https://download.docker.com/linux/{{ docker_distribution | lower }} {{ docker_distribution_release }} {{ docker_channel }}'
+docker_apt_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+docker_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
 
 docker_apt_cache_time: 86400

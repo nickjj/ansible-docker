@@ -3,7 +3,7 @@
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
-After=network.target docker.socket
+After=network-online.target docker.socket
 Requires=docker.socket
 
 [Service]
@@ -11,11 +11,7 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-{% if docker_version | version_compare('1.12', '>=') %}
-ExecStart=/usr/bin/dockerd {{ docker_options | join(' ') }}
-{% else %}
-ExecStart=/usr/bin/docker daemon {{ docker_options | join(' ') }}
-{% endif %}
+ExecStart=/usr/bin/dockerd {{ docker_options | join(" ") }}
 ExecReload=/bin/kill -s HUP $MAINPID
 # Having non-zero Limit*s causes performance problems due to accounting overhead
 # in the kernel. We recommend using cgroups to do container-local accounting.

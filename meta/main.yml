@@ -1,23 +1,23 @@
 ---
 
 galaxy_info:
-  author: Nick Janetakis
-  description: Install Docker and optionally Docker Compose.
+  author: "Nick Janetakis"
+  description: "Install and Docker and optionally Docker Compose."
   company:
-  license: license MIT
-  min_ansible_version: 2.0
+  license: "license (MIT)"
+  min_ansible_version: 2.4
 
   platforms:
-  - name: Ubuntu
-    versions:
-    - xenial
-  - name: Debian
-    versions:
-    - jessie
-    - stretch
+    - name: "Ubuntu"
+      versions:
+        - "xenial"
+    - name: "Debian"
+      versions:
+        - "jessie"
+        - "stretch"
 
   categories:
-  - system
-  - packaging
+    - "packaging"
+    - "system"
 
 dependencies: []
