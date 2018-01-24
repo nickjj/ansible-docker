@@ -12,7 +12,7 @@ docker_users: []
 docker_cron_tasks:
   - job: docker system prune -f
     name: "Docker clean up"
-    schedule: ["0", "0", "1", "*", "*"]
+    schedule: ["0", "0", "*", "*", "0"]
 
 docker_options: []
 
