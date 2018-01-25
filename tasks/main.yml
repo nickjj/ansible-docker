@@ -5,7 +5,7 @@
     msg: "docker_version must be >= 17.03, yours is set to {{ docker_version }}."
   when: docker_version | version_compare("17.03", "<")
 
-- name: Install Docker dependencies
+- name: Install Docker and role dependencies
   apt:
     name: "{{ item }}"
     state: "present"
@@ -14,6 +14,7 @@
     - "apt-transport-https"
     - "ca-certificates"
     - "software-properties-common"
+    - "cron"
 
 - name: Get upstream APT GPG key
   apt_key:
