@@ -55,10 +55,10 @@ docker_cron_tasks:
     # This uses the standard crontab syntax. 
     schedule: ["0", "0", "*", "*", "0"]
 
-# A list of Docker options as they would appear on the command line, such as:
-# docker_options:
+# Docker daemon options as they would appear on the command line, such as:
+# docker_daemon_options:
 #   - "--dns 8.8.8.8"
-docker_options: []
+docker_daemon_options: []
 
 # The APT GPG key id used to sign the Docker package.
 docker_apt_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"

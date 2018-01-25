@@ -91,7 +91,7 @@
     minute: "{{ item.schedule[0] }}"
     hour: "{{ item.schedule[1] }}"
     day: "{{ item.schedule[2] }}"
-    weekday: "{{ item.schedule[3] }}"
-    month: "{{ item.schedule[4] }}"
+    month: "{{ item.schedule[3] }}"
+    weekday: "{{ item.schedule[4] }}"
   with_items: "{{ docker_cron_tasks }}"
   when: docker_cron_tasks
