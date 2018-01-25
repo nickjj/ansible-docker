@@ -1,0 +1,23 @@
+---
+
+- hosts: "all"
+
+  vars:
+    docker_daemon_options:
+      - "--dns 8.8.8.8"
+
+  roles:
+    - "role_under_test"
+
+  pre_tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: True
+        cache_valid_time: 600
+
+  post_tasks:
+    - name: Ensure /etc/systemd/system/docker.service contains '--dns 8.8.8.8'
+      # Double dashes: https://unix.stackexchange.com/a/11382
+      shell: grep -- "--dns 8.8.8.8" /etc/systemd/system/docker.service
+      register: result
+      changed_when: result.rc != 0
