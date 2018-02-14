@@ -4,7 +4,7 @@
 
 *Released: February 14th 2018*
 
-- Default to Docker to v18.02
+- Default to Docker v18.02
 - Default to Docker Compose v1.19
 
 ### v0.2.0
