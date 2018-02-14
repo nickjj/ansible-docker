@@ -1,5 +1,24 @@
 # Changelog
 
+### v0.2.1
+
+*Released: February 14th 2018*
+
+- Default to Docker to v18.02
+- Default to Docker Compose v1.19
+
+### v0.2.0
+
+*Released: January 25th 2018*
+
+- Change version strategy to be separate from Docker releases (it was a bad idea!)
+- Change `docker_options` to `docker_daemon_options`
+- Default to Docker v18.01 on the CE edge channel
+- Fix systemd service so Docker loads after `network-online.target` instead of `network.target`
+- Add cron job to clean up after Docker
+- Add proper tests and support for Ubuntu 16, Debian Stretch and Debian Jessie
+- Update format and style consistencies
+
 ### v17.12
 
 *Released: January 11th 2018*
