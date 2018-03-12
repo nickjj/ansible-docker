@@ -85,14 +85,12 @@
     mode: "0755"
   when: docker_install_docker_compose
 
-- name: Create cron tasks for Docker commands
+- name: Cron Docker clean up 
   cron:
-    name: "{{ item.name }}"
-    job: "{{ item.job }}"
-    minute: "{{ item.schedule[0] }}"
-    hour: "{{ item.schedule[1] }}"
-    day: "{{ item.schedule[2] }}"
-    month: "{{ item.schedule[3] }}"
-    weekday: "{{ item.schedule[4] }}"
-  with_items: "{{ docker_cron_tasks }}"
-  when: docker_cron_tasks
+      name: "Docker prune"
+      user: root
+      special_time: "weekly"
+      job: docker system prune -f
+      cron_file: "docker_prune"
+      state: present
+  become: True
