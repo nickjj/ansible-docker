@@ -89,7 +89,7 @@
   cron:
       name: "Docker prune"
       user: root
-      special_time: "weekly"
+      special_time: "hourly"
       job: docker system prune -f
       cron_file: "docker_prune"
       state: present
