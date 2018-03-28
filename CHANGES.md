@@ -1,5 +1,12 @@
 # Changelog
 
+### v0.2.2
+
+*Released: March 28th 2018*
+
+- Default to Docker v18.03
+- Default to Docker Compose v1.20
+
 ### v0.2.1
 
 *Released: February 14th 2018*

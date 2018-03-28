@@ -3,9 +3,9 @@
 docker_edition: "ce"
 docker_channel: "edge"
 
-docker_version: "18.02.0"
+docker_version: "18.03.0"
 docker_install_docker_compose: True
-docker_compose_version: "1.19.0"
+docker_compose_version: "1.20.1"
 
 docker_users: []
 
