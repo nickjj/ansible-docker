@@ -101,7 +101,7 @@ docker_users: ["deploy"]
 *If you're looking for an Ansible role to create users, then check out my
 [user role](https://github.com/nickjj/ansible-user)*.
 
-Now you would run `ansible-playbook -i inventory/hosts site.yml -t iptables`.
+Now you would run `ansible-playbook -i inventory/hosts site.yml -t docker`.
 
 ## Installation
 
