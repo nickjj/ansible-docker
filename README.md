@@ -50,7 +50,7 @@ docker_users: []
 # on Sunday at midnight. This will help keep your Docker hosts' disks under
 # control. 
 docker_cron_tasks:
-  - command: docker system prune -f
+  - job: docker system prune -f
     name: "Docker clean up"
     # This uses the standard crontab syntax. 
     schedule: ["0", "0", "*", "*", "0"]
