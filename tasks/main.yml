@@ -22,7 +22,7 @@
     keyserver: "{{ ansible_local.core.keyserver
                    if (ansible_local|d() and ansible_local.core|d() and
                        ansible_local.core.keyserver)
-                   else '{{ apt.keyserver }}' }}"
+                   else "{{ apt.keyserver }}" }}"
     state: "present"
 
 - name: Configure upstream APT repository
