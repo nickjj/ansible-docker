@@ -55,6 +55,13 @@ docker_cron_tasks:
     # This uses the standard crontab syntax. 
     schedule: ["0", "0", "*", "*", "0"]
 
+# Docker daemon environment can be used to set environment variables for docker process, such as:
+# docker_daemon_environment:
+#   - "HTTP_PROXY=http://proxy.example.com:3128/"
+#   - "HTTPS_PROXY=http://proxy.example.com:3128/"
+#   - "NO_PROXY=localhost,127.0.0.1"
+docker_daemon_environment: []
+
 # Docker daemon options as they would appear on the command line, such as:
 # docker_daemon_options:
 #   - "--dns 8.8.8.8"
