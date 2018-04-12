@@ -96,3 +96,11 @@
     weekday: "{{ item.schedule[4] }}"
   with_items: "{{ docker_cron_tasks }}"
   when: docker_cron_tasks
+
+- name: Login to Docker Registry
+  docker_login: "{{ registry }}"
+  with_items: "{{ docker_registries }}"
+  loop_control:
+    loop_var: registry
+  become_user: "{{ docker_registry_become_user | default(omit) }}"
+  when: docker_registries
