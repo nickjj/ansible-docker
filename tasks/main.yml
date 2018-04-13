@@ -33,7 +33,7 @@
 
 - name: Install Docker
   apt:
-    name: "docker-{{ docker_edition }}={{ docker_version }}~{{ docker_edition }}-0~{{ ansible_distribution | lower }}"
+    name: "docker-{{ docker_edition }}={{ docker_apt_package_name }}"
     state: "present"
     update_cache: True
     install_recommends: False
