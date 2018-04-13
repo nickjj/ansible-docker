@@ -1,5 +1,13 @@
 # Changelog
 
+### v0.2.3
+
+*Released: April 13th 2018*
+
+- Default to Docker v18.04
+- Default to Docker Compose v1.21
+- Expose `docker_apt_package_name` to customize the APT package name
+
 ### v0.2.2
 
 *Released: March 28th 2018*
