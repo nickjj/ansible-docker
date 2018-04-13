@@ -34,11 +34,11 @@ docker_edition: "ce"
 docker_channel: "edge"
 
 # What version of Docker do you want to install?
-docker_version: "18.03.0"
+docker_version: "18.04.0"
 
 # Optionally install a specific version of Docker Compose.
 docker_install_docker_compose: True
-docker_compose_version: "1.20.1"
+docker_compose_version: "1.21.0"
 
 # A list of users to be added to the Docker group. For example if you have a
 # user of 'deploy', then you'll want to set docker_users: ['deploy'] here.
