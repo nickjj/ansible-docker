@@ -55,17 +55,17 @@ docker_cron_tasks:
     # This uses the standard crontab syntax. 
     schedule: ["0", "0", "*", "*", "0"]
 
-# Docker daemon environment can be used to set environment variables for docker process, such as:
+# Docker daemon options as they would appear on the command line, such as:
+# docker_daemon_options:
+#   - "--dns 8.8.8.8"
+docker_daemon_options: []
+
+# Can be used to set environment variables for the Docker daemon, such as:
 # docker_daemon_environment:
 #   - "HTTP_PROXY=http://proxy.example.com:3128/"
 #   - "HTTPS_PROXY=http://proxy.example.com:3128/"
 #   - "NO_PROXY=localhost,127.0.0.1"
 docker_daemon_environment: []
-
-# Docker daemon options as they would appear on the command line, such as:
-# docker_daemon_options:
-#   - "--dns 8.8.8.8"
-docker_daemon_options: []
 
 # The APT GPG key id used to sign the Docker package.
 docker_apt_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
