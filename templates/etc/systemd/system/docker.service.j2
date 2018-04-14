@@ -11,6 +11,9 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
+{% if docker_daemon_environment %}
+Environment="{{ docker_daemon_environment | join('" "') }}"
+{% endif %}
 ExecStart=/usr/bin/dockerd {{ docker_daemon_options | join(" ") }}
 ExecReload=/bin/kill -s HUP $MAINPID
 # Having non-zero Limit*s causes performance problems due to accounting overhead
