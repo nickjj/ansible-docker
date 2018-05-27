@@ -18,11 +18,7 @@
 
 - name: Get upstream APT GPG key
   apt_key:
-    id: "{{ docker_apt_key }}"
-    keyserver: "{{ ansible_local.core.keyserver
-                   if (ansible_local|d() and ansible_local.core|d() and
-                       ansible_local.core.keyserver)
-                   else 'hkp://pool.sks-keyservers.net' }}"
+    url: https://download.docker.com/linux/ubuntu/gpg
     state: "present"
 
 - name: Configure upstream APT repository
