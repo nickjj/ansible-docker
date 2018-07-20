@@ -3,7 +3,7 @@
 - name: Fail if Docker version is < 17.03
   fail:
     msg: "docker_version must be >= 17.03, yours is set to {{ docker_version }}."
-  when: docker_version | version_compare("17.03", "<")
+  when: docker_version is version_compare("17.03", "<")
 
 - name: Install Docker and role dependencies
   apt:
@@ -65,7 +65,7 @@
   command: "systemctl daemon-reload"
   notify: ["Restart Docker"]
   when: (docker_register_systemd_service and
-         docker_register_systemd_service | changed)
+         docker_register_systemd_service is changed)
 
 - name: Add specific users to "docker" group
   user:
