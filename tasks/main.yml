@@ -33,6 +33,23 @@
     state: "present"
     update_cache: True
 
+- name: Get Docker package info from the repository
+  shell: apt-cache madison "docker-{{ docker_edition | quote }}" | \
+            grep "{{ docker_channel | quote }}" | \
+            grep "{{ docker_version | quote }}" | \
+            awk -F'|' '{print $2}' |
+            tr -d '[[:space:]]'
+  register: docker_package_info
+
+- name: Set docker_apt_package_name
+  set_fact:
+    docker_apt_package_name: "{{ docker_package_info.stdout }}"
+
+- fail:
+    msg: "Docker edition '{{ docker_edition }}' version '{{ docker_version }}' is not available through the channel '{{ docker_channel }}'"
+  when:
+    docker_apt_package_name == ''
+
 - name: Install Docker
   apt:
     name: "docker-{{ docker_edition }}={{ docker_apt_package_name }}"

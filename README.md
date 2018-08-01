@@ -73,10 +73,6 @@ docker_apt_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 # Address of the Docker repository.
 docker_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
 
-# Full APT package name.
-# Note: Docker versions 17.04 to 18.03 do not have that extra ~3 in the middle. 
-docker_apt_package_name: "{{ docker_version }}~{{ docker_edition }}~3-0~{{ ansible_distribution | lower }}"
-
 # How long should the apt-cache last in seconds?
 docker_apt_cache_time: 86400
 ```
