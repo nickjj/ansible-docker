@@ -33,9 +33,13 @@
     state: "present"
     update_cache: True
 
+- set_fact:
+    docker_apt_package_name: "docker-{{ docker_edition }}={{ docker_version }}~{{ docker_edition }}~3-0~{{ ansible_distribution | lower }}"
+  when: docker_version != "latest"
+
 - name: Install Docker
   apt:
-    name: "docker-{{ docker_edition }}={{ docker_apt_package_name }}"
+    name: "{{docker_apt_package_name}}"
     state: "present"
     update_cache: True
     install_recommends: False
@@ -77,9 +81,20 @@
   with_items: "{{ docker_users }}"
   when: docker_users
 
+- name: Get information about indicated docker-compose version
+  uri:
+    url: "https://api.github.com/repos/docker/compose/releases/{{docker_compose_version}}"
+    return_content: yes
+  register: github_response
+
+- set_fact:
+    docker_compose_url: "{{  github_response.json.assets|json_query(query) }}"
+  vars:
+    query: "[?name=='docker-compose-Linux-x86_64'].url | [0]"
+
 - name: Install Docker Compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+    url: "{{docker_compose_url}}"
     dest: "/usr/local/bin/docker-compose"
     force: True
     owner: "root"
