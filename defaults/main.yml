@@ -1,5 +1,7 @@
 ---
 
+apt:
+  keyserver: "hkp://p80.pool.sks-keyservers.net:80"
 docker_edition: "ce"
 docker_channel: "edge"
 
