@@ -7,6 +7,7 @@ It is an [Ansible](http://www.ansible.com/home) role to:
 - Configure the Docker daemon's options
 - Set up 1 or more users to run Docker without needing root access
 - Configure a cron job to run Docker clean up commands
+- Login to Docker Registries
 
 ## Why would you want to use this role?
 
@@ -79,6 +80,12 @@ docker_apt_package_name: "{{ docker_version }}~{{ docker_edition }}~3-0~{{ ansib
 
 # How long should the apt-cache last in seconds?
 docker_apt_cache_time: 86400
+
+# Want to login to custom Docker Registry?
+docker_registries:
+- registry: "registry.example.com"
+  username: "superuser"
+  password: "superpassword"
 ```
 
 ## Example usage

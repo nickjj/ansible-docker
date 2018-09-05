@@ -22,3 +22,5 @@ docker_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansibl
 docker_apt_package_name: "{{ docker_version }}~{{ docker_edition }}~3-0~{{ ansible_distribution | lower }}"
 
 docker_apt_cache_time: 86400
+
+docker_registries: []
