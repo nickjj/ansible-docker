@@ -3,7 +3,7 @@
 - name: Fail if Docker version is < 17.03
   fail:
     msg: "docker_version must be >= 17.03, yours is set to {{ docker_version }}."
-  when: docker_version | version_compare("17.03", "<")
+  when: docker_version is version("17.03", "<")
 
 - name: Install Docker and role dependencies
   apt:
