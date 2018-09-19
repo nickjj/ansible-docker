@@ -1,5 +1,23 @@
 # Changelog
 
+### v1.0.0
+
+*Released: September 19th 2018*
+
+- Update role to be compliant and depend on Ansible 2.5+
+- Add official support for Ubuntu 16.04 / 18.04 and Debian Jessie / Stretch
+- Default to Docker v18.06
+- Default to Docker Compose v1.22
+- Default to the stable channel instead of edge
+- Add support for configuring 1 or more registries (thanks to @Mykhailo Chalyi for starting this)
+- Add ability to remove Docker by setting `docker_remove_package: True`
+- Fix APT GPG key issues (thanks to @bidossessi for starting this)
+- Add proper version pinning support
+- Remove `docker_apt_package_name` because the package name has been simplified thanks to pinning
+- Redirect system prune's cron output to `/dev/null`
+- Extract Docker's package dependencies into `docker_package_dependencies`
+- Add more tests
+
 ### v0.2.3
 
 *Released: April 13th 2018*
