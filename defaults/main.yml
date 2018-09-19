@@ -1,24 +1,34 @@
 ---
 
-docker_edition: "ce"
-docker_channel: "edge"
+docker_remove_package: False
 
-docker_version: "18.04.0"
+docker_edition: "ce"
+docker_channel: "stable"
+docker_version: "latest"
+
 docker_install_docker_compose: True
-docker_compose_version: "1.21.0"
+docker_compose_version: "1.22.0"
 
 docker_users: []
-
-docker_cron_tasks:
-  - job: docker system prune -f
-    name: "Docker clean up"
-    schedule: ["0", "0", "*", "*", "0"]
+docker_registries: []
 
 docker_daemon_options: []
 docker_daemon_environment: []
 
-docker_apt_key: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
-docker_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
-docker_apt_package_name: "{{ docker_version }}~{{ docker_edition }}~3-0~{{ ansible_distribution | lower }}"
+docker_cron_tasks:
+  - job: docker system prune -f &> /dev/null
+    name: "Docker clean up"
+    schedule: ["0", "0", "*", "*", "0"]
 
+
+docker_package_dependencies:
+  - "apt-transport-https"
+  - "ca-certificates"
+  - "software-properties-common"
+  - "gnupg2"
+  - "cron"
+
+docker_apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+docker_apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
 docker_apt_cache_time: 86400
