@@ -14,7 +14,7 @@
     - "role_under_test"
 
   pre_tasks:
-    - name: "Add test user"
+    - name: Add test user
       user:
         name: "test"
         shell: "/bin/bash"

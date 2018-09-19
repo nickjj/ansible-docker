@@ -142,12 +142,12 @@ To use this role edit your `site.yml` file to look something like this:
 ```
 ---
 
-- name: "Configure app server(s)"
+- name: Configure app server(s)
   hosts: "app"
   become: True
 
   roles:
-    - { role: "nickjj.docker", tags: "docker" }
+    - { role: "nickjj.docker", tags: ["docker"] }
 ```
 
 Here's a few examples. You can recreate this example on your end by opening or
