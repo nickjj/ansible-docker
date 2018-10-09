@@ -19,8 +19,8 @@ galaxy_info:
 
   galaxy_tags:
     - "containers"
-    - "docker"
     - "compose"
+    - "docker"
     - "packaging"
     - "system"
 
