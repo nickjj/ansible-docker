@@ -105,7 +105,7 @@ docker_daemon_environment: []
 # Manage 1 or more cron jobs to perform Docker related system tasks. By default
 # this will safely clean up disk space used by Docker every Sunday at midnight.
 docker_cron_tasks:
-  - job: docker system prune -f &> /dev/null
+  - job: docker system prune -af &> /dev/null
     name: "Docker disk clean up"
     schedule: ["0", "0", "*", "*", "0"]
 

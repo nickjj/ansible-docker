@@ -16,10 +16,9 @@ docker_daemon_options: []
 docker_daemon_environment: []
 
 docker_cron_tasks:
-  - job: docker system prune -f &> /dev/null
+  - job: docker system prune -af &> /dev/null
     name: "Docker clean up"
     schedule: ["0", "0", "*", "*", "0"]
-
 
 docker_package_dependencies:
   - "apt-transport-https"
