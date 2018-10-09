@@ -73,7 +73,8 @@
   file:
     path: "/etc/systemd/system/docker.service"
     state: "absent"
-  when: docker_remove_package or (not docker_daemon_default_options and not docker_daemon_options)
+  when: (docker_remove_package or
+        (not docker_daemon_default_options and not docker_daemon_options))
 
 - name: Configure Docker daemon options
   template:
