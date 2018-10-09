@@ -90,9 +90,24 @@ docker_users: []
 #     system_user: "a_user_defined_in_docker_users"
 docker_registries: []
 
-# Docker daemon options as they would appear on the command line, such as:
-# docker_daemon_options:
-#   - "--dns 8.8.8.8"
+# How large should each Docker log file be? You can set -1 for unlimited.
+#
+# You can use "k" to denote kilobytes, "m" for megabytes and "g" for gigabytes.
+# Here's 3 example sizes showcasing the format: 100k, 100m and 10g
+docker_daemon_options_log_max_size: "10m"
+
+# Docker rotates its own logs. How many rotations do you want to keep on disk?
+# With a size of 10m and 1000 rotations, that would be a max of 10gb of disk space.
+docker_daemon_options_log_max_file: 1000
+
+# Default Docker daemon options as they would appear on the command line.
+# In this example, we're setting the log rotate related flags.
+docker_daemon_default_options:
+  - "--log-driver json-file"
+  - "--log-opt max-size="{{ docker_daemon_options_log_max_size }}"
+  - "--log-opt max-file={{ docker_daemon_options_log_max_file }}"
+
+# Add your own additional daemon options without overriding the default options.
 docker_daemon_options: []
 
 # Can be used to set environment variables for the Docker daemon, such as:

@@ -12,6 +12,13 @@ docker_compose_version: "1.22.0"
 docker_users: []
 docker_registries: []
 
+docker_daemon_options_log_max_size: "10m"
+docker_daemon_options_log_max_file: 1000
+docker_daemon_default_options:
+  - "--log-driver json-file"
+  - "--log-opt max-size={{ docker_daemon_options_log_max_size }}"
+  - "--log-opt max-file={{ docker_daemon_options_log_max_file }}"
+
 docker_daemon_options: []
 docker_daemon_environment: []
 
