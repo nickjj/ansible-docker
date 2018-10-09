@@ -18,7 +18,8 @@ galaxy_info:
         - "stretch"
 
   galaxy_tags:
+    - "containers"
+    - "docker"
+    - "docker-compose"
     - "packaging"
     - "system"
-
-dependencies: []
