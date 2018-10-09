@@ -1,5 +1,16 @@
 # Changelog
 
+### v1.1.0
+
+*Released: October 9th 2018*
+
+- Add `-H fd://` to the daemon options at the systemd unit file level
+- Update systemd unit file as per Docker latest's settings
+- Convert to using `/etc/docker/daemon.json` for setting daemon options
+- Add variables to configure log size and max number of files
+- Default to rotating logs after 10 gigs of space is used (was previously unlimited)
+- System prune cron job now sets the `-a` flag to remove unused images
+
 ### v1.0.0
 
 *Released: September 19th 2018*
