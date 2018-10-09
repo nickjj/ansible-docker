@@ -5,7 +5,7 @@
 *Released: October 9th 2018*
 
 - Add `-H fd://` to the daemon options at the systemd unit file level
-- Update systemd unit file as per Docker latest's settings
+- Update systemd unit file as per Docker's latest settings
 - Convert to using `/etc/docker/daemon.json` for setting daemon options
 - Add variables to configure log size and max number of files
 - Default to rotating logs after 10 gigs of space is used (was previously unlimited)
