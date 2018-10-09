@@ -7,8 +7,8 @@
     docker_version: "18.03"
     docker_users: ["test"]
 
-    docker_daemon_options:
-      - "--dns 8.8.8.8"
+    docker_daemon_options: |
+      "dns": ["8.8.8.8"]
 
   roles:
     - "role_under_test"
@@ -47,14 +47,13 @@
       register: result
       changed_when: result.rc != 0
 
-    - name: Ensure /etc/systemd/system/docker.service contains defaults options
-      # Double dashes: https://unix.stackexchange.com/a/11382
-      command: grep -- "--log-opt max-size=10m" /etc/systemd/system/docker.service
+    - name: Ensure /etc/docker/daemon.json contains defaults options
+      command: grep 10m /etc/docker/daemon.json
       register: result
       changed_when: result.rc != 0
 
-    - name: Ensure /etc/systemd/system/docker.service contains custom options
-      command: grep -- "--dns 8.8.8.8" /etc/systemd/system/docker.service
+    - name: Ensure /etc/docker/daemon.json contains custom options
+      command: grep -- 8.8.8.8 /etc/docker/daemon.json
       register: result
       changed_when: result.rc != 0
 

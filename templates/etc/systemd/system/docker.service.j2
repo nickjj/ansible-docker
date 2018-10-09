@@ -14,7 +14,7 @@ Type=notify
 {% if docker_daemon_environment %}
 Environment="{{ docker_daemon_environment | join('" "') }}"
 {% endif %}
-ExecStart=/usr/bin/dockerd -H fd:// {{ docker_daemon_default_options | join(" ") }} {{ docker_daemon_options | join(" ") }}
+ExecStart=/usr/bin/dockerd -H fd://
 ExecReload=/bin/kill -s HUP $MAINPID
 LimitNOFILE=1048576
 # Having non-zero Limit*s causes performance problems due to accounting overhead

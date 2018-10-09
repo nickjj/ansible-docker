@@ -100,15 +100,19 @@ docker_daemon_options_log_max_size: "10m"
 # With a size of 10m and 1000 rotations, that would be a max of 10gb of disk space.
 docker_daemon_options_log_max_file: 1000
 
-# Default Docker daemon options as they would appear on the command line.
+# Default Docker daemon options as they would appear in /etc/docker/daemon.json.
 # In this example, we're setting the log rotate related flags.
-docker_daemon_default_options:
-  - "--log-driver json-file"
-  - "--log-opt max-size="{{ docker_daemon_options_log_max_size }}"
-  - "--log-opt max-file={{ docker_daemon_options_log_max_file }}"
+docker_daemon_default_options: |
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "{{ docker_daemon_options_log_max_size }}",
+    "max-file": "{{ docker_daemon_options_log_max_file }}"
+  }
 
 # Add your own additional daemon options without overriding the default options.
-docker_daemon_options: []
+# It follows the same format as the default options, and don't worry about
+# starting it off with a comma. The template will add the comma if needed.
+docker_daemon_options: ""
 
 # Can be used to set environment variables for the Docker daemon, such as:
 # docker_daemon_environment:

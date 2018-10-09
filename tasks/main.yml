@@ -52,19 +52,39 @@
     path: "/etc/default/docker"
     state: "absent"
 
-- name: Ensure systemd directory exists
+- name: Ensure Docker configuration directories exists
   file:
-    path: "/etc/systemd/system"
+    path: "{{ item }}"
     state: "directory"
     owner: "root"
     group: "root"
     mode: "0755"
+  loop:
+    - "/etc/systemd/system"
+    - "/etc/docker"
 
-- name: Remove systemd unit file
+- name: Remove Docker systemd unit file
   file:
     path: "/etc/systemd/system/docker.service"
     state: "absent"
   when: docker_remove_package
+
+- name: Remove Docker daemon options
+  file:
+    path: "/etc/systemd/system/docker.service"
+    state: "absent"
+  when: docker_remove_package or (not docker_daemon_default_options and not docker_daemon_options)
+
+- name: Configure Docker daemon options
+  template:
+    src: "etc/docker/daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when:
+    - not docker_remove_package
+    - docker_daemon_default_options or docker_daemon_options
 
 - name: Generate systemd unit file
   template:
