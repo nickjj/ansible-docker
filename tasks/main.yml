@@ -13,7 +13,9 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: not docker_remove_package and (docker_version and docker_version != "latest")
+  when:
+    - not docker_remove_package
+    - docker_version and docker_version != "latest"
 
 - name: Install Docker's dependencies
   apt:
