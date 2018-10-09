@@ -28,14 +28,14 @@ with it then check out
 ## Role variables
 
 ```
-# When set to "True", the Docker package and supporting files will be removed.
+# When set to True, the Docker package and supporting files will be removed.
 docker_remove_package: False
 
 # Do you want to use "ce" (community edition) or "ee" (enterprise edition)?
 docker_edition: "ce"
 
 # Do you want to use the "stable", "edge", "testing" or "nightly" channels?
-# Add more than 1 channel by separating each one by a space.
+# Add more than 1 channel by separating each one with a space.
 docker_channel: "stable"
 
 # When set to "latest" this role will always attempt to install the latest
