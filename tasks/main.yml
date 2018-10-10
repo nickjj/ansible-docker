@@ -17,7 +17,7 @@
     - not docker_remove_package
     - docker_version and docker_version != "latest"
 
-- name: Install Docker's dependencies
+- name: Install role dependencies
   apt:
     name: "{{ item }}"
     update_cache: True

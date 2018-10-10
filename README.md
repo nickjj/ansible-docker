@@ -28,9 +28,6 @@ with it then check out
 ## Role variables
 
 ```
-# When set to True, the Docker package and supporting files will be removed.
-docker_remove_package: False
-
 # Do you want to use "ce" (community edition) or "ee" (enterprise edition)?
 docker_edition: "ce"
 
@@ -137,6 +134,9 @@ docker_package_dependencies:
   - "software-properties-common"
   - "gnupg2"
   - "cron"
+
+# When set to True, the Docker package and supporting files will be removed.
+docker_remove_package: False
 
 # The Docker GPG key id used to sign the Docker package.
 docker_apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
