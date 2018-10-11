@@ -1,5 +1,14 @@
 # Changelog
 
+### v1.2.0
+
+*Released: October 11th 2018*
+
+- Remove ability to remove the `docker-*` package
+- Add documentation on how to remove Docker if you need to downgrade versions
+- Let Docker manage its own systemd unit file
+- Allow environment configuration using the systemd `docker.service.d/*` pattern
+
 ### v1.1.0
 
 *Released: October 9th 2018*
