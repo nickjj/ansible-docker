@@ -1,7 +1,5 @@
 ---
 
-docker_remove_package: False
-
 docker_edition: "ce"
 docker_channel: "stable"
 docker_version: "latest"

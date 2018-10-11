@@ -45,7 +45,8 @@ docker_channel: "stable"
 # available this role will stick to the pinned version on all future runs.
 docker_version: "latest"
 
-# Do you want to also install Docker Compose?
+# Do you want to also install Docker Compose? When set to False, Docker Compose
+# will not get installed or will be removed if it were installed previously.
 docker_install_docker_compose: True
 
 # If Docker Compose is being installed, which version do you want to use?
@@ -78,9 +79,8 @@ docker_users: []
 #     email: "your_docker_hub@emailaddress.com"
 #     # Update your credentials. If undefined, this behavior will be skipped.
 #     reauthorize: False
-#     # Enable or disable these credentials by setting "present" or "absent".
-#     # If undefined, it will default to "present".
-#     state: "present"
+#     # Remove a login by setting an absent state (it defaults to present).
+#     state: "absent"
 #     # The system user that will have access to the registry. If undefined it
 #     # will default to the root user. You likely want to set this to be a user
 #     # defined in your docker_users list above.
@@ -124,6 +124,8 @@ docker_cron_tasks:
   - job: docker system prune -af &> /dev/null
     name: "Docker disk clean up"
     schedule: ["0", "0", "*", "*", "0"]
+    # Remove a cron task by setting an absent state (it defaults to present).
+    # state: "absent"
 
 # A list of packages that Docker requires to run. Typically you shouldn't have
 # to modify this list, but if Docker's dependencies change it can be updated
@@ -134,9 +136,6 @@ docker_package_dependencies:
   - "software-properties-common"
   - "gnupg2"
   - "cron"
-
-# When set to True, the Docker package and supporting files will be removed.
-docker_remove_package: False
 
 # The Docker GPG key id used to sign the Docker package.
 docker_apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"

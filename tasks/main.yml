@@ -4,7 +4,7 @@
   file:
     dest: "/etc/apt/preferences.d/docker-ce.pref"
     state: "absent"
-  when: docker_remove_package or docker_version == "" or docker_version == "latest"
+  when: docker_version == "" or docker_version == "latest"
 
 - name: Pin Docker version
   template:
@@ -14,7 +14,6 @@
     group: "root"
     mode: "0644"
   when:
-    - not docker_remove_package
     - docker_version and docker_version != "latest"
 
 - name: Install role dependencies
@@ -27,21 +26,14 @@
     id: "{{ docker_apt_key_id }}"
     url: "{{ docker_apt_key_server }}"
 
-- name: Configure upstream APT repository
+- name: Configure Docker's APT repository
   apt_repository:
     repo: "{{ docker_apt_repository }}"
     update_cache: True
 
-- name: Remove Docker
-  apt:
-    name: "docker-{{ docker_edition }}"
-    state: "absent"
-  when: docker_remove_package
-
 - name: Install Docker
   apt:
     name: "docker-{{ docker_edition }}"
-  when: not docker_remove_package
 
 - name: Remove Upstart config file
   file:
@@ -59,19 +51,6 @@
     - "/etc/systemd/system"
     - "/etc/docker"
 
-- name: Remove Docker systemd unit file
-  file:
-    path: "/etc/systemd/system/docker.service"
-    state: "absent"
-  when: docker_remove_package
-
-- name: Remove Docker daemon options
-  file:
-    path: "/etc/systemd/system/docker.service"
-    state: "absent"
-  when: (docker_remove_package or
-        (not docker_daemon_default_options and not docker_daemon_options))
-
 - name: Configure Docker daemon options
   template:
     src: "etc/docker/daemon.json.j2"
@@ -79,9 +58,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when:
-    - not docker_remove_package
-    - docker_daemon_default_options or docker_daemon_options
+  when: docker_daemon_default_options or docker_daemon_options
 
 - name: Generate systemd unit file
   template:
@@ -91,13 +68,12 @@
     group: "root"
     mode: "0644"
   register: docker_register_systemd_service
-  when: not docker_remove_package
 
 - name: Reload systemd daemon
   systemd:
     daemon_reload: True
   notify: ["Restart Docker"]
-  when: not docker_remove_package or docker_register_systemd_service is changed
+  when: docker_register_systemd_service is changed
 
 - name: Add user(s) to "docker" group
   user:
@@ -105,35 +81,33 @@
     groups: "docker"
     append: True
   loop: "{{ docker_users }}"
-  when: not docker_remove_package and docker_users
 
 - name: Install Python for managing Docker login credentials
   apt:
     name: "python"
-  when: not docker_remove_package and docker_registries
+  when: docker_registries
 
 - name: Install docker-py for managing Docker login credentials
   pip:
     name: "docker-py"
-  when: not docker_remove_package and docker_registries
+  when: docker_registries
 
 - name: Manage login credentials for 1 or more Docker registries
   docker_login:
     registry_url: "{{ item.registry_url | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
     email: "{{ item.email | default(omit)}}"
     reauthorize: "{{ item.reauthorize | default(omit) }}"
-    state: "{{ item.state | default(omit) }}"
   loop: "{{ docker_registries }}"
-  when: not docker_remove_package and docker_registries
   become_user: "{{ item.system_user | default(omit) }}"
 
 - name: Remove Docker Compose
   file:
     path: "/usr/local/bin/docker-compose"
     state: "absent"
-  when: docker_remove_package
+  when: not docker_install_docker_compose
 
 - name: Install Docker Compose
   get_url:
@@ -143,18 +117,12 @@
     owner: "root"
     group: "root"
     mode: "0755"
-  when: not docker_remove_package and docker_install_docker_compose
+  when: docker_install_docker_compose
 
-- name: Remove cron tasks for Docker commands
+- name: Manage Docker cron tasks
   cron:
     name: "{{ item.name }}"
-    state: "absent"
-  loop: "{{ docker_cron_tasks }}"
-  when: docker_remove_package and docker_cron_tasks
-
-- name: Create cron tasks for Docker commands
-  cron:
-    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
     job: "{{ item.job }}"
     minute: "{{ item.schedule[0] }}"
     hour: "{{ item.schedule[1] }}"
@@ -162,4 +130,3 @@
     month: "{{ item.schedule[3] }}"
     weekday: "{{ item.schedule[4] }}"
   loop: "{{ docker_cron_tasks }}"
-  when: not docker_remove_package and docker_cron_tasks
