@@ -101,6 +101,9 @@
     email: "{{ item.email | default(omit)}}"
     reauthorize: "{{ item.reauthorize | default(omit) }}"
   loop: "{{ docker_registries }}"
+  when:
+    - item.username is defined and item.username
+    - item.password is defined and item.password
   become_user: "{{ item.system_user | default(omit) }}"
 
 - name: Remove Docker Compose
