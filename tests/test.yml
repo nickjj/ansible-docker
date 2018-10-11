@@ -10,6 +10,10 @@
     docker_daemon_options: |
       "dns": ["8.8.8.8"]
 
+    docker_daemon_environment:
+      - "HTTP_PROXY=http://proxy.a.com:80"
+      - "HTTPS_PROXY=https://proxy.a.com:443"
+
   roles:
     - "role_under_test"
 
@@ -53,7 +57,14 @@
       changed_when: result.rc != 0
 
     - name: Ensure /etc/docker/daemon.json contains custom options
-      command: grep -- 8.8.8.8 /etc/docker/daemon.json
+      command: grep 8.8.8.8 /etc/docker/daemon.json
+      register: result
+      changed_when: result.rc != 0
+
+    - name: Ensure customized environment systemd unit file was created
+      command: >
+        grep -e '"HTTP_PROXY=.*" "HTTPS_PROXY=.*"'
+        /etc/systemd/system/docker.service.d/environment.conf
       register: result
       changed_when: result.rc != 0
 

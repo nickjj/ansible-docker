@@ -5,7 +5,7 @@ It is an [Ansible](http://www.ansible.com/home) role to:
 - Install Docker (editions, channels and version pinning are all supported)
 - Install Docker Compose
 - Manage login credentials for 1 or more public or private Docker registries
-- Set up 1 or more users to run Docker without needing root access
+- Configure 1 or more users to run Docker without needing root access
 - Configure a cron job to run Docker clean up commands
 - Configure the Docker daemon's options and environment variables
 
@@ -113,9 +113,8 @@ docker_daemon_options: ""
 
 # Can be used to set environment variables for the Docker daemon, such as:
 # docker_daemon_environment:
-#   - "HTTP_PROXY=http://proxy.example.com:3128/"
-#   - "HTTPS_PROXY=http://proxy.example.com:3128/"
-#   - "NO_PROXY=localhost,127.0.0.1"
+#   - "HTTP_PROXY=http://proxy.example.com:80"
+#   - "HTTPS_PROXY=https://proxy.example.com:443"
 docker_daemon_environment: []
 
 # Manage 1 or more cron jobs to perform Docker related system tasks. By default
@@ -201,6 +200,15 @@ docker_registries:
 [user role](https://github.com/nickjj/ansible-user)*.
 
 Now you would run `ansible-playbook -i inventory/hosts site.yml -t docker`.
+
+#### Trying to figure out how to downgrade Docker?
+
+If you want to downgrade Docker, the easiest way to do it would be to uninstall
+the Docker package manually and then run this role afterwards while pinning
+whatever specific Docker version you want.
+
+Here's an adhoc Ansible command to remove the Docker CE package on the `app` hosts:  
+`ansible app -i inventory/hosts -m apt -a "name=docker-ce state=absent purge=true"`
 
 ## Installation
 

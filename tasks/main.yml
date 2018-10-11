@@ -48,8 +48,8 @@
     group: "root"
     mode: "0755"
   loop:
-    - "/etc/systemd/system"
     - "/etc/docker"
+    - "/etc/systemd/system/docker.service.d"
 
 - name: Configure Docker daemon options
   template:
@@ -60,20 +60,23 @@
     mode: "0644"
   when: docker_daemon_default_options or docker_daemon_options
 
-- name: Generate systemd unit file
+- name: Generate customized environment systemd unit file
   template:
-    src: "etc/systemd/system/docker.service.j2"
-    dest: "/etc/systemd/system/docker.service"
+    src: "etc/systemd/system/docker.service.d/environment.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/environment.conf"
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker_register_systemd_service
+  register: docker_register_systemd_customized
+  when: docker_daemon_environment
 
 - name: Reload systemd daemon
   systemd:
     daemon_reload: True
   notify: ["Restart Docker"]
-  when: docker_register_systemd_service is changed
+  when:
+    - docker_register_systemd_customized is defined
+    - docker_register_systemd_customized is changed
 
 - name: Add user(s) to "docker" group
   user:
