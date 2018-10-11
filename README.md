@@ -146,9 +146,6 @@ docker_apt_key_server: "https://download.docker.com/linux/{{ ansible_distributio
 
 # The Docker APT repository.
 docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
-
-# How long should the apt-cache last in seconds?
-docker_apt_cache_time: 86400
 ```
 
 ## Example usage

@@ -20,8 +20,6 @@
 - name: Install role dependencies
   apt:
     name: "{{ item }}"
-    update_cache: True
-    cache_valid_time: "{{ docker_apt_cache_time }}"
   loop: "{{ docker_package_dependencies }}"
 
 - name: Add Docker's GPG key
@@ -32,6 +30,7 @@
 - name: Configure upstream APT repository
   apt_repository:
     repo: "{{ docker_apt_repository }}"
+    update_cache: True
 
 - name: Remove Docker
   apt:
@@ -42,9 +41,6 @@
 - name: Install Docker
   apt:
     name: "docker-{{ docker_edition }}"
-    update_cache: True
-    cache_valid_time: "{{ docker_apt_cache_time }}"
-    state: "latest"
   when: not docker_remove_package
 
 - name: Remove Upstart config file
@@ -114,8 +110,6 @@
 - name: Install Python for managing Docker login credentials
   apt:
     name: "python"
-    update_cache: True
-    cache_valid_time: "{{ docker_apt_cache_time }}"
   when: not docker_remove_package and docker_registries
 
 - name: Install docker-py for managing Docker login credentials
