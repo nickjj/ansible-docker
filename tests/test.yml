@@ -23,6 +23,11 @@
         name: "test"
         shell: "/bin/bash"
 
+    - name: Run the equivalent of "apt-get update"
+      apt:
+        update_cache: True
+      changed_when: False
+
   post_tasks:
     - name: Ensure Docker gets installed
       command: docker --version
