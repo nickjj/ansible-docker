@@ -40,7 +40,7 @@
     path: "/etc/default/docker"
     state: "absent"
 
-- name: Ensure Docker configuration directories exists
+- name: Create Docker configuration directories
   file:
     path: "{{ item }}"
     state: "directory"
@@ -73,10 +73,10 @@
 - name: Reload systemd daemon
   systemd:
     daemon_reload: True
-  notify: ["Restart Docker"]
   when:
     - docker_register_systemd_customized is defined
     - docker_register_systemd_customized is changed
+  notify: ["Restart Docker"]
 
 - name: Add user(s) to "docker" group
   user:
