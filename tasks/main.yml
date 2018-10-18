@@ -4,7 +4,7 @@
   file:
     dest: "/etc/apt/preferences.d/docker-ce.pref"
     state: "absent"
-  when: docker_version == "" or docker_version == "latest"
+  when: docker__version == "" or docker__version == "latest"
 
 - name: Pin Docker version
   template:
@@ -13,27 +13,26 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when:
-    - docker_version and docker_version != "latest"
+  when: docker__version != "latest"
 
 - name: Install role dependencies
   apt:
     name: "{{ item }}"
-  loop: "{{ docker_package_dependencies }}"
+  loop: "{{ docker__package_dependencies }}"
 
 - name: Add Docker's GPG key
   apt_key:
-    id: "{{ docker_apt_key_id }}"
-    url: "{{ docker_apt_key_server }}"
+    id: "{{ docker__apt_key_id }}"
+    url: "{{ docker__apt_key_server }}"
 
 - name: Configure Docker's APT repository
   apt_repository:
-    repo: "{{ docker_apt_repository }}"
+    repo: "{{ docker__apt_repository }}"
     update_cache: True
 
 - name: Install Docker
   apt:
-    name: "docker-{{ docker_edition }}"
+    name: "docker-{{ docker__edition }}"
 
 - name: Remove Upstart config file
   file:
@@ -58,7 +57,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker_daemon_default_options or docker_daemon_options
+  when: docker__daemon_default_options or docker__daemon_options
 
 - name: Generate customized environment systemd unit file
   template:
@@ -67,15 +66,15 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker_register_systemd_customized
-  when: docker_daemon_environment
+  register: docker__register_systemd_customized
+  when: docker__daemon_environment
 
 - name: Reload systemd daemon
   systemd:
     daemon_reload: True
   when:
-    - docker_register_systemd_customized is defined
-    - docker_register_systemd_customized is changed
+    - docker__register_systemd_customized is defined
+    - docker__register_systemd_customized is changed
   notify: ["Restart Docker"]
 
 - name: Add user(s) to "docker" group
@@ -83,17 +82,17 @@
     name: "{{ item }}"
     groups: "docker"
     append: True
-  loop: "{{ docker_users }}"
+  loop: "{{ docker__users }}"
 
 - name: Install Python for managing Docker login credentials
   apt:
     name: "python"
-  when: docker_registries
+  when: docker__registries
 
 - name: Install docker-py for managing Docker login credentials
   pip:
     name: "docker-py"
-  when: docker_registries
+  when: docker__registries
 
 - name: Manage login credentials for 1 or more Docker registries
   docker_login:
@@ -103,27 +102,25 @@
     password: "{{ item.password }}"
     email: "{{ item.email | default(omit)}}"
     reauthorize: "{{ item.reauthorize | default(omit) }}"
-  loop: "{{ docker_registries }}"
-  when:
-    - item.username is defined and item.username
-    - item.password is defined and item.password
+  loop: "{{ docker__registries }}"
+  when: item.username | default() and item.password | default()
   become_user: "{{ item.system_user | default(omit) }}"
 
 - name: Remove Docker Compose
   file:
     path: "/usr/local/bin/docker-compose"
     state: "absent"
-  when: not docker_install_docker_compose
+  when: not docker__install_docker__compose
 
 - name: Install Docker Compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+    url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"
     dest: "/usr/local/bin/docker-compose"
     force: True
     owner: "root"
     group: "root"
     mode: "0755"
-  when: docker_install_docker_compose
+  when: docker__install_docker__compose
 
 - name: Manage Docker cron tasks
   cron:
@@ -135,4 +132,4 @@
     day: "{{ item.schedule[2] }}"
     month: "{{ item.schedule[3] }}"
     weekday: "{{ item.schedule[4] }}"
-  loop: "{{ docker_cron_tasks }}"
+  loop: "{{ docker__cron_tasks }}"

@@ -1,41 +1,41 @@
 ---
 
-docker_edition: "ce"
-docker_channel: "stable"
-docker_version: "latest"
+docker__edition: "ce"
+docker__channel: "stable"
+docker__version: "latest"
 
-docker_install_docker_compose: True
-docker_compose_version: "1.22.0"
+docker__install_docker__compose: True
+docker__compose_version: "1.22.0"
 
-docker_users: []
-docker_registries: []
+docker__users: []
+docker__registries: []
 
-docker_daemon_options_log_max_size: "10m"
-docker_daemon_options_log_max_file: 1000
+docker__daemon_options_log_max_size: "10m"
+docker__daemon_options_log_max_file: 1000
 
-docker_daemon_default_options: |
+docker__daemon_default_options: |
   "log-driver": "json-file",
   "log-opts": {
-    "max-size": "{{ docker_daemon_options_log_max_size }}",
-    "max-file": "{{ docker_daemon_options_log_max_file }}"
+    "max-size": "{{ docker__daemon_options_log_max_size }}",
+    "max-file": "{{ docker__daemon_options_log_max_file }}"
   }
 
-docker_daemon_options: ""
+docker__daemon_options: ""
 
-docker_daemon_environment: []
+docker__daemon_environment: []
 
-docker_cron_tasks:
+docker__cron_tasks:
   - job: docker system prune -af &> /dev/null
     name: "Docker clean up"
     schedule: ["0", "0", "*", "*", "0"]
 
-docker_package_dependencies:
+docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "software-properties-common"
   - "gnupg2"
   - "cron"
 
-docker_apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
-docker_apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_channel }}"
+docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+docker__apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+docker__apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker__channel }}"

@@ -4,13 +4,13 @@
   become: True
 
   vars:
-    docker_version: "18.03"
-    docker_users: ["test"]
+    docker__version: "18.03"
+    docker__users: ["test"]
 
-    docker_daemon_options: |
+    docker__daemon_options: |
       "dns": ["8.8.8.8"]
 
-    docker_daemon_environment:
+    docker__daemon_environment:
       - "HTTP_PROXY=http://proxy.a.com:80"
       - "HTTPS_PROXY=https://proxy.a.com:443"
 
