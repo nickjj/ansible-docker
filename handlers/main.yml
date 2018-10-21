@@ -4,4 +4,4 @@
   systemd:
     name: "docker"
     state: "restarted"
-    enabled: True
+    enabled: true

@@ -1,7 +1,7 @@
 ---
 
 - hosts: "all"
-  become: True
+  become: true
 
   vars:
     docker__version: "18.03"
@@ -25,8 +25,8 @@
 
     - name: Run the equivalent of "apt-get update"
       apt:
-        update_cache: True
-      changed_when: False
+        update_cache: true
+      changed_when: false
 
   post_tasks:
     - name: Ensure Docker gets installed
@@ -36,8 +36,8 @@
 
     - name: Run the equivalent of "apt-get update"
       apt:
-        update_cache: True
-      changed_when: False
+        update_cache: true
+      changed_when: false
 
     - name: Ensure pinned Docker version wasn't updated
       # This is valid because 18.06+ is currently out. If the pin failed then

@@ -4,8 +4,9 @@ docker__edition: "ce"
 docker__channel: "stable"
 docker__version: "latest"
 
-docker__install_docker__compose: True
+docker__install_docker__compose: true
 docker__compose_version: "1.22.0"
+docker__compose_download_url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"  # yamllint disable-line rule:line-length
 
 docker__users: []
 docker__registries: []
@@ -38,4 +39,7 @@ docker__package_dependencies:
 
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 docker__apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-docker__apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker__channel }}"
+docker__apt_repository: >
+  deb [arch=amd64]
+  https://download.docker.com/linux/{{ ansible_distribution | lower }}
+  {{ ansible_distribution_release }} {{ docker__channel }}

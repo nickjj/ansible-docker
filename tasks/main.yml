@@ -28,7 +28,7 @@
 - name: Configure Docker's APT repository
   apt_repository:
     repo: "{{ docker__apt_repository }}"
-    update_cache: True
+    update_cache: true
 
 - name: Install Docker
   apt:
@@ -71,7 +71,7 @@
 
 - name: Reload systemd daemon
   systemd:
-    daemon_reload: True
+    daemon_reload: true
   when:
     - docker__register_systemd_customized is defined
     - docker__register_systemd_customized is changed
@@ -81,7 +81,7 @@
   user:
     name: "{{ item }}"
     groups: "docker"
-    append: True
+    append: true
   loop: "{{ docker__users }}"
 
 - name: Install Python for managing Docker login credentials
@@ -105,6 +105,7 @@
   loop: "{{ docker__registries }}"
   when: item.username | default() and item.password | default()
   become_user: "{{ item.system_user | default(omit) }}"
+  #become: true
 
 - name: Remove Docker Compose
   file:
@@ -114,9 +115,9 @@
 
 - name: Install Docker Compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"
+    url: "{{ docker__compose_download_url }}"
     dest: "/usr/local/bin/docker-compose"
-    force: True
+    force: true
     owner: "root"
     group: "root"
     mode: "0755"
