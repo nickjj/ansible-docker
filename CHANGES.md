@@ -1,5 +1,13 @@
 # Changelog
 
+### v1.3.0
+
+*Released: October 21st 2018*
+
+- Variables are now using the `docker__*` style instead of `docker_*`
+- Add configuration value for Docker Compose download URL
+- Make style changes based on yamllint and ansible-lint
+
 ### v1.2.0
 
 *Released: October 11th 2018*
