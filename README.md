@@ -183,9 +183,9 @@ docker__users: ["admin", "zerocool"]
 # A couple of examples of authenticating to a Docker registry.
 docker__registries:
   # Authenticate to the Docker Hub, and allow the "admin" system user acces to it:
-  - username: "your_docker__hub_username"
-    password: "your_docker__hub_password"
-    email: "your_docker__hub@emailaddress.com"
+  - username: "your_docker_hub_username"
+    password: "your_docker_hub_password"
+    email: "your_docker_hub@emailaddress.com"
     system_user: "{{ docker__users | first }}"
   # Authenticate to some other private registry and allow "zerocool":
   - registry_url: "https://your-registry.com"
