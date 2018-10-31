@@ -123,14 +123,29 @@
     mode: "0755"
   when: docker__install_docker__compose
 
-- name: Manage Docker cron tasks
+- name: Remove Docker related cron jobs
+  file:
+    path: "/etc/cron.d/{{ item.cron_file }}"
+    state: "absent"
+  loop: "{{ docker__cron_jobs }}"
+  when:
+    - item.state|default("present") == "absent"
+    - item.name|default() and item.job|default()
+    - item.schedule|default() and item.cron_file|default()
+
+- name: Create Docker related cron jobs
   cron:
     name: "{{ item.name }}"
-    state: "{{ item.state | default('present') }}"
     job: "{{ item.job }}"
     minute: "{{ item.schedule[0] }}"
     hour: "{{ item.schedule[1] }}"
     day: "{{ item.schedule[2] }}"
     month: "{{ item.schedule[3] }}"
     weekday: "{{ item.schedule[4] }}"
-  loop: "{{ docker__cron_tasks }}"
+    cron_file: "{{ item.cron_file }}"
+    user: "{{ item.user|default('root') }}"
+  loop: "{{ docker__cron_jobs }}"
+  when:
+    - item.state|default("present") != "absent"
+    - item.name|default() and item.job|default()
+    - item.schedule|default() and item.cron_file|default()
