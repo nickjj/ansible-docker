@@ -11,8 +11,8 @@ docker__compose_download_url: "https://github.com/docker/compose/releases/downlo
 docker__users: []
 docker__registries: []
 
-docker__daemon_options_log_max_size: "10m"
-docker__daemon_options_log_max_file: 1000
+docker__daemon_options_log_max_size: "1m"
+docker__daemon_options_log_max_file: 10000
 
 docker__daemon_default_options: |
   "log-driver": "json-file",
