@@ -1,6 +1,15 @@
 # Changelog
 
-### v1.3.0
+## Next release
+
+*Released: TBD*
+
+- Rename `docker__cron_tasks` to `docker__cron_jobs`
+- `cron_file` can now be configured with cron jobs to write out cron jobs in `/etc/cron.d`
+- Add `user` to cron jobs since we're now using `cron_file`
+- Drastically improve documentation
+
+## v1.3.0
 
 *Released: October 21st 2018*
 
@@ -8,7 +17,7 @@
 - Add configuration value for Docker Compose download URL
 - Make style changes based on yamllint and ansible-lint
 
-### v1.2.0
+## v1.2.0
 
 *Released: October 11th 2018*
 
@@ -17,7 +26,7 @@
 - Let Docker manage its own systemd unit file
 - Allow environment configuration using the systemd `docker.service.d/*` pattern
 
-### v1.1.0
+## v1.1.0
 
 *Released: October 9th 2018*
 
@@ -28,7 +37,7 @@
 - Default to rotating logs after 10 gigs of space is used (was previously unlimited)
 - System prune cron job now sets the `-a` flag to remove unused images
 
-### v1.0.0
+## v1.0.0
 
 *Released: September 19th 2018*
 
@@ -46,7 +55,7 @@
 - Extract Docker's package dependencies into `docker__package_dependencies`
 - Add more tests
 
-### v0.2.3
+## v0.2.3
 
 *Released: April 13th 2018*
 
@@ -54,21 +63,21 @@
 - Default to Docker Compose v1.21
 - Expose `docker__apt_package_name` to customize the APT package name
 
-### v0.2.2
+## v0.2.2
 
 *Released: March 28th 2018*
 
 - Default to Docker v18.03
 - Default to Docker Compose v1.20
 
-### v0.2.1
+## v0.2.1
 
 *Released: February 14th 2018*
 
 - Default to Docker v18.02
 - Default to Docker Compose v1.19
 
-### v0.2.0
+## v0.2.0
 
 *Released: January 25th 2018*
 
@@ -80,14 +89,14 @@
 - Add proper tests and support for Ubuntu 16, Debian Stretch and Debian Jessie
 - Update format and style consistencies
 
-### v17.12
+## v17.12
 
 *Released: January 11th 2018*
 
 - Default to Docker v17.12 on the CE edge channel
 - Default to Docker Compose v1.18
 
-### v17.06
+## v17.06
 
 *Released: June 28th 2017*
 
@@ -95,19 +104,19 @@
 - Default to Docker Compose v1.14
 - Update code base to support Docker's new version format
 
-### v0.1.2
+## v0.1.2
 
 *Released: October 9th 2016*
 
 - Fix apt.cache https could not be found error
 
-### v0.1.1
+## v0.1.1
 
 *Released: October 9th 2016*
 
 - Fix issue where `docker-engine` package was not found
 
-### v0.1.0
+## v0.1.0
 
 *Released: October 8th 2016*
 
