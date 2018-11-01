@@ -1,11 +1,11 @@
 {
-{%- if docker__daemon_default_options | default() -%}
-{{ docker__daemon_default_options | indent(2, true) }}
+{%- if docker__default_daemon_json | default() -%}
+{{ docker__default_daemon_json | indent(2, true) }}
 {%- endif -%}
-{%- if (docker__daemon_default_options | default()) and (docker__daemon_options | default()) -%}
+{%- if (docker__default_daemon_json | default()) and (docker__daemon_json | default()) -%}
 ,
 {%- endif -%}
-{%- if docker__daemon_options | default() -%}
-{{ docker__daemon_options | indent(2, true) }}
+{%- if docker__daemon_json | default() -%}
+{{ docker__daemon_json | indent(2, true) }}
 {%- endif -%}
 }

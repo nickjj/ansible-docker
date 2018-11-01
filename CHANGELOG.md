@@ -1,9 +1,14 @@
 # Changelog
 
-## Next release
+## v1.4.0
 
-*Released: TBD*
+*Released: October 31st 2018*
 
+- Rename `docker__daemon_options` to `docker__daemon_json`
+- Rename `docker__daemon_options_log_max_size` to `docker__default_daemon_json_log_max_size`
+- Rename `docker__daemon_options_log_max_file` to `docker__default_daemon_json_log_max_file`
+- Add `docker__daemon_flags` for setting systemd unit file Docker daemon options
+- Add `docker__systemd_override` for setting custom systemd directives for the Docker service
 - Rename `docker__cron_tasks` to `docker__cron_jobs`
 - `cron_file` can now be configured with cron jobs to write out cron jobs in `/etc/cron.d`
 - Add `user` to cron jobs since we're now using `cron_file`

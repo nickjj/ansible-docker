@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd {{ docker__daemon_flags | join(" ") }}

@@ -17,8 +17,7 @@
 
 - name: Install role dependencies
   apt:
-    name: "{{ item }}"
-  loop: "{{ docker__package_dependencies }}"
+    name: "{{ docker__package_dependencies }}"
 
 - name: Add Docker's GPG key
   apt_key:
@@ -50,31 +49,54 @@
     - "/etc/docker"
     - "/etc/systemd/system/docker.service.d"
 
-- name: Configure Docker daemon options
+- name: Configure Docker daemon options (json)
   template:
     src: "etc/docker/daemon.json.j2"
     dest: "/etc/docker/daemon.json"
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__daemon_default_options or docker__daemon_options
+  when: docker__default_daemon_json or docker__daemon_json
 
-- name: Generate customized environment systemd unit file
+- name: Configure Docker daemon options (flags)
+  template:
+    src: "etc/systemd/system/docker.service.d/options.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/options.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: docker__register_daemon_flags
+  when: docker__daemon_flags
+
+- name: Configure Docker daemon environment variables
   template:
     src: "etc/systemd/system/docker.service.d/environment.conf.j2"
     dest: "/etc/systemd/system/docker.service.d/environment.conf"
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker__register_systemd_customized
+  register: docker__register_daemon_environment
   when: docker__daemon_environment
+
+- name: Configure custom systemd unit file override
+  template:
+    src: "etc/systemd/system/docker.service.d/custom.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/custom.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: docker__register_custom_override
+  when: docker__systemd_override|default()
 
 - name: Reload systemd daemon
   systemd:
     daemon_reload: true
-  when:
-    - docker__register_systemd_customized is defined
-    - docker__register_systemd_customized is changed
+  when: (docker__register_daemon_flags|default() and
+         docker__register_daemon_flags is changed)
+         or (docker__register_daemon_environment|default() and
+         docker__register_daemon_environment is changed)
+         or (docker__register_custom_override|default() and
+         docker__register_custom_override is changed)
   notify: ["Restart Docker"]
 
 - name: Add user(s) to "docker" group

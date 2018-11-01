@@ -7,12 +7,23 @@
     docker__version: "18.03"
     docker__users: ["test"]
 
-    docker__daemon_options: |
+    docker__daemon_json: |
       "dns": ["8.8.8.8"]
 
     docker__daemon_environment:
       - "HTTP_PROXY=http://proxy.a.com:80"
       - "HTTPS_PROXY=https://proxy.a.com:443"
+
+    docker__daemon_flags:
+      - "-H fd://"
+      - "--debug"
+
+    docker__systemd_override: |
+      [Unit]
+      Invalid=Directive
+
+      [Service]
+      ThisIsJust=ATest
 
   roles:
     - "role_under_test"
@@ -57,7 +68,7 @@
       changed_when: result.rc != 0
 
     - name: Ensure /etc/docker/daemon.json contains defaults options
-      command: grep 10m /etc/docker/daemon.json
+      command: grep 1m /etc/docker/daemon.json
       register: result
       changed_when: result.rc != 0
 
@@ -73,7 +84,17 @@
       register: result
       changed_when: result.rc != 0
 
-    - name: Ensure Docker clean up cron job was added
-      command: crontab -l
+    - name: Ensure customized daemon flags systemd unit file was created
+      command: grep debug /etc/systemd/system/docker.service.d/options.conf
       register: result
-      changed_when: not result.stdout is search("docker system prune -af")
+      changed_when: result.rc != 0
+
+    - name: Ensure customized systemd overrides were created
+      command: grep ATest /etc/systemd/system/docker.service.d/custom.conf
+      register: result
+      changed_when: result.rc != 0
+
+    - name: Ensure Docker clean up cron job was added
+      command: grep "docker system prune -af" /etc/cron.d/docker-disk-clean-up
+      register: result
+      changed_when: result.rc != 0
