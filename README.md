@@ -92,7 +92,7 @@ docker__version: "latest"
 ```yml
 # Do you want to also install Docker Compose? When set to False, Docker Compose
 # will not get installed or will be removed if it were installed previously.
-docker__install_docker__compose: true
+docker__install_docker_compose: true
 
 # If Docker Compose is being installed, which version do you want to use?
 docker__compose_version: "1.22.0"

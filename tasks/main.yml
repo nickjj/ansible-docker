@@ -133,7 +133,7 @@
   file:
     path: "/usr/local/bin/docker-compose"
     state: "absent"
-  when: not docker__install_docker__compose
+  when: not docker__install_docker_compose
 
 - name: Install Docker Compose
   get_url:
@@ -143,7 +143,7 @@
     owner: "root"
     group: "root"
     mode: "0755"
-  when: docker__install_docker__compose
+  when: docker__install_docker_compose
 
 - name: Remove Docker related cron jobs
   file:
