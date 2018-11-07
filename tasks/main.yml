@@ -33,11 +33,6 @@
   apt:
     name: "docker-{{ docker__edition }}"
 
-- name: Remove Upstart config file
-  file:
-    path: "/etc/default/docker"
-    state: "absent"
-
 - name: Create Docker configuration directories
   file:
     path: "{{ item }}"
