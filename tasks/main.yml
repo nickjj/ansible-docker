@@ -101,11 +101,6 @@
     append: true
   loop: "{{ docker__users }}"
 
-- name: Install Python for managing Docker login credentials
-  apt:
-    name: "python"
-  when: docker__registries
-
 - name: Install docker-py for managing Docker login credentials
   pip:
     name: "docker-py"
