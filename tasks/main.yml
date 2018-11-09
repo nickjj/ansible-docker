@@ -105,11 +105,6 @@
     append: true
   loop: "{{ docker__users }}"
 
-- name: Install docker-py for managing Docker login credentials
-  pip:
-    name: "docker-py"
-  when: docker__registries
-
 - name: Manage login credentials for 1 or more Docker registries
   docker_login:
     registry_url: "{{ item.registry_url|default(omit) }}"
