@@ -191,7 +191,7 @@ docker__daemon_json: ""
 ### Configure the Docker daemon options (flags)
 
 Flags that are set when starting the Docker daemon cannot be changed in the
-`daemon.json` file. By default Docker sets `-H df://` which means that option
+`daemon.json` file. By default Docker sets `-H unix://` which means that option
 cannot be changed with the json options.
 
 Add or change the starting Docker daemon flags by supplying them exactly how
@@ -199,8 +199,11 @@ they would appear on the command line.
 
 ```yml
 # Each command line flag should be its own item in the list.
+#
+# Using a Docker version prior to 18.09?
+#   You must set `-H fd://` instead of `-H unix://`.
 docker__daemon_flags:
-  - "-H fd://"
+  - "-H unix://"
 ```
 
 *If you don't supply some type of `-H` flag here, Docker will fail to start.*

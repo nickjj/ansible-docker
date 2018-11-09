@@ -23,7 +23,7 @@ docker__default_daemon_json: |
 docker__daemon_json: ""
 
 docker__daemon_flags:
-  - "-H fd://"
+  - "-H unix://"
 
 docker__daemon_environment: []
 
