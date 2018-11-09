@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.5.0
+
+*Released: November 11th 2018*
+
+- Rename `docker__install_docker__compose` to `docker__install_docker_compose`
+- Bump Docker Compose version to 1.23
+- Change systemd options to use `-H unix://` to be compatible with 18.09 by default
+- Install `python-pip` apt package as a dependency for pip installing `docker`
+- Pip install `docker` so Ansible's `docker_login` and `docker_service` modules work
+- Remove unnecessary "Remove Upstart config file" task
+- Remove unnecessary "Install Python for managing Docker login credentials" task
+- Remove unnecessary `enabled: true` in the systemd restart handler (it starts on boot by default)
+
 ## v1.4.0
 
 *Released: October 31st 2018*
