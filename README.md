@@ -95,7 +95,7 @@ docker__version: "latest"
 docker__install_docker_compose: true
 
 # If Docker Compose is being installed, which version do you want to use?
-docker__compose_version: "1.22.0"
+docker__compose_version: "1.23.0"
 
 # If Docker Compose is being installed, where should it be downloaded from?
 docker__compose_download_url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"

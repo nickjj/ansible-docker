@@ -5,7 +5,7 @@ docker__channel: "stable"
 docker__version: "latest"
 
 docker__install_docker_compose: true
-docker__compose_version: "1.22.0"
+docker__compose_version: "1.23.0"
 docker__compose_download_url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"  # yamllint disable-line rule:line-length
 
 docker__users: []
