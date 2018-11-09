@@ -108,14 +108,14 @@
 - name: Manage login credentials for 1 or more Docker registries
   docker_login:
     registry_url: "{{ item.registry_url|default(omit) }}"
-    state: "{{ item.state|default('present') }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
     email: "{{ item.email|default(omit)}}"
     reauthorize: "{{ item.reauthorize|default(omit) }}"
+    state: "{{ item.state|default('present') }}"
   loop: "{{ docker__registries }}"
   when: item.username|default() and item.password|default()
-  become_user: "{{ item.system_user|default(omit) }}"
+  become_user: "{{ item.system_user|default((docker__users|first)|default('root')) }}"
   become: true
 
 - name: Remove Docker Compose

@@ -150,8 +150,8 @@ docker__registries: []
 - *`password` is your Docker registry password
 - `email` defaults to not being used (not all registries use it)
 - `reauthorize` defaults to `false`, when `true` it updates your credentials
-- `system_user` defaults to the root user, likely set it to a user who exists
-in `docker__users`
+- `system_user` defaults to the first user in `docker__users` OR `"root"` if that's
+empty
 - `state` defaults to "present", when "absent" the login will be removed
 
 ### Configuring log rotation for Docker container logs
