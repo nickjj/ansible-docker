@@ -19,6 +19,10 @@
   apt:
     name: "{{ docker__package_dependencies }}"
 
+- name: Pip install docker for Ansible's docker_login and docker_service modules
+  pip:
+    name: "docker"
+
 - name: Add Docker's GPG key
   apt_key:
     id: "{{ docker__apt_key_id }}"
