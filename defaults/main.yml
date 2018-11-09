@@ -9,6 +9,7 @@ docker__compose_version: "1.23.0"
 docker__compose_download_url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"  # yamllint disable-line rule:line-length
 
 docker__users: []
+
 docker__registries: []
 
 docker__default_daemon_json_log_max_size: "1m"
@@ -39,9 +40,10 @@ docker__cron_jobs:
 docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
-  - "software-properties-common"
-  - "gnupg2"
   - "cron"
+  - "gnupg2"
+  - "python-pip"
+  - "software-properties-common"
 
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 docker__apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg"  # yamllint disable-line rule:line-length

@@ -264,12 +264,16 @@ format for every Sunday at midnight
 Docker requires a few dependencies to be installed for it to work. You shouldn't
 have to edit any of these settings.
 
+If you're curious about `python-pip`, it's because Ansible's `docker_login` and
+`docker_service` modules require installing the `docker` pip package.
+
 ```yml
 docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
   - "gnupg2"
+  - "python-pip"
   - "software-properties-common"
 
 # The Docker GPG key id used to sign the Docker package.
