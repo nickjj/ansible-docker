@@ -27,7 +27,7 @@ with it then check out
 ---
 
 *You are viewing the master branch's documentation which might be ahead of the
-latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v1.4.0).*
+latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v1.5.0).*
 
 ---
 
