@@ -14,7 +14,6 @@ galaxy_info:
         - "bionic"
     - name: "Debian"
       versions:
-        - "jessie"
         - "stretch"
 
   galaxy_tags:

@@ -22,7 +22,6 @@ with it then check out
 
 - Ubuntu 16.04 LTS (Xenial)
 - Ubuntu 18.04 LTS (Bionic)
-- Debian 8 (Jessie)
 - Debian 9 (Stretch)
 
 ---
