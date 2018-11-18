@@ -1,4 +1,15 @@
 ---
+- name: Include Ubuntu-specific variables.
+  include_vars: "{{ ansible_distribution }}.yml"
+  when: 
+  - ansible_distribution == 'Ubuntu'
+  - ansible_os_family == 'Debian'
+
+- name: Include Debian-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+  when:
+  - ansible_os_family == 'Debian'
+  - ansible_distribution != 'Ubuntu'
 
 - name: Disable pinned Docker version
   file:

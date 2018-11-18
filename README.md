@@ -36,6 +36,9 @@ latest release. [Switch to the latest release](https://github.com/nickjj/ansible
 The philosophy for all of my roles is to make it easy to get going, but provide
 a way to customize nearly everything.
 
+### Requirements for Ubuntu18.04
+- `Universe` repo needs to be enabled
+
 ### What's configured by default?
 
 The latest Docker CE will be installed, Docker Compose will be installed, Docker
