@@ -30,6 +30,8 @@ docker__daemon_environment: []
 
 docker__systemd_override: ""
 
+docker__package_dependencies: []
+
 docker__cron_jobs:
   - name: "Docker disk clean up"
     job: docker system prune -af &> /dev/null

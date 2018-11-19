@@ -28,6 +28,10 @@
 
 - name: Install role dependencies
   apt:
+    name: "{{ _docker__package_dependencies }}"
+
+- name: Install user role dependencies
+  apt:
     name: "{{ docker__package_dependencies }}"
 
 - name: Pip install docker for Ansible's docker_login and docker_service modules

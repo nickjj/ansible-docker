@@ -1,4 +1,4 @@
-docker__package_dependencies:
+_docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "curl"
