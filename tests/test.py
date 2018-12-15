@@ -2,7 +2,7 @@ import re
 
 
 def test_docker_version(host):
-    assert "18.06" in host.check_output("docker --version")
+    assert 0 == host.run("docker --version").rc
 
 
 def test_pinned_docker_version(host):
