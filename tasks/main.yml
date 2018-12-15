@@ -6,7 +6,7 @@
     state: "absent"
   when: docker__version == "" or docker__version == "latest"
 
-- name: Pin Docker version
+- name: Enable pinned Docker version
   template:
     src: "etc/apt/preferences.d/docker-ce.pref.j2"
     dest: "/etc/apt/preferences.d/docker-ce.pref"
@@ -15,20 +15,16 @@
     mode: "0644"
   when: docker__version != "latest"
 
-- name: Install role dependencies
+- name: Install Docker's dependencies
   apt:
-    name: "{{ docker__package_dependencies }}"
+    name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
-- name: Pip install docker for Ansible's docker_login and docker_service modules
-  pip:
-    name: "docker"
-
-- name: Add Docker's GPG key
+- name: Add Docker's public PGP key to the APT keyring
   apt_key:
     id: "{{ docker__apt_key_id }}"
     url: "{{ docker__apt_key_server }}"
 
-- name: Configure Docker's APT repository
+- name: Configure Docker's upstream APT repository
   apt_repository:
     repo: "{{ docker__apt_repository }}"
     update_cache: true
@@ -36,6 +32,43 @@
 - name: Install Docker
   apt:
     name: "docker-{{ docker__edition }}"
+    state: "{{ docker__state }}"
+
+- name: Install Virtualenv
+  pip:
+    name: "virtualenv"
+
+- name: Install Python packages
+  pip:
+    name: "{{ item.name }}"
+    virtualenv: "{{ docker__pip_virtualenv }}"
+    version: "{{ item.version | d(omit) }}"
+    state: "{{ item.state | d('present') }}"
+  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
+  when: item.name | d()
+
+- name: Symlink Python binary to /usr/local/bin/python-docker
+  file:
+    path: "/usr/local/bin/python-docker"
+    src: "{{ docker__pip_virtualenv }}/bin/python"
+    state: "link"
+
+- name: Symlink selected Python package binaries to /usr/local/bin
+  file:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    state: "link"
+  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
+  when:
+    - item.state | d("present") != "absent"
+    - item.path | d() and item.src | d()
+
+- name: Add user(s) to "docker" group
+  user:
+    name: "{{ item }}"
+    groups: "docker"
+    append: true
+  loop: "{{ docker__users }}"
 
 - name: Create Docker configuration directories
   file:
@@ -56,6 +89,7 @@
     group: "root"
     mode: "0644"
   when: docker__default_daemon_json or docker__daemon_json
+  notify: ["Restart Docker"]
 
 - name: Configure Docker daemon options (flags)
   template:
@@ -66,6 +100,7 @@
     mode: "0644"
   register: docker__register_daemon_flags
   when: docker__daemon_flags
+  notify: ["Restart Docker"]
 
 - name: Configure Docker daemon environment variables
   template:
@@ -76,6 +111,7 @@
     mode: "0644"
   register: docker__register_daemon_environment
   when: docker__daemon_environment
+  notify: ["Restart Docker"]
 
 - name: Configure custom systemd unit file override
   template:
@@ -85,54 +121,36 @@
     group: "root"
     mode: "0644"
   register: docker__register_custom_override
-  when: docker__systemd_override|default()
+  when: docker__systemd_override | d()
+  notify: ["Restart Docker"]
 
 - name: Reload systemd daemon
   systemd:
     daemon_reload: true
-  when: (docker__register_daemon_flags|default() and
+  when: (docker__register_daemon_flags | d() and
          docker__register_daemon_flags is changed)
-         or (docker__register_daemon_environment|default() and
+         or (docker__register_daemon_environment | d() and
          docker__register_daemon_environment is changed)
-         or (docker__register_custom_override|default() and
+         or (docker__register_custom_override | d() and
          docker__register_custom_override is changed)
   notify: ["Restart Docker"]
 
-- name: Add user(s) to "docker" group
-  user:
-    name: "{{ item }}"
-    groups: "docker"
-    append: true
-  loop: "{{ docker__users }}"
+- name: Restart Docker now to make sure `docker login` works
+  meta: "flush_handlers"
 
-- name: Manage login credentials for 1 or more Docker registries
+- name: Manage Docker registry login credentials
   docker_login:
-    registry_url: "{{ item.registry_url|default(omit) }}"
+    registry_url: "{{ item.registry_url | d(omit) }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
-    email: "{{ item.email|default(omit)}}"
-    reauthorize: "{{ item.reauthorize|default(omit) }}"
-    state: "{{ item.state|default('present') }}"
+    email: "{{ item.email | d(omit)}}"
+    reauthorize: "{{ item.reauthorize | d(omit) }}"
+    config_path: "{{ item.config_path | d((ansible_env.PWD | d('/root')) + '/.docker/config.json') }}"
+    state: "{{ item.state | d('present') }}"
   loop: "{{ docker__registries }}"
-  when: item.username|default() and item.password|default()
-  become_user: "{{ item.system_user|default((docker__users|first)|default('root')) }}"
-  become: true
-
-- name: Remove Docker Compose
-  file:
-    path: "/usr/local/bin/docker-compose"
-    state: "absent"
-  when: not docker__install_docker_compose
-
-- name: Install Docker Compose
-  get_url:
-    url: "{{ docker__compose_download_url }}"
-    dest: "/usr/local/bin/docker-compose"
-    force: true
-    owner: "root"
-    group: "root"
-    mode: "0755"
-  when: docker__install_docker_compose
+  when: item.username | d() and item.password | d()
+  vars:
+    ansible_python_interpreter: "{{ '/usr/bin/env python-docker' if docker__pip_virtualenv | d() else ansible_python.executable }}"
 
 - name: Remove Docker related cron jobs
   file:
@@ -140,9 +158,9 @@
     state: "absent"
   loop: "{{ docker__cron_jobs }}"
   when:
-    - item.state|default("present") == "absent"
-    - item.name|default() and item.job|default()
-    - item.schedule|default() and item.cron_file|default()
+    - item.state | d("present") == "absent"
+    - item.name | d() and item.job | d()
+    - item.schedule | d() and item.cron_file | d()
 
 - name: Create Docker related cron jobs
   cron:
@@ -154,9 +172,9 @@
     month: "{{ item.schedule[3] }}"
     weekday: "{{ item.schedule[4] }}"
     cron_file: "{{ item.cron_file }}"
-    user: "{{ item.user|default('root') }}"
+    user: "{{ item.user | d('root') }}"
   loop: "{{ docker__cron_jobs }}"
   when:
-    - item.state|default("present") != "absent"
-    - item.name|default() and item.job|default()
-    - item.schedule|default() and item.cron_file|default()
+    - item.state | d("present") != "absent"
+    - item.name | d() and item.job | d()
+    - item.schedule | d() and item.cron_file | d()

@@ -1,5 +1,39 @@
 # Changelog
 
+## v1.6.0
+
+*Released: December 15th 2018*
+
+### Features
+
+- Docker and Docker Compose can now be installed to their latest versions by default
+- A Virtualenv will be created for any PIP packages that get installed
+- The `docker-compose` package is installed through PIP (complete with latest / version pinning)
+- The `docker` package is installed through PIP (all of Ansible's `docker_*` modules now work)
+- Symlinks are created to put `docker-compose` and `python-docker` on the system's path
+- Better documentation to demonstrate how to downgrade / upgrade Docker versions
+- Docker login's config path can now be configured
+- Overall improved documentation and tests
+
+### Variables
+
+- Remove `python-pip` from `docker__package_dependencies`
+- Remove `docker__install_docker_compose`
+- Remove `docker__compose_download_url`
+- Remove `docker__default_daemon_json_log_max_size`
+- Remove `docker__default_daemon_json_log_max_file`
+- Add `docker__state` to control the Docker APT package's state
+- Add `docker__pip_dependencies` to install various APT dependencies to run PIP
+- Add `docker__pip_virtualenv` to create a Virtualenv for PIP
+- Add `docker__default_pip_packages` to install default PIP packages
+- Add `docker__pip_packages` to install additional PIP packages
+- Add `docker__pip_docker_compose_state` to control the Docker Compose PIP package's state
+- Add `docker__pip_docker_state` to control the Docker PIP package's state
+- Add `config_path` property to the `docker__registries` list
+- Add `docker__cron_jobs_prune_flags` to configure which prune flags get set
+- Change `docker__default_daemon_json` to log to journald by default
+- Change `docker__channel` from being a string to a list
+
 ## v1.5.0
 
 *Released: November 11th 2018*

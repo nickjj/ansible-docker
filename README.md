@@ -3,8 +3,9 @@
 It is an [Ansible](http://www.ansible.com/home) role to:
 
 - Install Docker (editions, channels and version pinning are all supported)
-- Install Docker Compose
-- Manage login credentials for 1 or more public or private Docker registries
+- Install Docker Compose using PIP (version pinning is supported)
+- Install the `docker` PIP package so Ansible's `docker_*` modules work
+- Manage Docker registry login credentials
 - Configure 1 or more users to run Docker without needing root access
 - Configure the Docker daemon's options and environment variables
 - Configure a cron job to run Docker clean up commands
@@ -27,7 +28,7 @@ with it then check out
 ---
 
 *You are viewing the master branch's documentation which might be ahead of the
-latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v1.5.0).*
+latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v1.6.0).*
 
 ---
 
@@ -38,9 +39,8 @@ a way to customize nearly everything.
 
 ### What's configured by default?
 
-The latest Docker CE will be installed, Docker Compose will be installed, Docker
-disk clean up will happen once a week and Docker container logs will be rotated
-at `1mb` file sizes `10,000` times (10GB of disk space will be used at max).
+The latest Docker CE and Docker Compose will be installed, Docker disk clean up
+will happen once a week and Docker container logs will be sent to `journald`.
 
 ### Example playbook
 
@@ -54,7 +54,8 @@ at `1mb` file sizes `10,000` times (10GB of disk space will be used at max).
   become: true
 
   roles:
-    - { role: "nickjj.docker", tags: ["docker"] }
+    - role: "nickjj.docker"
+      tags: ["docker"]
 ```
 
 Usage: `ansible-playbook site.yml -t docker`
@@ -67,38 +68,87 @@ Usage: `ansible-playbook site.yml -t docker`
 
 ### Installing Docker
 
+#### Edition
+
+Do you want to use "ce" (community edition) or "ee" (enterprise edition)?
+
 ```yml
-# Do you want to use "ce" (community edition) or "ee" (enterprise edition)?
 docker__edition: "ce"
+```
 
-# Do you want to use the "stable", "edge", "testing" or "nightly" channels?
-# Add more than 1 channel by separating each one with a space.
-docker__channel: "stable"
+#### Channel
 
-# When set to "latest" this role will always attempt to install the latest
-# version based on the channel you selected. This could lead to something like
-# Docker 18.06 being installed today but then a year from now, re-running the
-# role will result in 19.06 or whatever Docker happens to use a year from now.
-#
-# If you want to pin a version simply put "18.06", "18.06.1" or whatever version
-# you want. Even if you update your package list and newer Docker versions are
-# available this role will stick to the pinned version on all future runs.
+Do you want to use the "stable", "edge", "testing" or "nightly" channels? You
+can add more than one (order matters).
+
+```yml
+docker__channel: ["stable"]
+```
+
+#### Version
+
+- When set to `"latest"`, the current latest version of Docker will be installed
+- When set to a specific version, that version of Docker will be installed and pinned
+
+```yml
 docker__version: "latest"
+
+# For example, to pin 18.06.
+docker__version: "18.06"
+
+# For example, to pin a more precise version of 18.06.
+docker__version: "18.06.1"
+```
+
+*Pins are set with `*` at the end of the package version so you will end up
+getting minor and security patches unless you pin an exact version.*
+
+##### Upgrade strategy
+
+- When set to `"present"`, running this role in the future won't install newer
+versions (if available)
+- When set to `"latest"`, running this role in the future will install newer
+versions (if available)
+
+```yml
+docker__state: "present"
+```
+
+##### Downgrade strategy
+
+The easiest way to downgrade would be to uninstall the Docker package manually
+and then run this role afterwards while pinning whatever specific Docker version
+you want.
+
+```sh
+# An ad-hoc Ansible command to stop and remove the Docker CE package on all hosts.
+ansible all -m systemd -a "name=docker-ce state=stopped" \
+  -m apt -a "name=docker-ce autoremove=true purge=true state=absent" -b
 ```
 
 ### Installing Docker Compose
 
+Docker Compose will get PIP installed inside of a Virtualenv. This is covered
+in detail in another section of this README file.
+
+#### Version
+
+- When set to `"latest"`, the current latest version of Docker Compose will be installed
+- When set to a specific version, that version of Docker Compose will be installed
+and pinned
+
 ```yml
-# Do you want to also install Docker Compose? When set to False, Docker Compose
-# will not get installed or will be removed if it were installed previously.
-docker__install_docker_compose: true
+docker__compose_version: "latest"
 
-# If Docker Compose is being installed, which version do you want to use?
-docker__compose_version: "1.23.0"
+# For example, to pin 1.23.
+docker__compose_version: "1.23"
 
-# If Docker Compose is being installed, where should it be downloaded from?
-docker__compose_download_url: "https://github.com/docker/compose/releases/download/{{ docker__compose_version }}/docker-compose-Linux-x86_64"
+# For example, to pin a more precise version of 1.23.
+docker__compose_version: "1.23.2"
 ```
+
+*Upgrade and downgrade strategies will be explained in the other section of this
+README.*
 
 ### Configuring users to run Docker without root
 
@@ -111,7 +161,7 @@ you want to create users, check out my
 This role does not configure User Namespaces or any other security features
 by default. If the user you add here has SSH access to your server then you're
 effectively giving them root access to the server since they can run Docker
-without sudo and volume mount in any path on your file system.
+without `sudo` and volume mount in any path on your file system.
 
 In a controlled environment this is safe, but like anything security related
 it's worth knowing this up front. You can enable User Namespaces and any
@@ -127,8 +177,7 @@ docker__users: ["admin"]
 ### Configuring Docker registry logins
 
 Login to 1 or more Docker registries (such as the
-[Docker Hub](https://hub.docker.com/)) so that the Docker CLI can interact
-with private repos.
+[Docker Hub](https://hub.docker.com/)).
 
 ```yml
 docker__registries:
@@ -137,37 +186,20 @@ docker__registries:
     password: "your_docker_hub_password"
     #email: "your_docker_hub@emailaddress.com"
     #reauthorize: false
-    #system_user: "root"
+    #config_path: "$HOME/.docker/config.json"
     #state: "present"
 docker__registries: []
 ```
 
-*Items prefixed with \* are required.*
+*Properties prefixed with \* are required.*
 
 - `registry_url` defaults to `https://index.docker.io/v1/`
 - *`username` is your Docker registry username
 - *`password` is your Docker registry password
 - `email` defaults to not being used (not all registries use it)
 - `reauthorize` defaults to `false`, when `true` it updates your credentials
-- `system_user` defaults to the first user in `docker__users` OR `"root"` if that's
-empty
+- `config_path` defaults to `(ansible_env.PWD | d('/root')) + '/.docker/config.json'`
 - `state` defaults to "present", when "absent" the login will be removed
-
-### Configuring log rotation for Docker container logs
-
-```yml
-# How large should each Docker log file be? You can set -1 for unlimited.
-#
-# You can use "k" to denote kilobytes, "m" for megabytes and "g" for gigabytes.
-#
-# Here's 3 example sizes showcasing the format: 100k, 100m and 10g
-docker__default_daemon_json_log_max_size: "1m"
-
-# Docker rotates its own container logs. How many rotations do you want to keep
-# on disk? With a size of 1m and 10,000 rotations, that would be a max of 10gb
-# of disk space.
-docker__default_daemon_json_log_max_file: 10000
-```
 
 ### Configuring the Docker daemon options (json)
 
@@ -175,11 +207,7 @@ Default Docker daemon options as they would appear in `/etc/docker/daemon.json`.
 
 ```yml
 docker__default_daemon_json: |
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "{{ docker__default_daemon_json_log_max_size }}",
-    "max-file": "{{ docker__default_daemon_json_log_max_file }}"
-  }
+  "log-driver": "journald"
 
 # Add your own additional daemon options without overriding the default options.
 # It follows the same format as the default options, and don't worry about
@@ -224,7 +252,7 @@ This role lets the Docker package manage its own systemd unit file and adjusts
 things like the Docker daemon flags and environment variables by using
 the systemd override pattern.
 
-If you know what you're doing, you can override any of Docker's systemd
+If you know what you're doing, you can override or add to any of Docker's systemd
 directives by setting this variable. Anything you place in this string will be
 written to `/etc/systemd/system/docker.service.d/custom.conf` as is.
 
@@ -235,66 +263,133 @@ docker__systemd_override: ""
 ### Configuring Docker related cron jobs
 
 By default this will safely clean up disk space used by Docker every Sunday at
-midnight. Keep in mind the `-a` flag will remove unused images which is useful
-if you version your images (that can really add up in disk space).
+midnight.
 
 ```yml
+# `a` removes unused images (useful in production).
+# `f` forces it to happen without prompting you to agree.
+docker__cron_jobs_prune_flags: "af"
+
 docker__cron_jobs:
   - name: "Docker disk clean up"
-    job: docker system prune -af &> /dev/null
+    job: "docker system prune -{{ docker__cron_jobs_prune_flags }} > /dev/null 2>&1"
     schedule: ["0", "0", "*", "*", "0"]
     cron_file: "docker-disk-clean-up"
-    #user: "{{ (docker__users | first) | default('root') }}"
+    #user: "{{ (docker__users | first) | d('root') }}"
     #state: "present"
 ```
 
-*Items prefixed with \* are required.*
+*Properties prefixed with \* are required.*
 
 - *`name` is the cron job's description
 - *`job` is the command to run in the cron job
 - *`schedule` is the [standard cron job](https://en.wikipedia.org/wiki/Cron#Overview)
 format for every Sunday at midnight
 - *`cron_file` writes a cron file to `/etc/cron.d` instead of a user's individual crontab
-- `user` defaults to the first user in `docker__users` OR `root` if the users list is empty
+- `user` defaults to the first `docker__users` user or root if that's not available
 - `state` defaults to "present", when "absent" the cron file will be removed
 
 ### Configuring the APT package manager
 
 Docker requires a few dependencies to be installed for it to work. You shouldn't
-have to edit any of these settings.
-
-If you're curious about `python-pip`, it's because Ansible's `docker_login` and
-`docker_service` modules require installing the `docker` pip package.
+have to edit any of these variables.
 
 ```yml
+# List of packages to be installed.
 docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
   - "gnupg2"
-  - "python-pip"
   - "software-properties-common"
 
-# The Docker GPG key id used to sign the Docker package.
+# The Docker PGP key id used to sign the Docker package.
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 
-# The Docker GPG key server address.
+# The Docker PGP key server address.
 docker__apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
 
-# The Docker APT repository.
-docker__apt_repository: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker__channel }}"
+# The Docker upstream APT repository.
+docker__apt_repository: >
+  deb [arch=amd64]
+  https://download.docker.com/linux/{{ ansible_distribution | lower }}
+  {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
 ```
 
-## Trying to figure out how to downgrade Docker?
+### Installing Python packages with Virtualenv and PIP
 
-If you want to downgrade Docker, the easiest way to do it would be to uninstall
-the Docker package manually and then run this role afterwards while pinning
-whatever specific Docker version you want.
+#### Configuring Virtualenv
 
-```sh
-# An ad-hoc Ansible command to remove the Docker CE package on all hosts.
-ansible all -m apt -a "name=docker-ce state=absent purge=true"
+Rather than pollute your server's version of Python, all PIP packages are
+installed into a Virtualenv of your choosing.
+
+```yml
+docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 ```
+
+#### Installing PIP and its dependencies
+
+This role installs PIP because Docker Compose is installed with the
+`docker-compose` PIP package and Ansible's `docker_*` modules use the `docker`
+PIP package.
+
+```yml
+# This will attempt to install the correct version of PIP based on what your
+# configured Ansible Python interpreter is set to (ie. Python 2 or 3).
+docker__pip_dependencies:
+  - "python-setuptools"
+  - "python{{ '3' if ansible_python.executable[-1] == '3' else '' }}-pip"
+```
+
+#### Installing PIP packages
+
+```yml
+docker__default_pip_packages:
+  - name: "docker"
+    state: "{{ docker__pip_docker_state }}"
+  - name: "docker-compose"
+    version: "{{ docker__compose_version }}"
+    path: "/usr/local/bin/docker-compose"
+    src: "{{ docker__pip_virtualenv + '/bin/docker-compose' }}"
+    state: "{{ docker__pip_docker_compose_state }}"
+
+# Add your own PIP packages with the same properties as above.
+docker__pip_packages: []
+```
+
+*Properties prefixed with \* are required.*
+
+- *`name` is the package name
+- `version` is the package version to be installed (or latest if this is not defined)
+- `path` is the destination path of the symlink
+- `src` is the source path to be symlinked
+- `state` defaults to "present", other values can be "forcereinstall" or "absent"
+
+##### PIP package state
+
+- When set to `"present"`, the package will be installed but not updated on
+future runs
+- When set to `"forcereinstall"`, the package will always be (re)installed and
+updated on future runs
+- When set to `"absent"`, the package will be removed
+
+```yml
+docker__pip_docker_state: "present"
+docker__pip_docker_compose_state: "present"
+```
+
+#### Working with Ansible's `docker_*` modules
+
+This role uses `docker_login` to login to a Docker registry, but you may also
+use the other `docker_*` modules in your own roles. They are not going to work
+unless you instruct Ansible to use this role's Virtualenv.
+
+At either the inventory, playbook or task level you'll need to set
+`ansible_python_interpreter: "/usr/bin/env python-docker"`. This works because
+this role symlinks the Virtualenv's Python binary to `python-docker`.
+
+You can look at this role's `docker_login` task as an example on how to do it
+at the task level.
 
 ## License
 
