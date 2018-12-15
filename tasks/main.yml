@@ -143,7 +143,7 @@
     registry_url: "{{ item.registry_url | d(omit) }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
-    email: "{{ item.email | d(omit)}}"
+    email: "{{ item.email | d(omit) }}"
     reauthorize: "{{ item.reauthorize | d(omit) }}"
     config_path: "{{ item.config_path | d((ansible_env.PWD | d('/root')) + '/.docker/config.json') }}"
     state: "{{ item.state | d('present') }}"
