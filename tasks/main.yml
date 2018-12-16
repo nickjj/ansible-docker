@@ -4,7 +4,7 @@
   file:
     dest: "/etc/apt/preferences.d/docker-ce.pref"
     state: "absent"
-  when: docker__version == "" or docker__version == "latest"
+  when: docker__version == "latest"
 
 - name: Enable pinned Docker version
   template:
