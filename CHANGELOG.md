@@ -1,5 +1,11 @@
 # Changelog
 
+## Next release
+
+*Released: TBD*
+
+- Check for an existing Docker Compose file before trying to symlink it
+
 ## v1.6.0
 
 *Released: December 15th 2018*
