@@ -4,6 +4,7 @@
 
 *Released: TBD*
 
+- Change `docker__users` to default to `docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]`
 - Check for an existing Docker Compose file before trying to symlink it
 
 ## v1.6.0

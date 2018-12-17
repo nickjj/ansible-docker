@@ -7,7 +7,7 @@ docker__state: "present"
 
 docker__compose_version: "latest"
 
-docker__users: []
+docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]
 
 docker__registries: []
 

@@ -168,9 +168,10 @@ it's worth knowing this up front. You can enable User Namespaces and any
 other options with the `docker__daemon_json` variable which is explained later.
 
 ```yml
-docker__users: []
+# Try to use the sudo user by default, but fall back to root.
+docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]
 
-# For example, if you have a user of "admin" you could set this.
+# For example, if the user you want to set is different than the sudo user.
 docker__users: ["admin"]
 ```
 
