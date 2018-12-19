@@ -142,7 +142,7 @@ and pinned
 ```yml
 # You can't set an undefined variable in Ansible and by default this role does
 # not define `docker__version` so you will get the latest Docker Compose version.
-docker__compose_version: ""
+#docker__compose_version: ""
 
 # For example, define it to pin 1.23.
 docker__compose_version: "1.23"
