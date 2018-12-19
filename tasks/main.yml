@@ -53,9 +53,10 @@
 
 - name: Install Python packages
   pip:
-    name: "{{ item.name }}"
+    name:
+    - >
+      {{ item.name }}{% if item.version is defined %}=={{ item.version }}{% endif %}
     virtualenv: "{{ docker__pip_virtualenv }}"
-    version: "{{ item.version | d(omit) }}"
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
   when: item.name | d()
