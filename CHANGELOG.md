@@ -1,8 +1,8 @@
 # Changelog
 
-## Next release
+## v1.8.0
 
-*Released: TBD*
+*Released: December 19th 2018*
 
 - Change `docker__apt_key_server` to `docker__apt_key_url`
 - `docker__version` and `docker__compose_version` are back to being empty strings by default
