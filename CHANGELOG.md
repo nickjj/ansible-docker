@@ -1,8 +1,8 @@
 # Changelog
 
-## Next release
+## v1.7.0
 
-*Released: TBD*
+*Released: December 18th 2018*
 
 - `docker__version` and `docker__compose_version` are now both undefined by default
 - Change `docker__users` to default to `docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]`
