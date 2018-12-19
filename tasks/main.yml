@@ -22,7 +22,7 @@
 - name: Add Docker's public PGP key to the APT keyring
   apt_key:
     id: "{{ docker__apt_key_id }}"
-    url: "{{ docker__apt_key_server }}"
+    url: "{{ docker__apt_key_url }}"
 
 - name: Configure Docker's upstream APT repository
   apt_repository:

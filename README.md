@@ -312,7 +312,7 @@ docker__package_dependencies:
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 
 # The Docker PGP key server address.
-docker__apt_key_server: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
 
 # The Docker upstream APT repository.
 docker__apt_repository: >

@@ -1,5 +1,11 @@
 # Changelog
 
+## Next release
+
+*Released: TBD*
+
+- Change `docker__apt_key_server` to `docker__apt_key_url`
+
 ## v1.7.0
 
 *Released: December 18th 2018*
