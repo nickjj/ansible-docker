@@ -4,6 +4,7 @@
 
 *Released: TBD*
 
+- `docker__version` and `docker__compose_version` are now both undefined by default
 - Change `docker__users` to default to `docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]`
 - Check for an existing Docker Compose file before trying to symlink it
 

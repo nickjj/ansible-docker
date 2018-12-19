@@ -87,16 +87,18 @@ docker__channel: ["stable"]
 
 #### Version
 
-- When set to `"latest"`, the current latest version of Docker will be installed
+- When undefined, the current latest version of Docker will be installed
 - When set to a specific version, that version of Docker will be installed and pinned
 
 ```yml
-docker__version: "latest"
+# You can't set an undefined variable in Ansible and by default this role does
+# not define `docker__version` so you will get the latest Docker version.
+#docker__version: ""
 
-# For example, to pin 18.06.
+# For example, define it to pin 18.06.
 docker__version: "18.06"
 
-# For example, to pin a more precise version of 18.06.
+# For example, define it to pin a more precise version of 18.06.
 docker__version: "18.06.1"
 ```
 
@@ -133,17 +135,19 @@ in detail in another section of this README file.
 
 #### Version
 
-- When set to `"latest"`, the current latest version of Docker Compose will be installed
+- When undefined, the current latest version of Docker Compose will be installed
 - When set to a specific version, that version of Docker Compose will be installed
 and pinned
 
 ```yml
-docker__compose_version: "latest"
+# You can't set an undefined variable in Ansible and by default this role does
+# not define `docker__version` so you will get the latest Docker Compose version.
+docker__compose_version: ""
 
-# For example, to pin 1.23.
+# For example, define it to pin 1.23.
 docker__compose_version: "1.23"
 
-# For example, to pin a more precise version of 1.23.
+# For example, define it to pin a more precise version of 1.23.
 docker__compose_version: "1.23.2"
 ```
 
@@ -349,7 +353,7 @@ docker__default_pip_packages:
   - name: "docker"
     state: "{{ docker__pip_docker_state }}"
   - name: "docker-compose"
-    version: "{{ docker__compose_version }}"
+    version: "{{ docker__compose_version | d(omit) }}"
     path: "/usr/local/bin/docker-compose"
     src: "{{ docker__pip_virtualenv + '/bin/docker-compose' }}"
     state: "{{ docker__pip_docker_compose_state }}"

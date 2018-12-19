@@ -2,10 +2,10 @@
 
 docker__edition: "ce"
 docker__channel: ["stable"]
-docker__version: "latest"
+#docker__version: ""
 docker__state: "present"
 
-docker__compose_version: "latest"
+#docker__compose_version: ""
 
 docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]
 
@@ -55,7 +55,7 @@ docker__default_pip_packages:
   - name: "docker"
     state: "{{ docker__pip_docker_state }}"
   - name: "docker-compose"
-    version: "{{ docker__compose_version }}"
+    version: "{{ docker__compose_version | d(omit) }}"
     path: "/usr/local/bin/docker-compose"
     src: "{{ docker__pip_virtualenv + '/bin/docker-compose' }}"
     state: "{{ docker__pip_docker_compose_state }}"
