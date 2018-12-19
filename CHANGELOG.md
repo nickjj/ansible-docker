@@ -1,5 +1,11 @@
 # Changelog
 
+## Next release
+
+*Released: TBD*
+
+- Use `force: true` on the PIP binary symlinks to remove the Docker Compose stat tasks
+
 ## v1.8.0
 
 *Released: December 19th 2018*

@@ -34,19 +34,6 @@
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
 
-- name: Check for existing Docker Compose file
-  stat:
-    path: "/usr/local/bin/docker-compose"
-  register: docker__register_docker_compose
-
-- name: Remove Docker Compose if it's been installed without PIP
-  file:
-    path: "/usr/local/bin/docker-compose"
-    state: "absent"
-  when:
-    - docker__register_docker_compose.stat.exists
-    - docker__register_docker_compose.stat.isreg | d(false)
-
 - name: Install Virtualenv
   pip:
     name: "virtualenv"
@@ -64,12 +51,14 @@
   file:
     path: "/usr/local/bin/python-docker"
     src: "{{ docker__pip_virtualenv }}/bin/python"
+    force: true
     state: "link"
 
 - name: Symlink selected Python package binaries to /usr/local/bin
   file:
     path: "{{ item.path }}"
     src: "{{ item.src }}"
+    force: true
     state: "link"
   loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
   when:
