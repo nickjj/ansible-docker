@@ -5,6 +5,7 @@
 *Released: TBD*
 
 - Change `docker__apt_key_server` to `docker__apt_key_url`
+- `docker__version` and `docker__compose_version` are back to being empty strings by default
 
 ## v1.7.0
 

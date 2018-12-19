@@ -87,18 +87,16 @@ docker__channel: ["stable"]
 
 #### Version
 
-- When undefined, the current latest version of Docker will be installed
+- When set to "", the current latest version of Docker will be installed
 - When set to a specific version, that version of Docker will be installed and pinned
 
 ```yml
-# You can't set an undefined variable in Ansible and by default this role does
-# not define `docker__version` so you will get the latest Docker version.
-#docker__version: ""
+docker__version: ""
 
-# For example, define it to pin 18.06.
+# For example, pin it to 18.06.
 docker__version: "18.06"
 
-# For example, define it to pin a more precise version of 18.06.
+# For example, pin it to a more precise version of 18.06.
 docker__version: "18.06.1"
 ```
 
@@ -135,19 +133,17 @@ in detail in another section of this README file.
 
 #### Version
 
-- When undefined, the current latest version of Docker Compose will be installed
+- When set to "", the current latest version of Docker Compose will be installed
 - When set to a specific version, that version of Docker Compose will be installed
 and pinned
 
 ```yml
-# You can't set an undefined variable in Ansible and by default this role does
-# not define `docker__version` so you will get the latest Docker Compose version.
-#docker__compose_version: ""
+docker__compose_version: ""
 
-# For example, define it to pin 1.23.
+# For example, pin it to 1.23.
 docker__compose_version: "1.23"
 
-# For example, define it to pin a more precise version of 1.23.
+# For example, pin it to a more precise version of 1.23.
 docker__compose_version: "1.23.2"
 ```
 
@@ -343,7 +339,7 @@ PIP package.
 # configured Ansible Python interpreter is set to (ie. Python 2 or 3).
 docker__pip_dependencies:
   - "python-setuptools"
-  - "python{{ '3' if ansible_python.executable[-1] == '3' else '' }}-pip"
+  - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
 ```
 
 #### Installing PIP packages
@@ -353,7 +349,7 @@ docker__default_pip_packages:
   - name: "docker"
     state: "{{ docker__pip_docker_state }}"
   - name: "docker-compose"
-    version: "{{ docker__compose_version | d(omit) }}"
+    version: "{{ docker__compose_version }}"
     path: "/usr/local/bin/docker-compose"
     src: "{{ docker__pip_virtualenv + '/bin/docker-compose' }}"
     state: "{{ docker__pip_docker_compose_state }}"
@@ -365,7 +361,7 @@ docker__pip_packages: []
 *Properties prefixed with \* are required.*
 
 - *`name` is the package name
-- `version` is the package version to be installed (or latest if this is not defined)
+- `version` is the package version to be installed (or "" if this is not defined)
 - `path` is the destination path of the symlink
 - `src` is the source path to be symlinked
 - `state` defaults to "present", other values can be "forcereinstall" or "absent"
