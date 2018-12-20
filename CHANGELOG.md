@@ -5,6 +5,7 @@
 *Released: TBD*
 
 - Use `force: true` on the PIP binary symlinks to remove the Docker Compose stat tasks
+- Use individual quotes when joining Docker daemon environment variables
 
 ## v1.8.0
 
