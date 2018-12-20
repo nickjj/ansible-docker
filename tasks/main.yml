@@ -129,13 +129,9 @@
 - name: Reload systemd daemon
   systemd:
     daemon_reload: true
-  when: (docker__register_daemon_flags | d() and
-         docker__register_daemon_flags is changed)
-         or (docker__register_daemon_environment | d() and
-         docker__register_daemon_environment is changed)
-         or (docker__register_custom_override | d() and
-         docker__register_custom_override is changed)
-  notify: ["Restart Docker"]
+  when: docker__register_daemon_flags is changed
+        or docker__register_daemon_environment is changed
+        or docker__register_custom_override is changed
 
 - name: Restart Docker now to make sure `docker login` works
   meta: "flush_handlers"
