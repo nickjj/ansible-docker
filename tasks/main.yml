@@ -148,7 +148,7 @@
   loop: "{{ docker__registries }}"
   when: item.username | d() and item.password | d()
   vars:
-    ansible_python_interpreter: "{{ '/usr/bin/env python-docker' if docker__pip_virtualenv | d() else ansible_python.executable }}"
+    ansible_python_interpreter: "{{ '/usr/bin/env python-docker' }}"
 
 - name: Remove Docker related cron jobs
   file:
