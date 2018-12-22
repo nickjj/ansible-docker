@@ -157,8 +157,7 @@
   loop: "{{ docker__cron_jobs }}"
   when:
     - item.state | d("present") == "absent"
-    - item.name | d() and item.job | d()
-    - item.schedule | d() and item.cron_file | d()
+    - item.cron_file | d()
 
 - name: Create Docker related cron jobs
   cron:
