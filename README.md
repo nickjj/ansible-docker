@@ -271,10 +271,13 @@ midnight.
 # `f` forces it to happen without prompting you to agree.
 docker__cron_jobs_prune_flags: "af"
 
+# Control the schedule of the docker system prune.
+docker__cron_jobs_prune_schedule: ["0", "0", "*", "*", "0"]
+
 docker__cron_jobs:
   - name: "Docker disk clean up"
     job: "docker system prune -{{ docker__cron_jobs_prune_flags }} > /dev/null 2>&1"
-    schedule: ["0", "0", "*", "*", "0"]
+    schedule: "{{ docker__cron_jobs_prune_schedule }}"
     cron_file: "docker-disk-clean-up"
     #user: "{{ (docker__users | first) | d('root') }}"
     #state: "present"
