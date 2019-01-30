@@ -27,6 +27,6 @@
     name: "{{ docker__dnf_package_dependencies + docker__dnf_pip_dependencies }}"
 
 - name: Install Docker
-  apt:
+  dnf:
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
