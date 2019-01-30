@@ -297,7 +297,7 @@ have to edit any of these variables.
 
 ```yml
 # List of packages to be installed.
-docker__package_dependencies:
+docker__apt_package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
@@ -316,6 +316,19 @@ docker__apt_repository: >
   https://download.docker.com/linux/{{ ansible_distribution | lower }}
   {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
 ```
+
+### Configuring the DNF package manager
+
+Docker requires a few dependencies to be installed for it to work. You shouldn't
+have to edit this variable.
+
+```yml
+# List of packages to be installed.
+docker__dnf_package_dependencies:
+  - "ca-certificates"
+  - "cronie"
+  - "gnupg2"
+  - "libselinux-python"
 
 ### Installing Python packages with Virtualenv and PIP
 
@@ -337,9 +350,15 @@ PIP package.
 ```yml
 # This will attempt to install the correct version of PIP based on what your
 # configured Ansible Python interpreter is set to (ie. Python 2 or 3).
-docker__pip_dependencies:
+docker__apt_pip_dependencies:
   - "python-setuptools"
   - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
+
+docker__dnf_pip_dependencies:
+  - "python{{ ansible_python.version.major }}"
+  - "python{{ ansible_python.version.major }}-pip"
+  - "python{{ ansible_python.version.major }}-libs"
+  - "python{{ ansible_python.version.major }}-setuptools"
 ```
 
 #### Installing PIP packages
