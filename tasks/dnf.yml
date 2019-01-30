@@ -1,0 +1,32 @@
+---
+# Installing docker via https://docs.docker.com/install/linux/docker-ce/fedora/
+
+- name: Old Docker versions are absent
+  dnf:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - 'docker'
+    - 'docker-client'
+    - 'docker-client-latest'
+    - 'docker-common'
+    - 'docker-latest'
+    - 'docker-latest-logrotate'
+    - 'docker-logrotate'
+    - 'docker-selinux'
+    - 'docker-engine-selinux'
+    - 'docker-engine'
+
+- name: Docker's Repository is added
+  get_url:
+    url: https://download.docker.com/linux/fedora/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: Install Docker's dependencies
+  dnf:
+    name: "{{ docker__dnf_package_dependencies + docker__dnf_pip_dependencies }}"
+
+- name: Install Docker
+  dnf:
+    name: "docker-{{ docker__edition }}"
+    state: "{{ docker__state }}"
