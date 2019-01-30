@@ -24,7 +24,7 @@
 
 - name: Install Docker's dependencies
   dnf:
-    name: "{{ docker__dnf_package_dependencies + docker__pip_dependencies }}"
+    name: "{{ docker__dnf_package_dependencies + docker__dnf_pip_dependencies }}"
 
 - name: Install Docker
   apt:
