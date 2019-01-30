@@ -1,38 +1,7 @@
 ---
 
-- name: Disable pinned Docker version
-  file:
-    dest: "/etc/apt/preferences.d/docker-ce.pref"
-    state: "absent"
-  when: not docker__version | d()
-
-- name: Enable pinned Docker version
-  template:
-    src: "etc/apt/preferences.d/docker-ce.pref.j2"
-    dest: "/etc/apt/preferences.d/docker-ce.pref"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: docker__version | d()
-
-- name: Install Docker's dependencies
-  apt:
-    name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
-
-- name: Add Docker's public PGP key to the APT keyring
-  apt_key:
-    id: "{{ docker__apt_key_id }}"
-    url: "{{ docker__apt_key_url }}"
-
-- name: Configure Docker's upstream APT repository
-  apt_repository:
-    repo: "{{ docker__apt_repository }}"
-    update_cache: true
-
-- name: Install Docker
-  apt:
-    name: "docker-{{ docker__edition }}"
-    state: "{{ docker__state }}"
+- name: Include Appropriate Package Management
+  include_tasks: "{{ ansible_pkg_mgr }}.yml"
 
 - name: Check for existing Docker Compose file
   stat:

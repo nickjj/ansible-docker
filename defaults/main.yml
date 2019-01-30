@@ -31,12 +31,17 @@ docker__cron_jobs:
     cron_file: "docker-disk-clean-up"
     user: "{{ (docker__users | first) | d('root') }}"
 
-docker__package_dependencies:
+docker__apt_package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
   - "gnupg2"
   - "software-properties-common"
+
+docker__dnf_package_dependencies:
+  - "ca-certificates"
+  - "cronie"
+  - "gnupg2"
 
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
@@ -45,9 +50,15 @@ docker__apt_repository: >
   https://download.docker.com/linux/{{ ansible_distribution | lower }}
   {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
 
-docker__pip_dependencies:
+docker__apt_pip_dependencies:
   - "python-setuptools"
   - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
+
+docker__dnf_pip_dependencies:
+  - "python{{ ansible_python.version.major }}"
+  - "python{{ ansible_python.version.major }}-pip"
+  - "python{{ ansible_python.version.major }}-libs"
+  - "python{{ ansible_python.version.major }}-setuptools"
 
 docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 
