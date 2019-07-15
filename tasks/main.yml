@@ -19,7 +19,7 @@
   apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
-- name: Add Docker's public PGP key to the APT keyring
+- name: Add Docker's public GPG key to the APT keyring
   apt_key:
     id: "{{ docker__apt_key_id }}"
     url: "{{ docker__apt_key_url }}"
