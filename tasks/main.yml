@@ -101,7 +101,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__default_daemon_json or docker__daemon_json
+  when: (docker__default_daemon_json | d()) or (docker__daemon_json | d())
   notify: ["Restart Docker"]
 
 - name: Configure Docker daemon options (flags)
@@ -112,7 +112,7 @@
     group: "root"
     mode: "0644"
   register: docker__register_daemon_flags
-  when: docker__daemon_flags
+  when: docker__daemon_flags | d()
   notify: ["Restart Docker"]
 
 - name: Configure Docker daemon environment variables
@@ -123,7 +123,7 @@
     group: "root"
     mode: "0644"
   register: docker__register_daemon_environment
-  when: docker__daemon_environment
+  when: docker__daemon_environment | d()
   notify: ["Restart Docker"]
 
 - name: Configure custom systemd unit file override
