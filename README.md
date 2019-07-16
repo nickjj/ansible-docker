@@ -47,7 +47,7 @@ will happen once a week and Docker container logs will be sent to `journald`.
 ```yml
 ---
 
-# site.yml
+# docker.yml
 
 - name: Example
   hosts: "all"
@@ -58,7 +58,7 @@ will happen once a week and Docker container logs will be sent to `journald`.
       tags: ["docker"]
 ```
 
-Usage: `ansible-playbook site.yml -t docker`
+Usage: `ansible-playbook docker.yml`
 
 ### Installation
 
