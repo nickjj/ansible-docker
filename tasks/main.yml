@@ -13,6 +13,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
+  become: true
   when: docker__version | d()
 
 - name: Install Docker's dependencies
