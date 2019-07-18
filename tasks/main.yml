@@ -185,6 +185,7 @@
     cron_file: "{{ item.cron_file }}"
     user: "{{ item.user | d('root') }}"
   loop: "{{ docker__cron_jobs }}"
+  become: true
   when:
     - item.state | d("present") != "absent"
     - item.name | d() and item.job | d()
