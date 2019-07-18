@@ -112,6 +112,7 @@
     mode: "0644"
   register: docker__register_daemon_flags
   when: docker__daemon_flags
+  become: true
   notify: ["Restart Docker"]
 
 - name: Configure Docker daemon environment variables
@@ -123,6 +124,7 @@
     mode: "0644"
   register: docker__register_daemon_environment
   when: docker__daemon_environment
+  become: true
   notify: ["Restart Docker"]
 
 - name: Configure custom systemd unit file override
