@@ -30,11 +30,13 @@
   apt_repository:
     repo: "{{ docker__apt_repository }}"
     update_cache: true
+  become: true
 
 - name: Install Docker
   apt:
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
+  become: true
 
 - name: Install Virtualenv
   pip:
