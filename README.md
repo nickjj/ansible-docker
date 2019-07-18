@@ -308,10 +308,10 @@ docker__package_dependencies:
   - "gnupg2"
   - "software-properties-common"
 
-# The Docker PGP key id used to sign the Docker package.
+# The Docker GPG key id used to sign the Docker package.
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 
-# The Docker PGP key server address.
+# The Docker GPG key server address.
 docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
 
 # The Docker upstream APT repository.
