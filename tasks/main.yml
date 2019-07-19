@@ -2,14 +2,14 @@
 
 - name: Disable pinned Docker version
   file:
-    dest: "/etc/apt/preferences.d/docker-ce.pref"
+    dest: "/etc/apt/preferences.d/docker.pref"
     state: "absent"
   when: not docker__version | d()
 
 - name: Enable pinned Docker version
   template:
-    src: "etc/apt/preferences.d/docker-ce.pref.j2"
-    dest: "/etc/apt/preferences.d/docker-ce.pref"
+    src: "etc/apt/preferences.d/docker.pref.j2"
+    dest: "/etc/apt/preferences.d/docker.pref"
     owner: "root"
     group: "root"
     mode: "0644"
