@@ -4,9 +4,14 @@
 
 *Released: TBD*
 
+## v1.9.0
+
+*Released: August 7th 2019*
+
+- Officially support Debian Buster
+- Fix version pinning to work for both the `docker-ce` and `docker-ce-cli` package
 - Add `docker__cron_jobs_prune_schedule` to configure the docker system prune schedule
-- Use `force: true` on the PIP binary symlinks to remove the Docker Compose stat tasks
-- Use individual quotes when joining Docker daemon environment variables
+- Fix most Ansible 2.8.x warnings (purposely ignoring the apititude warning)
 
 ## v1.8.0
 
