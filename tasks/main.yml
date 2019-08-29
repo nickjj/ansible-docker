@@ -46,6 +46,7 @@
     name: >
       {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
     virtualenv: "{{ docker__pip_virtualenv }}"
+    virtualenv_command: "{{ docker__pip_virtualenv_command }}"
     state: "{{ item.state | d('present') }}"
     extra_args: "{{ docker__pip_extra_args }}"
   environment: "{{ docker__pip_environment }}"
