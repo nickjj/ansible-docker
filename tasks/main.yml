@@ -37,6 +37,9 @@
 - name: Install Virtualenv
   pip:
     name: "virtualenv"
+    extra_args: "{{ docker__pip_extra_args }}"
+  environment: "{{ docker__pip_environment }}"
+
 
 - name: Install Python packages
   pip:
@@ -44,6 +47,8 @@
       {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
     virtualenv: "{{ docker__pip_virtualenv }}"
     state: "{{ item.state | d('present') }}"
+    extra_args: "{{ docker__pip_extra_args }}"
+  environment: "{{ docker__pip_environment }}"
   loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
   when: item.name | d()
 

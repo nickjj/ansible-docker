@@ -323,6 +323,16 @@ docker__apt_repository: >
 
 ### Installing Python packages with Virtualenv and PIP
 
+#### PIP extra args and environemt
+
+When you have the pain of an corporate proxy or just want to set some pip specialities use this:
+
+```yml
+docker__pip_environment: 
+    - https_proxy: http://user:password@host:port
+docker__pip_extra_args: "--trusted-host pypi.org --trusted-host files.pythonhosted.org"
+```
+
 #### Configuring Virtualenv
 
 Rather than pollute your server's version of Python, all PIP packages are
