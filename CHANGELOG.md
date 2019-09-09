@@ -4,6 +4,12 @@
 
 *Released: TBD*
 
+## v1.9.1
+
+*Released: September 9th 2019*
+
+- Fix quote mismatch when writing environment variable based systemd configuration
+
 ## v1.9.0
 
 *Released: August 7th 2019*
