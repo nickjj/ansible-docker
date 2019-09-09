@@ -1,4 +1,6 @@
 # {{ ansible_managed }}
 
 [Service]
-Environment={{ docker__daemon_environment | join('" "') }}
+{% for env in docker__daemon_environment %}
+Environment="{{ env }}"
+{% endfor %}
