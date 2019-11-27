@@ -23,6 +23,7 @@ with it then check out
 
 - Ubuntu 16.04 LTS (Xenial)
 - Ubuntu 18.04 LTS (Bionic)
+- Ubuntu 19.04 LTS (Disco)
 - Debian 9 (Stretch)
 - Debian 10 (Buster)
 

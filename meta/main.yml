@@ -12,6 +12,7 @@ galaxy_info:
       versions:
         - "xenial"
         - "bionic"
+        - "disco"
     - name: "Debian"
       versions:
         - "stretch"
