@@ -305,10 +305,8 @@ docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
-  - "gcc"
   - "gnupg2"
   - "software-properties-common"
-  - "virtualenv"
 
 # The Docker GPG key id used to sign the Docker package.
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
@@ -344,8 +342,10 @@ PIP package.
 # This will attempt to install the correct version of PIP based on what your
 # configured Ansible Python interpreter is set to (ie. Python 2 or 3).
 docker__pip_dependencies:
+  - "gcc"
   - "python-setuptools"
   - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
+  - "virtualenv"
 ```
 
 #### Installing PIP packages
