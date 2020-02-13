@@ -2,6 +2,8 @@
 
 ## Next release
 
+- Officially remove support for Ubuntu 16.04
+
 *Released: TBD*
 
 ## v1.9.2
