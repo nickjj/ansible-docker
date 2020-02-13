@@ -344,6 +344,7 @@ PIP package.
 docker__pip_dependencies:
   - "gcc"
   - "python-setuptools"
+  - "python{{ '3' if ansible_python.version.major == 3 else '' }}-dev"
   - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
   - "virtualenv"
 ```
