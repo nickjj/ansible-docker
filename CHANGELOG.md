@@ -2,6 +2,8 @@
 
 ## Next release
 
+- Add `gcc` as dependency since Docker Compose 1.25+ needs it
+
 *Released: TBD*
 
 ## v1.9.1

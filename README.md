@@ -305,6 +305,7 @@ docker__package_dependencies:
   - "apt-transport-https"
   - "ca-certificates"
   - "cron"
+  - "gcc"
   - "gnupg2"
   - "software-properties-common"
 
