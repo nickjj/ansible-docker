@@ -308,6 +308,7 @@ docker__package_dependencies:
   - "gcc"
   - "gnupg2"
   - "software-properties-common"
+  - "virtualenv"
 
 # The Docker GPG key id used to sign the Docker package.
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"

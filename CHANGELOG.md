@@ -3,6 +3,7 @@
 ## Next release
 
 - Add `gcc` as dependency since Docker Compose 1.25+ needs it
+- Fix Docker module import error so that you can use the `docker_*` Ansible modules
 
 *Released: TBD*
 

@@ -34,10 +34,6 @@
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
 
-- name: Install Virtualenv
-  pip:
-    name: "virtualenv"
-
 - name: Install Python packages
   pip:
     name: >

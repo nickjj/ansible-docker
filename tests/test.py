@@ -60,3 +60,7 @@ def test_docker_clean_up_cron_job(host):
     cron_conf = host.file("/etc/cron.d/docker-disk-clean-up").content_string
 
     assert "test docker system prune -af" in cron_conf
+
+
+def test_python_docker_module(host):
+    assert 0 == host.run("python-docker -c 'import docker'").rc
