@@ -21,6 +21,7 @@ with it then check out
 
 ## Supported platforms
 
+- Ubuntu 16.04 LTS (Xenial)
 - Ubuntu 18.04 LTS (Bionic)
 - Debian 9 (Stretch)
 - Debian 10 (Buster)
