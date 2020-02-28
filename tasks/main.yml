@@ -124,6 +124,8 @@
   notify: ["Restart Docker"]
 
 - name: Reload systemd daemon
+  environment:
+    XDG_RUNTIME_DIR: /run/user/0
   systemd:
     daemon_reload: true
   when: docker__register_daemon_flags is changed

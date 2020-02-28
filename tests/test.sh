@@ -62,7 +62,7 @@ elif [ $distro = 'ubuntu1804' ]; then
   opts="--privileged --volume=/var/lib/docker --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 # Ubuntu 16.04
 elif [ $distro = 'ubuntu1604' ]; then
-  init="/lib/systemd/systemd"
+  init="/sbin/init"
   opts="--privileged --volume=/var/lib/docker --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
 # Ubuntu 14.04
 elif [ $distro = 'ubuntu1404' ]; then
