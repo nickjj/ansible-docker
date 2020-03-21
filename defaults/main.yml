@@ -54,6 +54,7 @@ docker__pip_dependencies:
   - "virtualenv"
 
 docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
+docker__pip_virtualenv_command: "virtualenv"
 
 docker__default_pip_packages:
   - name: "docker"

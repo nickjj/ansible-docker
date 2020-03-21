@@ -39,16 +39,10 @@
     name: >
       {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
     virtualenv: "{{ docker__pip_virtualenv }}"
+    virtualenv_command: "{{ docker__pip_virtualenv_command }}"
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
   when: item.name | d()
-
-- name: Symlink Python binary to /usr/local/bin/python-docker
-  file:
-    path: "/usr/local/bin/python-docker"
-    src: "{{ docker__pip_virtualenv }}/bin/python"
-    force: true
-    state: "link"
 
 - name: Symlink selected Python package binaries to /usr/local/bin
   file:
@@ -144,7 +138,7 @@
   loop: "{{ docker__registries }}"
   when: item.username | d() and item.password | d()
   vars:
-    ansible_python_interpreter: "{{ '/usr/bin/env python-docker' }}"
+    ansible_python_interpreter: "{{ docker__pip_virtualenv + '/bin/python' + ('3' if ansible_python.version.major == 3 else '') }}"
 
 - name: Remove Docker related cron jobs
   file:
