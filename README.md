@@ -1,4 +1,4 @@
-## What is ansible-docker? [![Build Status](https://secure.travis-ci.org/nickjj/ansible-docker.png)](http://travis-ci.org/nickjj/ansible-docker)
+## What is ansible-docker? [![Build Status](https://travis-ci.org/nickjj/ansible-docker.svg?branch=master)](https://travis-ci.org/nickjj/ansible-docker)
 
 It is an [Ansible](http://www.ansible.com/home) role to:
 
