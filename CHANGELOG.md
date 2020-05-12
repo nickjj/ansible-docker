@@ -3,6 +3,7 @@
 ## Next release
 
 - Officially remove support for Ubuntu 16.04
+- No symlink for `python-docker` is created anymore, cf. #83
 
 *Released: TBD*
 
