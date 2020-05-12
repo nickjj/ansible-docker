@@ -2,6 +2,8 @@
 
 ## Next release
 
+- **Backwards incompatible change:** `python-docker` was renamed to `python3-docker`
+- Fix symlink related issues with virtualenv when using virtualenv 20+
 - Officially remove support for Ubuntu 16.04
 
 *Released: TBD*

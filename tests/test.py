@@ -52,10 +52,6 @@ def test_docker_compose_is_pip_installed_and_symlinked(host):
     assert 0 == host.run("docker-compose --version").rc
 
 
-def test_python_docker_is_symlinked(host):
-    assert 0 == host.run("python-docker --version").rc
-
-
 def test_docker_clean_up_cron_job(host):
     cron_conf = host.file("/etc/cron.d/docker-disk-clean-up").content_string
 
@@ -63,4 +59,4 @@ def test_docker_clean_up_cron_job(host):
 
 
 def test_python_docker_module(host):
-    assert 0 == host.run("python-docker -c 'import docker'").rc
+    assert 0 == host.run("python3-docker -c 'import docker'").rc

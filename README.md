@@ -392,8 +392,9 @@ use the other `docker_*` modules in your own roles. They are not going to work
 unless you instruct Ansible to use this role's Virtualenv.
 
 At either the inventory, playbook or task level you'll need to set
-`ansible_python_interpreter: "/usr/bin/env python-docker"`. This works because
-this role symlinks the Virtualenv's Python binary to `python-docker`.
+`ansible_python_interpreter: "/usr/bin/env python3-docker"`. This works because
+this role creates a proxy script from the Virtualenv's Python binary to
+`python3-docker`.
 
 You can look at this role's `docker_login` task as an example on how to do it
 at the task level.
