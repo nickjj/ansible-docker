@@ -29,7 +29,7 @@
     repo: "{{ docker__apt_repository }}"
     update_cache: true
 
-- name: Create Docker configuration directory
+- name: Create Docker configuration directories
   file:
     path: "{{ item }}"
     state: "directory"
@@ -38,6 +38,7 @@
     mode: "0755"
   loop:
     - "/etc/docker"
+    - "/etc/systemd/system/docker.service.d"
 
 - name: Configure Docker daemon options (json)
   template:
@@ -86,16 +87,6 @@
     groups: "docker"
     append: true
   loop: "{{ docker__users }}"
-
-- name: Create Docker configuration directory
-  file:
-    path: "{{ item }}"
-    state: "directory"
-    owner: "root"
-    group: "root"
-    mode: "0755"
-  loop:
-    - "/etc/systemd/system/docker.service.d"
 
 - name: Configure Docker daemon options (flags)
   template:
