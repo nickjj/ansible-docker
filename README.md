@@ -307,6 +307,13 @@ docker__package_dependencies:
   - "gnupg2"
   - "software-properties-common"
 
+# Ansible identifies CPU architectures differently than Docker.
+docker__architecture_map:
+  "x86_64": "amd64"
+  "aarch": "arm64"
+  "armhf": "armhf"
+  "armv7l": "armhf"
+
 # The Docker GPG key id used to sign the Docker package.
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 
@@ -315,7 +322,7 @@ docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution 
 
 # The Docker upstream APT repository.
 docker__apt_repository: >
-  deb [arch=amd64]
+  deb [arch={{ docker__architecture_map[ansible_architecture] }}]
   https://download.docker.com/linux/{{ ansible_distribution | lower }}
   {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
 ```
