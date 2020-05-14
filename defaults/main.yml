@@ -48,9 +48,9 @@ docker__apt_repository: >
 
 docker__pip_dependencies:
   - "gcc"
-  - "python{{ '3' if ansible_python.version.major == 3 else '' }}-setuptools"
-  - "python{{ '3' if ansible_python.version.major == 3 else '' }}-dev"
-  - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
+  - "python3-setuptools"
+  - "python3-dev"
+  - "python3-pip"
   - "virtualenv"
 
 docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
