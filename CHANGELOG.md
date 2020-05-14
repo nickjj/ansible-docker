@@ -13,11 +13,11 @@
 
 ## v1.9.2
 
+*Released: February 13th 2020*
+
 - Add `gcc` as dependency since Docker Compose 1.25+ needs it
 - Add `python(3)-dev` as dependency since Docker Compose 1.25+ needs it
 - Fix Docker module import error so that you can use the `docker_*` Ansible modules
-
-*Released: February 13th 2020*
 
 ## v1.9.1
 
