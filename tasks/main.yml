@@ -29,6 +29,26 @@
     repo: "{{ docker__apt_repository }}"
     update_cache: true
 
+- name: Create Docker configuration directories
+  file:
+    path: "{{ item }}"
+    state: "directory"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+  loop:
+    - "/etc/docker"
+    - "/etc/systemd/system/docker.service.d"
+
+- name: Configure Docker daemon options (json)
+  template:
+    src: "etc/docker/daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: docker__default_daemon_json | d() or docker__daemon_json | d()
+
 - name: Install Docker
   apt:
     name: "docker-{{ docker__edition }}"
@@ -68,27 +88,6 @@
     groups: "docker"
     append: true
   loop: "{{ docker__users }}"
-
-- name: Create Docker configuration directories
-  file:
-    path: "{{ item }}"
-    state: "directory"
-    owner: "root"
-    group: "root"
-    mode: "0755"
-  loop:
-    - "/etc/docker"
-    - "/etc/systemd/system/docker.service.d"
-
-- name: Configure Docker daemon options (json)
-  template:
-    src: "etc/docker/daemon.json.j2"
-    dest: "/etc/docker/daemon.json"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: docker__default_daemon_json | d() or docker__daemon_json | d()
-  notify: ["Restart Docker"]
 
 - name: Configure Docker daemon options (flags)
   template:
