@@ -6,6 +6,7 @@
 - Fix symlink related issues with virtualenv when using virtualenv 20+
 - Configure daemon before installing Docker to allow customizing certain things
 - Support multiple CPU architecture types
+- Officially support Ubuntu 20.04
 - Remove all support for Python 2.x
 - Officially remove support for Ubuntu 16.04
 

@@ -4,6 +4,7 @@ services: "docker"
 
 env:
   - distro: "ubuntu1804"
+  - distro: "ubuntu2004"
   - distro: "debian9"
   - distro: "debian10"
 
