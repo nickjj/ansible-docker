@@ -2,6 +2,8 @@
 
 ## v2.0.0
 
+*Released: May 19th 2020*
+
 - **Backwards incompatible change:** `python-docker` was renamed to `python3-docker`
 - Fix symlink related issues with virtualenv when using virtualenv 20+
 - Configure daemon before installing Docker to allow customizing certain things
@@ -9,8 +11,6 @@
 - Officially support Ubuntu 20.04
 - Remove all support for Python 2.x
 - Officially remove support for Ubuntu 16.04
-
-*Released: May 19th 2020*
 
 ## v1.9.2
 
