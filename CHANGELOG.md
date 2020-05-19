@@ -1,6 +1,6 @@
 # Changelog
 
-## Next release
+## v2.0.0
 
 - **Backwards incompatible change:** `python-docker` was renamed to `python3-docker`
 - Fix symlink related issues with virtualenv when using virtualenv 20+
@@ -10,7 +10,7 @@
 - Remove all support for Python 2.x
 - Officially remove support for Ubuntu 16.04
 
-*Released: TBD*
+*Released: May 19th 2020*
 
 ## v1.9.2
 
