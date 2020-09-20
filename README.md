@@ -348,7 +348,7 @@ PIP package.
 ```yml
 docker__pip_dependencies:
   - "gcc"
-  - "python-setuptools"
+  - "python3-setuptools"
   - "python3-dev"
   - "python3-pip"
   - "virtualenv"
