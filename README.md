@@ -311,6 +311,7 @@ docker__package_dependencies:
 # Ansible identifies CPU architectures differently than Docker.
 docker__architecture_map:
   "x86_64": "amd64"
+  "aarch64": "arm64"
   "aarch": "arm64"
   "armhf": "armhf"
   "armv7l": "armhf"
