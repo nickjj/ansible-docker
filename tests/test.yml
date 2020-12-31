@@ -4,7 +4,7 @@
   become: true
 
   vars:
-    docker__version: "5:18.09.7"
+    docker__version: "5:20.10.0"
 
     docker__users: ["test"]
 
