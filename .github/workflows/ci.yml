@@ -1,0 +1,31 @@
+name: "CI"
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - "main"
+      - "master"
+
+jobs:
+  test:
+    runs-on: "ubuntu-20.04"
+    strategy:
+      matrix:
+        distro: ["ubuntu1804", "ubuntu2004", "debian9", "debian10"]
+
+    steps:
+      - uses: "actions/checkout@v2"
+
+      - name: "Download test script"
+        run: |
+          wget -O tests/test.sh https://gist.githubusercontent.com/nickjj/d12353b5b601e33cd62fda111359957a/raw
+          chmod +x tests/test.sh
+
+      - name: "Run test suite"
+        run: |
+          ./tests/test.sh
+        env:
+          distro: ${{ matrix.distro }}
