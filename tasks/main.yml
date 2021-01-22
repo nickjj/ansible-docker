@@ -139,10 +139,11 @@
     password: "{{ item.password }}"
     email: "{{ item.email | d(omit) }}"
     reauthorize: "{{ item.reauthorize | d(omit) }}"
-    config_path: "{{ item.config_path | d((ansible_env.PWD | d('/root')) + '/.docker/config.json') }}"
+    config_path: "{{ item.config_path | d(omit) }}"
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__registries }}"
   when: item.username | d() and item.password | d()
+  become_user: "{{ docker__login_become_user | d('root') }}"
   vars:
     ansible_python_interpreter: "{{ '/usr/bin/env python3-docker' }}"
 

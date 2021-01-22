@@ -182,6 +182,12 @@ Login to 1 or more Docker registries (such as the
 [Docker Hub](https://hub.docker.com/)).
 
 ```yml
+# Your login credentials will end up in this user's home directory.
+docker__login_become_user: "{{ docker__users | first | d('root') }}"
+```
+
+```yml
+# 0 or more registries to log into.
 docker__registries:
   - #registry_url: "https://index.docker.io/v1/"
     username: "your_docker_hub_username"
@@ -200,7 +206,7 @@ docker__registries: []
 - *`password` is your Docker registry password
 - `email` defaults to not being used (not all registries use it)
 - `reauthorize` defaults to `false`, when `true` it updates your credentials
-- `config_path` defaults to `(ansible_env.PWD | d('/root')) + '/.docker/config.json'`
+- `config_path` defaults to your `docker__login_become_user`'s `$HOME` directory
 - `state` defaults to "present", when "absent" the login will be removed
 
 ### Configuring the Docker daemon options (json)
