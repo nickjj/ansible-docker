@@ -144,6 +144,7 @@
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__registries }}"
   when: item.username | d() and item.password | d()
+  become: true
   become_user: "{{ docker__login_become_user | d('root') }}"
   vars:
     ansible_python_interpreter: "{{ '/usr/bin/env python3-docker' }}"
