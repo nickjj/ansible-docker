@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.1.0
+
+*Released: January 23rd 2021*
+
+- Fix `~/.docker` files from always being owned by root (check the next line for details)
+- Add `docker__login_become_user` variable which defaults to the first user in `docker__users`
+- Set `virtualenv_python` to use `python3` in the pip task to fix systems having Python 2 and 3 installed
+- Add support for `aarch64` CPU architecture
+
 ## v2.0.0
 
 *Released: May 19th 2020*
