@@ -98,7 +98,7 @@ docker__version: ""
 docker__version: "20.10"
 
 # For example, pin it to a more precise version of 20.10.
-docker__version: "20.10.1"
+docker__version: "20.10.7"
 ```
 
 *Pins are set with `*` at the end of the package version so you will end up
@@ -141,11 +141,11 @@ and pinned
 ```yml
 docker__compose_version: ""
 
-# For example, pin it to 1.28.
-docker__compose_version: "1.28"
+# For example, pin it to 1.29.
+docker__compose_version: "1.29"
 
-# For example, pin it to a more precise version of 1.28.
-docker__compose_version: "1.28.1"
+# For example, pin it to a more precise version of 1.29.
+docker__compose_version: "1.29.2"
 ```
 
 *Upgrade and downgrade strategies will be explained in the other section of this
