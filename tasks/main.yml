@@ -1,5 +1,10 @@
 ---
 
+- name: Remove old preference control file
+  file:
+    path: "/etc/apt/preferences.d/docker-ce.pref"
+    state: "absent"
+
 - name: Disable pinned Docker version
   file:
     dest: "/etc/apt/preferences.d/docker.pref"
