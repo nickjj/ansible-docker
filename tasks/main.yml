@@ -143,6 +143,8 @@
     config_path: "{{ item.config_path | d(omit) }}"
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__registries }}"
+  loop_control:
+    label: '{{ {"registry_url": item.registry_url | d("https://index.docker.io/v1/"), "username": item.username, "state": item.state | d("present")} }}'
   when: item.username | d() and item.password | d()
   become: true
   become_user: "{{ docker__login_become_user | d('root') }}"
