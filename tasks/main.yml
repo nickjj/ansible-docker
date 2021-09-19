@@ -46,7 +46,7 @@
     dest: "/etc/docker/daemon.json"
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0640"
   when: docker__default_daemon_json | d() or docker__daemon_json | d()
 
 - name: Install Docker
@@ -96,7 +96,7 @@
     dest: "/etc/systemd/system/docker.service.d/options.conf"
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0640"
   register: docker__register_daemon_flags
   when: docker__daemon_flags | d()
   notify: ["Restart Docker"]
@@ -107,7 +107,7 @@
     dest: "/etc/systemd/system/docker.service.d/environment.conf"
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0640"
   register: docker__register_daemon_environment
   when: docker__daemon_environment | d()
   notify: ["Restart Docker"]
@@ -118,7 +118,7 @@
     dest: "/etc/systemd/system/docker.service.d/custom.conf"
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0640"
   register: docker__register_custom_override
   when: docker__systemd_override | d()
   notify: ["Restart Docker"]
