@@ -109,8 +109,20 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker__register_daemon_environment
   when: docker__daemon_environment | d()
+  notify:
+    - "Restart Docker"
+
+- name: Get environment file status 
+  stat:
+    path: "/etc/systemd/system/docker.service.d/environment.conf"
+  register: docker__register_daemon_environment
+
+- name: Remove environment file when removing all environement variables
+  file:
+    path: "/etc/systemd/system/docker.service.d/environment.conf"
+    state: "absent"
+  when: docker__register_daemon_environment.stat.exists and not docker__daemon_environment
   notify:
     - "Restart Docker"
 
