@@ -4,7 +4,4 @@
   systemd:
     name: "docker"
     state: "restarted"
-
-- name: Reload systemd daemon
-  systemd:
     daemon_reload: true

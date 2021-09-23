@@ -100,7 +100,6 @@
   register: docker__register_daemon_flags
   when: docker__daemon_flags | d()
   notify:
-    - "Reload systemd daemon"
     - "Restart Docker"
 
 - name: Configure Docker daemon environment variables
@@ -113,7 +112,6 @@
   register: docker__register_daemon_environment
   when: docker__daemon_environment | d()
   notify:
-    - "Reload systemd daemon"
     - "Restart Docker"
 
 - name: Configure custom systemd unit file override
@@ -126,7 +124,6 @@
   register: docker__register_custom_override
   when: docker__systemd_override | d()
   notify:
-    - "Reload systemd daemon"
     - "Restart Docker"
 
 - name: Restart Docker now to make sure `docker login` works
