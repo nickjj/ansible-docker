@@ -117,13 +117,12 @@
   stat:
     path: "/etc/systemd/system/docker.service.d/environment.conf"
   register: docker__register_daemon_environment
-  when: not docker__daemon_environment
 
 - name: Remove environment file when removing all environment variables
   file:
     path: "/etc/systemd/system/docker.service.d/environment.conf"
     state: "absent"
-  when: docker__register_daemon_environment.stat.exists and not docker__daemon_environment
+  when: docker__register_daemon_environment.stat.exists and not docker__daemon_environment | d()
   notify:
     - "Restart Docker"
 
