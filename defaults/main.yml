@@ -69,14 +69,13 @@ docker__pip_dependencies:
   - "gcc"
   - "python3-setuptools"
   - "python3-pip"
+  - "python3-virtualenv"
 
 docker__pip_apt_dependencies:
   - "python3-dev"
-  - "virtualenv"
 
 docker__pip_yum_dependencies:
   - "platform-python-devel"
-  - "python3-virtualenv"
 
 docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 
