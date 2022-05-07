@@ -37,7 +37,7 @@
 
 - name: Install Docker's dependencies
   apt:
-    name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
+    name: "{{ docker__package_dependencies + docker__pip_dependencies + docker__pip_apt_dependencies }}"
 
 - name: Add Docker's public GPG key to the APT keyring
   apt_key:
