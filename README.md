@@ -1,4 +1,6 @@
-## What is ansible-docker? ![CI](https://github.com/nickjj/ansible-docker/workflows/CI/badge.svg?branch=master)
+# Ansible Docker
+
+![CI](https://github.com/coostax/ansible-docker/workflows/CI/badge.svg?branch=master)
 
 It is an [Ansible](http://www.ansible.com/home) role to:
 
@@ -128,8 +130,6 @@ ansible all -m systemd -a "name=docker-ce state=stopped" \
 
 Docker Compose will get PIP installed inside of a Virtualenv. This is covered
 in detail in another section of this README file.
-
-#### Version
 
 - When set to "", the current latest version of Docker Compose will be installed
 - When set to a specific version, that version of Docker Compose will be installed
@@ -347,6 +347,7 @@ docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 
 This role installs PIP because Docker Compose is installed with the
 `docker-compose` PImy
+
 ```yml
 docker__pip_dependencies:
   - "gcc"
