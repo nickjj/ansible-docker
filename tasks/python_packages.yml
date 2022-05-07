@@ -1,0 +1,30 @@
+---
+
+- name: Install Python packages
+  pip:
+    name: >
+      {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
+    virtualenv: "{{ docker__pip_virtualenv }}"
+    virtualenv_python: "python3"
+    state: "{{ item.state | d('present') }}"
+  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
+  when: item.name | d()
+
+- name: Create python3-docker proxy script to access the Virtualenv's interpreter
+  template:
+    src: "usr/local/bin/python3-docker.j2"
+    dest: "/usr/local/bin/python3-docker"
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: Symlink selected Python package binaries to /usr/local/bin
+  file:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    force: true
+    state: "link"
+  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
+  when:
+    - item.state | d("present") != "absent"
+    - item.path | d() and item.src | d()

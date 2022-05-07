@@ -1,87 +1,12 @@
 ---
 
-- name: Disable pinned Docker version
-  file:
-    dest: "/etc/apt/preferences.d/docker.pref"
-    state: "absent"
-  when: not docker__version | d()
+- name: Install (Debian based)
+  import_tasks: debian_install.yml 
+  when: ansible_facts['os_family'] == "Debian"
 
-- name: Enable pinned Docker version
-  template:
-    src: "etc/apt/preferences.d/docker.pref.j2"
-    dest: "/etc/apt/preferences.d/docker.pref"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: docker__version | d()
-
-- name: Install Docker's dependencies
-  apt:
-    name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
-
-- name: Add Docker's public GPG key to the APT keyring
-  apt_key:
-    id: "{{ docker__apt_key_id }}"
-    url: "{{ docker__apt_key_url }}"
-
-- name: Configure Docker's upstream APT repository
-  apt_repository:
-    repo: "{{ docker__apt_repository }}"
-    update_cache: true
-
-- name: Create Docker configuration directories
-  file:
-    path: "{{ item }}"
-    state: "directory"
-    owner: "root"
-    group: "root"
-    mode: "0755"
-  loop:
-    - "/etc/docker"
-    - "/etc/systemd/system/docker.service.d"
-
-- name: Configure Docker daemon options (json)
-  template:
-    src: "etc/docker/daemon.json.j2"
-    dest: "/etc/docker/daemon.json"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: docker__default_daemon_json | d() or docker__daemon_json | d()
-
-- name: Install Docker
-  apt:
-    name: "docker-{{ docker__edition }}"
-    state: "{{ docker__state }}"
-
-- name: Install Python packages
-  pip:
-    name: >
-      {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
-    virtualenv: "{{ docker__pip_virtualenv }}"
-    virtualenv_python: "python3"
-    state: "{{ item.state | d('present') }}"
-  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
-  when: item.name | d()
-
-- name: Create python3-docker proxy script to access the Virtualenv's interpreter
-  template:
-    src: "usr/local/bin/python3-docker.j2"
-    dest: "/usr/local/bin/python3-docker"
-    owner: "root"
-    group: "root"
-    mode: "0755"
-
-- name: Symlink selected Python package binaries to /usr/local/bin
-  file:
-    path: "{{ item.path }}"
-    src: "{{ item.src }}"
-    force: true
-    state: "link"
-  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
-  when:
-    - item.state | d("present") != "absent"
-    - item.path | d() and item.src | d()
+- name: Install (RedHat based)
+  import_tasks: rhel_install.yml
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Add user(s) to "docker" group
   user:
@@ -90,48 +15,8 @@
     append: true
   loop: "{{ docker__users }}"
 
-- name: Configure Docker daemon options (flags)
-  template:
-    src: "etc/systemd/system/docker.service.d/options.conf.j2"
-    dest: "/etc/systemd/system/docker.service.d/options.conf"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  register: docker__register_daemon_flags
-  when: docker__daemon_flags | d()
-  notify: ["Restart Docker"]
-
-- name: Configure Docker daemon environment variables
-  template:
-    src: "etc/systemd/system/docker.service.d/environment.conf.j2"
-    dest: "/etc/systemd/system/docker.service.d/environment.conf"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  register: docker__register_daemon_environment
-  when: docker__daemon_environment | d()
-  notify: ["Restart Docker"]
-
-- name: Configure custom systemd unit file override
-  template:
-    src: "etc/systemd/system/docker.service.d/custom.conf.j2"
-    dest: "/etc/systemd/system/docker.service.d/custom.conf"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  register: docker__register_custom_override
-  when: docker__systemd_override | d()
-  notify: ["Restart Docker"]
-
-- name: Reload systemd daemon
-  systemd:
-    daemon_reload: true
-  when: docker__register_daemon_flags is changed
-        or docker__register_daemon_environment is changed
-        or docker__register_custom_override is changed
-
-- name: Restart Docker now to make sure `docker login` works
-  meta: "flush_handlers"
+- name: Install python packages
+  import_tasks: python_packages.yml
 
 - name: Manage Docker registry login credentials
   docker_login:
@@ -149,7 +34,7 @@
   become: true
   become_user: "{{ docker__login_become_user | d('root') }}"
   vars:
-    ansible_python_interpreter: "{{ '/usr/bin/env python3-docker' }}"
+    ansible_python_interpreter: "{{ docker__python_interpreter }}"
 
 - name: Remove Docker related cron jobs
   file:
