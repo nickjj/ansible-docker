@@ -25,13 +25,8 @@ with it then check out
 - Ubuntu 20.04 LTS (Focal Fossa)
 - Debian 9 (Stretch)
 - Debian 10 (Buster)
-
----
-
-*You are viewing the master branch's documentation which might be ahead of the
-latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v2.1.0).*
-
----
+- Fedora/RHEL/CentOS (not tested)
+- Oracle Linux
 
 ## Quick start
 
@@ -45,6 +40,8 @@ will happen once a week and Docker container logs will be sent to `journald`.
 
 ### Example playbook
 
+For this to work you need to checkout this project into the roles/ folder inside your project
+
 ```yml
 ---
 
@@ -55,7 +52,7 @@ will happen once a week and Docker container logs will be sent to `journald`.
   become: true
 
   roles:
-    - role: "nickjj.docker"
+    - role: "ansible-docker"
       tags: ["docker"]
 ```
 
@@ -63,7 +60,7 @@ Usage: `ansible-playbook docker.yml`
 
 ### Installation
 
-`$ ansible-galaxy install nickjj.docker`
+Checkout this project into the roles/ folder inside your project
 
 ## Default role variables
 
@@ -156,7 +153,7 @@ README.*
 A list of users to be added to the `docker` group.
 
 Keep in mind this user needs to already exist, this role will not create it. If
-you want to create users, check out my
+you want to create users, check out
 [user role](https://github.com/nickjj/ansible-user).
 
 This role does not configure User Namespaces or any other security features
@@ -349,9 +346,7 @@ docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 #### Installing PIP and its dependencies
 
 This role installs PIP because Docker Compose is installed with the
-`docker-compose` PIP package and Ansible's `docker_*` modules use the `docker`
-PIP package.
-
+`docker-compose` PImy
 ```yml
 docker__pip_dependencies:
   - "gcc"
