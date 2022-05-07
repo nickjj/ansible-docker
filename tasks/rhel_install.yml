@@ -9,17 +9,20 @@
   get_url:
     url: https://download.docker.com/linux/rhel/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
-  become: yes
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: true
 
 - name: RHEL - Install Docker
   package:
     name: "{{ docker__yum_install_packages }}"
     state: latest
-  become: yes
- 
+  become: true
+
 - name: RHEL - Start Docker service
   service:
     name: docker
     state: started
     enabled: yes
-  become: yes
+  become: true

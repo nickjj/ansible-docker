@@ -1,7 +1,7 @@
 ---
 
 - name: Install (Debian based)
-  import_tasks: debian_install.yml 
+  import_tasks: debian_install.yml
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Install (RedHat based)
