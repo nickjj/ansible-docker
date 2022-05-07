@@ -14,11 +14,19 @@ on:
       - "master"
 
 jobs:
+  lint-ansible:
+    name: AnsibleLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v2
+      - name: Run ansible-lint
+        uses: ansible-community/ansible-lint-action@v6.0.2
   test:
     runs-on: "ubuntu-20.04"
     strategy:
       matrix:
-        distro: ["ubuntu1804", "ubuntu2004", "debian9", "debian10", "fedora24", "fedora27", "centos6", "centos7"]
+        distro: ["ubuntu1804", "ubuntu2004", "debian9", "debian10", "fedora27", "centos6", "centos7"]
 
     steps:
       - uses: "actions/checkout@v2"
