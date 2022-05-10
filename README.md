@@ -26,6 +26,7 @@ with it then check out
 - Ubuntu 18.04 LTS (Bionic)
 - Ubuntu 20.04 LTS (Focal Fossa)
 - Debian 9 (Stretch)
+- Debian 10 (Buster)
 - Fedora/RHEL/CentOS (not tested)
 - Oracle Linux
 
