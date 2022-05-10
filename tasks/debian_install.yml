@@ -1,12 +1,12 @@
 ---
 
 - name: Create Docker configuration directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
-    state: "directory"
-    owner: "root"
-    group: "root"
-    mode: "0755"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
   loop:
     - "/etc/docker"
     - "/etc/systemd/system/docker.service.d"
@@ -21,7 +21,7 @@
   when: docker__default_daemon_json | d() or docker__daemon_json | d()
 
 - name: Disable pinned Docker version
-  file:
+  ansible.builtin.file:
     dest: "/etc/apt/preferences.d/docker.pref"
     state: "absent"
   when: not docker__version | d()
@@ -34,25 +34,6 @@
     group: "root"
     mode: "0644"
   when: docker__version | d()
-
-- name: Install Docker's dependencies
-  apt:
-    name: "{{ docker__package_dependencies + docker__pip_dependencies + docker__pip_apt_dependencies }}"
-
-- name: Add Docker's public GPG key to the APT keyring
-  apt_key:
-    id: "{{ docker__apt_key_id }}"
-    url: "{{ docker__apt_key_url }}"
-
-- name: Configure Docker's upstream APT repository
-  apt_repository:
-    repo: "{{ docker__apt_repository }}"
-    update_cache: true
-
-- name: Install Docker
-  apt:
-    name: "docker-{{ docker__edition }}"
-    state: "{{ docker__state }}"
 
 - name: Configure Docker daemon options (flags)
   template:
@@ -86,6 +67,25 @@
   register: docker__register_custom_override
   when: docker__systemd_override | d()
   notify: ["Restart Docker"]
+
+- name: Install Docker's dependencies
+  apt:
+    name: "{{ docker__package_dependencies + docker__pip_dependencies + docker__pip_apt_dependencies }}"
+
+- name: Add Docker's public GPG key to the APT keyring
+  apt_key:
+    id: "{{ docker__apt_key_id }}"
+    url: "{{ docker__apt_key_url }}"
+
+- name: Configure Docker's upstream APT repository
+  apt_repository:
+    repo: "{{ docker__apt_repository }}"
+    update_cache: true
+
+- name: Install Docker
+  apt:
+    name: "docker-{{ docker__edition }}"
+    state: "{{ docker__state }}"
 
 - name: Reload systemd daemon
   systemd:

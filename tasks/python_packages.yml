@@ -19,7 +19,7 @@
     mode: "0755"
 
 - name: Symlink selected Python package binaries to /usr/local/bin
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     src: "{{ item.src }}"
     force: true
