@@ -1,0 +1,98 @@
+---
+
+- name: Create Docker configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - "/etc/docker"
+    - "/etc/systemd/system/docker.service.d"
+
+- name: Configure Docker daemon options (json)
+  template:
+    src: "etc/docker/daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: docker__default_daemon_json | d() or docker__daemon_json | d()
+
+- name: Disable pinned Docker version
+  ansible.builtin.file:
+    dest: "/etc/apt/preferences.d/docker.pref"
+    state: "absent"
+  when: not docker__version | d()
+
+- name: Enable pinned Docker version
+  template:
+    src: "etc/apt/preferences.d/docker.pref.j2"
+    dest: "/etc/apt/preferences.d/docker.pref"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: docker__version | d()
+
+- name: Configure Docker daemon options (flags)
+  template:
+    src: "etc/systemd/system/docker.service.d/options.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/options.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: docker__register_daemon_flags
+  when: docker__daemon_flags | d()
+  notify: ["Restart Docker"]
+
+- name: Configure Docker daemon environment variables
+  template:
+    src: "etc/systemd/system/docker.service.d/environment.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/environment.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: docker__register_daemon_environment
+  when: docker__daemon_environment | d()
+  notify: ["Restart Docker"]
+
+- name: Configure custom systemd unit file override
+  template:
+    src: "etc/systemd/system/docker.service.d/custom.conf.j2"
+    dest: "/etc/systemd/system/docker.service.d/custom.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: docker__register_custom_override
+  when: docker__systemd_override | d()
+  notify: ["Restart Docker"]
+
+- name: Install Docker's dependencies
+  apt:
+    name: "{{ docker__package_dependencies + docker__pip_dependencies + docker__pip_apt_dependencies }}"
+
+- name: Add Docker's public GPG key to the APT keyring
+  apt_key:
+    id: "{{ docker__apt_key_id }}"
+    url: "{{ docker__apt_key_url }}"
+
+- name: Configure Docker's upstream APT repository
+  apt_repository:
+    repo: "{{ docker__apt_repository }}"
+    update_cache: true
+
+- name: Install Docker
+  apt:
+    name: "docker-{{ docker__edition }}"
+    state: "{{ docker__state }}"
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true
+  when: docker__register_daemon_flags is changed
+        or docker__register_daemon_environment is changed
+        or docker__register_custom_override is changed
+
+- name: Restart Docker now to make sure `docker login` works
+  meta: "flush_handlers"

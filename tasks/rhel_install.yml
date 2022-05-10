@@ -1,0 +1,28 @@
+---
+
+- name: RHEL - Install Docker's dependencies
+  yum:
+    name: "{{ docker__yum_dependencies + docker__pip_dependencies + docker__pip_yum_dependencies }}"
+    state: latest
+
+- name: RHEL - Add Docker repo
+  get_url:
+    url: https://download.docker.com/linux/rhel/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: true
+
+- name: RHEL - Install Docker
+  package:
+    name: "{{ docker__yum_install_packages }}"
+    state: latest
+  become: true
+
+- name: RHEL - Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
