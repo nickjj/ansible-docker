@@ -1,6 +1,11 @@
 # Ansible Docker
 
-![CI](https://github.com/coostax/ansible-docker/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/coostax/ansible-docker/workflows/CI/badge.svg?branch=main)
+![Supports Ubuntu 18.04 LTS][ubuntu18_04-shield]
+![Supports Ubuntu 20.04 LTS][ubuntu20_04-shield]
+![Supports Debian 10][debian10-shield]
+![Supports Debian 11][debian11-shield]
+![Supports Oracle Linux][oracle_linux-shield]
 
 It is an [Ansible](http://www.ansible.com/home) role to:
 
@@ -20,15 +25,6 @@ need to get going with a production ready Docker host.
 By the way, if you don't know what Docker is, or are looking to become an expert
 with it then check out
 [Dive into Docker: The Complete Docker Course for Developers](https://diveintodocker.com/?utm_source=ansibledocker&utm_medium=github&utm_campaign=readmetop).
-
-## Supported platforms
-
-- Ubuntu 18.04 LTS (Bionic)
-- Ubuntu 20.04 LTS (Focal Fossa)
-- Debian 9 (Stretch)
-- Debian 10 (Buster)
-- Fedora/RHEL/CentOS (not tested)
-- Oracle Linux
 
 ## Quick start
 
@@ -411,3 +407,9 @@ at the task level.
 ## License
 
 MIT
+
+[ubuntu18_04-shield]: https://img.shields.io/badge/ubuntu_18.04-yes-green.svg
+[ubuntu20_04-shield]: https://img.shields.io/badge/ubuntu_20.04-yes-green.svg
+[debian10-shield]: https://img.shields.io/badge/Debian_10-yes-green.svg
+[debian11-shield]: https://img.shields.io/badge/Debian_10-yes-green.svg
+[oracle_linux-shield]:https://img.shields.io/badge/Oracle_Linux-yes-green.svg
