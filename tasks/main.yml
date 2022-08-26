@@ -16,6 +16,8 @@
   when: docker__version | d()
 
 - name: Install Docker's dependencies
+  retries: 20
+  delay: 15
   ansible.builtin.apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
@@ -50,6 +52,8 @@
   when: docker__default_daemon_json | d() or docker__daemon_json | d()
 
 - name: Install Docker
+  retries: 20
+  delay: 15
   ansible.builtin.apt:
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
