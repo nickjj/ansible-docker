@@ -10,12 +10,12 @@ galaxy_info:
   platforms:
     - name: "Ubuntu"
       versions:
-        - "bionic"
         - "focal"
+        - "jammy"
     - name: "Debian"
       versions:
-        - "stretch"
         - "buster"
+        - "bullseye"
 
   galaxy_tags:
     - "containers"

@@ -21,10 +21,10 @@ with it then check out
 
 ## Supported platforms
 
-- Ubuntu 18.04 LTS (Bionic)
 - Ubuntu 20.04 LTS (Focal Fossa)
-- Debian 9 (Stretch)
+- Ubuntu 22.04 LTS (Jammy Jellyfish)
 - Debian 10 (Buster)
+- Debian 11 (Bullseye)
 
 ---
 
