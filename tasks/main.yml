@@ -1,13 +1,13 @@
 ---
 
 - name: Disable pinned Docker version
-  file:
+  ansible.builtin.file:
     dest: "/etc/apt/preferences.d/docker.pref"
     state: "absent"
   when: not docker__version | d()
 
 - name: Enable pinned Docker version
-  template:
+  ansible.builtin.template:
     src: "etc/apt/preferences.d/docker.pref.j2"
     dest: "/etc/apt/preferences.d/docker.pref"
     owner: "root"
@@ -16,21 +16,21 @@
   when: docker__version | d()
 
 - name: Install Docker's dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
 - name: Add Docker's public GPG key to the APT keyring
-  apt_key:
+  ansible.builtin.apt_key:
     id: "{{ docker__apt_key_id }}"
     url: "{{ docker__apt_key_url }}"
 
 - name: Configure Docker's upstream APT repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ docker__apt_repository }}"
     update_cache: true
 
 - name: Create Docker configuration directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: "directory"
     owner: "root"
@@ -41,7 +41,7 @@
     - "/etc/systemd/system/docker.service.d"
 
 - name: Configure Docker daemon options (json)
-  template:
+  ansible.builtin.template:
     src: "etc/docker/daemon.json.j2"
     dest: "/etc/docker/daemon.json"
     owner: "root"
@@ -50,12 +50,12 @@
   when: docker__default_daemon_json | d() or docker__daemon_json | d()
 
 - name: Install Docker
-  apt:
+  ansible.builtin.apt:
     name: "docker-{{ docker__edition }}"
     state: "{{ docker__state }}"
 
 - name: Install Python packages
-  pip:
+  ansible.builtin.pip:
     name: >
       {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
     virtualenv: "{{ docker__pip_virtualenv }}"
@@ -65,7 +65,7 @@
   when: item.name | d()
 
 - name: Create python3-docker proxy script to access the Virtualenv's interpreter
-  template:
+  ansible.builtin.template:
     src: "usr/local/bin/python3-docker.j2"
     dest: "/usr/local/bin/python3-docker"
     owner: "root"
@@ -73,7 +73,7 @@
     mode: "0755"
 
 - name: Symlink selected Python package binaries to /usr/local/bin
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     src: "{{ item.src }}"
     force: true
@@ -84,14 +84,14 @@
     - item.path | d() and item.src | d()
 
 - name: Add user(s) to "docker" group
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     groups: "docker"
     append: true
   loop: "{{ docker__users }}"
 
 - name: Configure Docker daemon options (flags)
-  template:
+  ansible.builtin.template:
     src: "etc/systemd/system/docker.service.d/options.conf.j2"
     dest: "/etc/systemd/system/docker.service.d/options.conf"
     owner: "root"
@@ -102,7 +102,7 @@
   notify: ["Restart Docker"]
 
 - name: Configure Docker daemon environment variables
-  template:
+  ansible.builtin.template:
     src: "etc/systemd/system/docker.service.d/environment.conf.j2"
     dest: "/etc/systemd/system/docker.service.d/environment.conf"
     owner: "root"
@@ -113,7 +113,7 @@
   notify: ["Restart Docker"]
 
 - name: Configure custom systemd unit file override
-  template:
+  ansible.builtin.template:
     src: "etc/systemd/system/docker.service.d/custom.conf.j2"
     dest: "/etc/systemd/system/docker.service.d/custom.conf"
     owner: "root"
@@ -124,17 +124,17 @@
   notify: ["Restart Docker"]
 
 - name: Reload systemd daemon
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
   when: docker__register_daemon_flags is changed
         or docker__register_daemon_environment is changed
         or docker__register_custom_override is changed
 
 - name: Restart Docker now to make sure `docker login` works
-  meta: "flush_handlers"
+  ansible.builtin.meta: "flush_handlers"
 
 - name: Manage Docker registry login credentials
-  docker_login:
+  ansible.builtin.docker_login:
     registry_url: "{{ item.registry_url | d(omit) }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
@@ -152,7 +152,7 @@
     ansible_python_interpreter: "{{ '/usr/bin/env python3-docker' }}"
 
 - name: Remove Docker related cron jobs
-  file:
+  ansible.builtin.file:
     path: "/etc/cron.d/{{ item.cron_file }}"
     state: "absent"
   loop: "{{ docker__cron_jobs }}"
@@ -161,7 +161,7 @@
     - item.cron_file | d()
 
 - name: Create Docker related cron jobs
-  cron:
+  ansible.builtin.cron:
     name: "{{ item.name }}"
     job: "{{ item.job }}"
     minute: "{{ item.schedule[0] }}"

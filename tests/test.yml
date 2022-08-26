@@ -31,11 +31,11 @@
 
   pre_tasks:
     - name: Add test user
-      user:
+      ansible.builtin.user:
         name: "test"
         shell: "/bin/bash"
 
     - name: Run the equivalent of "apt-get update"
-      apt:
+      ansible.builtin.apt:
         update_cache: true
       changed_when: false
