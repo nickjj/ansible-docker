@@ -14,7 +14,10 @@ docker__login_become_user: "{{ docker__users | first | d('root') }}"
 docker__registries: []
 
 docker__default_daemon_json: |
-  "log-driver": "journald"
+  "log-driver": "journald",
+  "features": {
+    "buildkit": true
+  }
 
 docker__daemon_json: ""
 

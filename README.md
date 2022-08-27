@@ -215,7 +215,10 @@ Default Docker daemon options as they would appear in `/etc/docker/daemon.json`.
 
 ```yml
 docker__default_daemon_json: |
-  "log-driver": "journald"
+  "log-driver": "journald",
+  "features": {
+    "buildkit": true
+  }
 
 # Add your own additional daemon options without overriding the default options.
 # It follows the same format as the default options, and don't worry about
