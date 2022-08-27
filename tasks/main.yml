@@ -137,8 +137,10 @@
 - name: Restart Docker now to make sure `docker login` works
   ansible.builtin.meta: "flush_handlers"
 
+# It's safe to ignore no-log-password because we're removing the password from
+# the output with the loop_control property.
 - name: Manage Docker registry login credentials
-  ansible.builtin.docker_login:
+  ansible.builtin.docker_login:  # noqa no-log-password
     registry_url: "{{ item.registry_url | d(omit) }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
