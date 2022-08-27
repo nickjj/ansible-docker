@@ -49,7 +49,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__default_daemon_json | d() or docker__daemon_json | d()
   notify: ["Restart Docker"]
 
 - name: Install Docker
@@ -102,7 +101,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__daemon_flags | d()
   notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Configure Docker daemon environment variables
@@ -112,7 +110,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__daemon_environment | d()
   notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Configure custom systemd unit file override
@@ -122,7 +119,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  when: docker__systemd_override | d()
   notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Restart Docker now to make sure `docker login` works
