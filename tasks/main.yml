@@ -6,6 +6,12 @@
     state: "absent"
   when: not docker__version | d()
 
+- name: Disable pinned Docker Compose v2 version
+  ansible.builtin.file:
+    dest: "/etc/apt/preferences.d/docker-compose-plugin.pref"
+    state: "absent"
+  when: not docker__compose_v2_version | d()
+
 - name: Enable pinned Docker version
   ansible.builtin.template:
     src: "etc/apt/preferences.d/docker.pref.j2"
@@ -14,6 +20,15 @@
     group: "root"
     mode: "0644"
   when: docker__version | d()
+
+- name: Enable pinned Docker Compose v2 version
+  ansible.builtin.template:
+    src: "etc/apt/preferences.d/docker-compose-plugin.pref.j2"
+    dest: "/etc/apt/preferences.d/docker-compose-plugin.pref"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: docker__compose_v2_version | d()
 
 - name: Install Docker's dependencies
   retries: 20
@@ -51,11 +66,13 @@
     mode: "0644"
   notify: ["Restart Docker"]
 
-- name: Install Docker
+- name: Install Docker and Docker Compose v2
   retries: 20
   delay: 15
   ansible.builtin.apt:
-    name: "docker-{{ docker__edition }}"
+    name:
+      - "docker-{{ docker__edition }}"
+      - "docker-compose-plugin"
     state: "{{ docker__state }}"
 
 - name: Install Python packages

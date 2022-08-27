@@ -6,6 +6,7 @@ docker__version: ""
 docker__state: "present"
 
 docker__compose_version: ""
+docker__compose_v2_version: ""
 
 docker__users: ["{{ ansible_env.SUDO_USER | d('root') }}"]
 

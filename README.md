@@ -3,7 +3,7 @@
 It is an [Ansible](http://www.ansible.com/home) role to:
 
 - Install Docker (editions, channels and version pinning are all supported)
-- Install Docker Compose using PIP (version pinning is supported)
+- Install Docker Compose v1 and Docker Compose v2 (version pinning is supported)
 - Install the `docker` PIP package so Ansible's `docker_*` modules work
 - Manage Docker registry login credentials
 - Configure 1 or more users to run Docker without needing root access
@@ -40,8 +40,9 @@ a way to customize nearly everything.
 
 ### What's configured by default?
 
-The latest Docker CE and Docker Compose will be installed, Docker disk clean up
-will happen once a week and Docker container logs will be sent to `journald`.
+The latest Docker CE, Docker Compose v1 and Docker Compose v2 will be
+installed, Docker disk clean up will happen once a week and Docker container
+logs will be sent to `journald`.
 
 ### Example playbook
 
@@ -127,15 +128,57 @@ ansible all -m systemd -a "name=docker-ce state=stopped" \
   -m apt -a "name=docker-ce autoremove=true purge=true state=absent" -b
 ```
 
-### Installing Docker Compose
+### Installing Docker Compose v2
 
-Docker Compose will get PIP installed inside of a Virtualenv. This is covered
-in detail in another section of this README file.
+Docker Compose v2 will get apt installed using the official
+`docker-compose-plugin` that Docker manages.
 
 #### Version
 
-- When set to "", the current latest version of Docker Compose will be installed
-- When set to a specific version, that version of Docker Compose will be installed
+- When set to "", the current latest version of Docker Compose v2 will be installed
+- When set to a specific version, that version of Docker Compose v2 will be installed
+and pinned
+
+```yml
+docker__compose_v2_version: ""
+
+# For example, pin it to 2.6.
+docker__compose_v2_version: "2.6"
+
+# For example, pin it to a more precise version of 2.6.
+docker__compose_v2_version: "2.6.0"
+```
+
+##### Upgrade strategy
+
+It'll re-use the `docker__state` variable explained above in the Docker section
+with the same rules.
+
+##### Downgrade strategy
+
+Like Docker itself, the easiest way to uninstall Docker Compose v2 is to manually
+run the command below and then pin a specific Docker Compose v2 version.
+
+```sh
+# An ad-hoc Ansible command to remove the Docker Compose Plugin package on all hosts.
+ansible all -m apt -a "name=docker-compose-plugin autoremove=true purge=true state=absent" -b
+```
+
+### Installing Docker Compose v1
+
+Docker Compose v1 will get PIP installed inside of a Virtualenv. If you plan to
+use Docker Compose v2 instead it will be very easy to skip installing v1
+although technically both can be installed together since v1 is accessed with
+`docker-compose` and v2 is accessed with `docker compose` (notice the lack of
+hyphen).
+
+In any case details about this is covered in detail in a later section of this
+README file.
+
+#### Version
+
+- When set to "", the current latest version of Docker Compose v1 will be installed
+- When set to a specific version, that version of Docker Compose v1 will be installed
 and pinned
 
 ```yml
@@ -351,7 +394,7 @@ docker__pip_virtualenv: "/usr/local/lib/docker/virtualenv"
 
 #### Installing PIP and its dependencies
 
-This role installs PIP because Docker Compose is installed with the
+This role installs PIP because Docker Compose v1 is installed with the
 `docker-compose` PIP package and Ansible's `docker_*` modules use the `docker`
 PIP package.
 
@@ -400,6 +443,15 @@ updated on future runs
 docker__pip_docker_state: "present"
 docker__pip_docker_compose_state: "present"
 ```
+
+##### Skipping the installation of Docker Compose v1
+
+You can set `docker__pip_docker_compose_state: "absent"` in your inventory.
+That's it!
+
+Honestly, in the future I think this will be the default behavior. Since Docker
+Compsose v2 is still fairly new I wanted to ease into using v2. There's also no
+harm in having both installed together. You can pick which one to use.
 
 #### Working with Ansible's `docker_*` modules
 
