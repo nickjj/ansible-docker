@@ -1,5 +1,20 @@
 # Changelog
 
+## v2.2.0
+
+*Released: August 26th 2022*
+
+- Add support for installing Docker Compose v2 (with pinning support)
+- Fix a bug where changing the daemon JSON options didn't restart Docker
+- Fix a bug where you couldn't write out empty config files
+- Allow pinning Docker version without needing to prefix the version with `5:`
+- Enable BuildKit by default
+- Add retries to all `apt` module calls to make them more resilient to failure
+- Officially support Ubuntu 22.04 LTS and Debian 11
+- Officially drop support for Ubuntu 18.04 LTS and Debian 9 (although they still work)
+- Bump minimum Ansible version to 2.10.0 to start using collection namespaces
+- Refactor a few internals and use a handler for reloading the systemd daemon
+
 ## v2.1.0
 
 *Released: January 23rd 2021*
