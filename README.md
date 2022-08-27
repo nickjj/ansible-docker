@@ -99,7 +99,7 @@ docker__version: ""
 docker__version: "20.10"
 
 # For example, pin it to a more precise version of 20.10.
-docker__version: "20.10.7"
+docker__version: "20.10.17"
 ```
 
 *Pins are set with `*` at the end of the package version so you will end up
