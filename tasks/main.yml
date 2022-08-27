@@ -101,9 +101,8 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker__register_daemon_flags
   when: docker__daemon_flags | d()
-  notify: ["Restart Docker"]
+  notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Configure Docker daemon environment variables
   ansible.builtin.template:
@@ -112,9 +111,8 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker__register_daemon_environment
   when: docker__daemon_environment | d()
-  notify: ["Restart Docker"]
+  notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Configure custom systemd unit file override
   ansible.builtin.template:
@@ -123,16 +121,8 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: docker__register_custom_override
   when: docker__systemd_override | d()
-  notify: ["Restart Docker"]
-
-- name: Reload systemd daemon
-  ansible.builtin.systemd:
-    daemon_reload: true
-  when: docker__register_daemon_flags is changed
-        or docker__register_daemon_environment is changed
-        or docker__register_custom_override is changed
+  notify: ["Reload systemd daemon", "Restart Docker"]
 
 - name: Restart Docker now to make sure `docker login` works
   ansible.builtin.meta: "flush_handlers"
