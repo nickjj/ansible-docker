@@ -142,11 +142,11 @@ and pinned
 ```yml
 docker__compose_v2_version: ""
 
-# For example, pin it to 2.6.
-docker__compose_v2_version: "2.6"
+# For example, pin it to 2.10.
+docker__compose_v2_version: "2.10"
 
-# For example, pin it to a more precise version of 2.6.
-docker__compose_v2_version: "2.6.0"
+# For example, pin it to a more precise version of 2.10.
+docker__compose_v2_version: "2.10.2"
 ```
 
 ##### Upgrade strategy
