@@ -28,6 +28,8 @@
       [Service]
       ThisIsJust=ATest
 
+    docker__systemd_restart: false
+
   roles:
     - role: "role_under_test"
 
