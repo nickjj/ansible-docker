@@ -66,6 +66,31 @@
     mode: "0644"
   notify: ["Restart Docker"]
 
+# If the file doesn't exist don't run the detection step
+- name: Check if OS version file exists
+  stat:
+    path: "{{ docker__pip_virtualenv }}/os-version.txt"
+  register: os_file_exists
+
+# This file gets created at the very end after the virtualenv is created
+# All subsequent runs the file should exist, and we can do the detection. If
+# the OS upgrades, the contents of the file won't match and we will will trigger
+# the upgrade case.
+- name: Detect OS changed
+  ansible.builtin.lineinfile:
+    path: "{{ docker__pip_virtualenv }}/os-version.txt"
+    state: "present"
+    line: "{{ ansible_distribution_version}}"
+    mode: "0644"
+  when:  os_file_exists.stat.exists == True
+  register: os_changed
+
+- name: Handle upgrade case
+  ansible.builtin.file:
+    path: "{{ docker__pip_virtualenv }}"
+    state: "absent"
+  when: os_changed.changed
+
 - name: Install Docker and Docker Compose v2
   retries: 20
   delay: 15
@@ -85,12 +110,6 @@
         state: "{{ item.state | d('present') }}"
       loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
       when: item.name | d()
-  rescue:
-    - name: Handle upgrade case
-      ansible.builtin.file:
-        path: /usr/local/lib/docker/virtualenv
-        state: absent
-    - include_tasks: main.yml
 
 - name: Create python3-docker proxy script to access the Virtualenv's interpreter
   ansible.builtin.template:
@@ -193,3 +212,11 @@
     - item.state | d("present") != "absent"
     - item.name | d() and item.job | d()
     - item.schedule | d() and item.cron_file | d()
+
+- name: Create file to detect OS changes
+  ansible.builtin.lineinfile:
+    path: "{{ docker__pip_virtualenv }}/os-version.txt"
+    state: "present"
+    create: true
+    line: "{{ ansible_distribution_version}}"
+    mode: "0644"

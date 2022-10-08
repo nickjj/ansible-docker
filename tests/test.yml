@@ -29,6 +29,7 @@
       ThisIsJust=ATest
 
     docker__systemd_restart: false
+    docker__restart: false
 
   roles:
     - role: "role_under_test"
