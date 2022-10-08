@@ -4,13 +4,9 @@ FROM ubuntu:20.04 as old
 WORKDIR /etc/ansible/roles/role_under_test
 
 RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  software-properties-common
+  python3 python3-pip
 
-# get newer ansible than in default ubuntu
-RUN apt-add-repository -y ppa:ansible/ansible
-
-RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  ansible
+RUN python3 -m pip install ansible
 
 # Install Ansible inventory file.
 RUN mkdir -p /etc/ansible
@@ -30,13 +26,9 @@ COPY --from=old /usr/local/lib/docker/virtualenv /usr/local/lib/docker/virtualen
 WORKDIR /etc/ansible/roles/role_under_test
 
 RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  software-properties-common gpg-agent
+  python3 python3-pip
 
-# get newer ansible than in default ubuntu
-RUN apt-add-repository -y ppa:ansible/ansible
-
-RUN apt-get -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  ansible
+RUN python3 -m pip install ansible
 
 # Install Ansible inventory file.
 RUN mkdir -p /etc/ansible
