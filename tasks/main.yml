@@ -100,16 +100,15 @@
       - "docker-compose-plugin"
     state: "{{ docker__state }}"
 
-- block:
-    - name: Install Python packages
-      ansible.builtin.pip:
-        name: >
-          {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
-        virtualenv: "{{ docker__pip_virtualenv }}"
-        virtualenv_python: "python3"
-        state: "{{ item.state | d('present') }}"
-      loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
-      when: item.name | d()
+- name: Install Python packages
+  ansible.builtin.pip:
+    name: >
+      {{ item.name }}{% if item.version | d() %}=={{ item.version }}{% endif %}
+    virtualenv: "{{ docker__pip_virtualenv }}"
+    virtualenv_python: "python3"
+    state: "{{ item.state | d('present') }}"
+  loop: "{{ docker__default_pip_packages + docker__pip_packages }}"
+  when: item.name | d()
 
 - name: Create python3-docker proxy script to access the Virtualenv's interpreter
   ansible.builtin.template:
