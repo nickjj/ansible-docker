@@ -72,6 +72,8 @@
   ansible.builtin.apt:
     name:
       - "docker-{{ docker__edition }}"
+      - "docker-{{ docker__edition }}-cli"
+      - "docker-{{ docker__edition }}-rootless-extras"
       - "docker-compose-plugin"
     state: "{{ docker__state }}"
 
