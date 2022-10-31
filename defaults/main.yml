@@ -54,10 +54,7 @@ docker__architecture_map:
 
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
 docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-docker__apt_repository: >
-  deb [arch={{ docker__architecture_map[ansible_architecture] }}]
-  https://download.docker.com/linux/{{ ansible_distribution | lower }}
-  {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
+docker__apt_repository: "deb [arch={{ docker__architecture_map[ansible_architecture] }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}"
 
 docker__pip_dependencies:
   - "gcc"

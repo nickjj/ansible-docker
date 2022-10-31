@@ -36,14 +36,23 @@
   ansible.builtin.apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
+- name: Create /etc/apt/keyrings/ directory if not exist
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/
+    state: directory
+    mode: '0755'
+
 - name: Add Docker's public GPG key to the APT keyring
-  ansible.builtin.apt_key:
-    id: "{{ docker__apt_key_id }}"
+  ansible.builtin.get_url:
     url: "{{ docker__apt_key_url }}"
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+    force: true
 
 - name: Configure Docker's upstream APT repository
   ansible.builtin.apt_repository:
     repo: "{{ docker__apt_repository }}"
+    filename: docker
     update_cache: true
 
 - name: Create Docker configuration directories
