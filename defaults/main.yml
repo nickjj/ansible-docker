@@ -32,7 +32,7 @@ docker__cron_jobs_prune_flags: "af"
 docker__cron_jobs_prune_schedule: ["0", "0", "*", "*", "0"]
 docker__cron_jobs:
   - name: "Docker disk clean up"
-    job: "docker system prune -{{ docker__cron_jobs_prune_flags }} > /dev/null 2>&1"
+    job: "docker system prune -{{ docker__cron_jobs_prune_flags }} > /dev/null 2>&1"  # yamllint disable-line rule:line-length
     schedule: "{{ docker__cron_jobs_prune_schedule }}"
     cron_file: "docker-disk-clean-up"
     user: "{{ (docker__users | first) | d('root') }}"
@@ -52,11 +52,11 @@ docker__architecture_map:
   "armv7l": "armhf"
 
 docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
-docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"  # yamllint disable-line rule:line-length
 docker__apt_repository: >
   deb [arch={{ docker__architecture_map[ansible_architecture] }}]
   https://download.docker.com/linux/{{ ansible_distribution | lower }}
-  {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
+  {{ ansible_distribution_release }} {{ docker__channel | join(' ') }}
 
 docker__pip_dependencies:
   - "gcc"

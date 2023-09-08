@@ -1,6 +1,7 @@
 ---
 
 galaxy_info:
+  namespace: "nickjj"
   role_name: "docker"
   author: "Nick Janetakis"
   description: "Install and configure Docker / Docker Compose."
