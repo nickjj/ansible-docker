@@ -72,8 +72,8 @@ Usage: `ansible-playbook docker.yml`
 
 #### Channel
 
-Do you want to use the "stable", "edge", "testing" or "nightly" channels? You
-can add more than one (order matters).
+Do you want to use the "stable" or "test" channel? You can add more than one
+(order matters).
 
 ```yml
 docker__channel: ["stable"]
