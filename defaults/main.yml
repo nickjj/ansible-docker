@@ -79,4 +79,4 @@ docker__default_pip_packages:
 docker__pip_packages: []
 
 docker__pip_docker_state: "present"
-docker__pip_docker_compose_state: "present"
+docker__pip_docker_compose_state: "absent"

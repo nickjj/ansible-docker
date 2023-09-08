@@ -3,7 +3,7 @@
 It is an [Ansible](http://www.ansible.com/home) role to:
 
 - Install Docker (editions, channels and version pinning are all supported)
-- Install Docker Compose v1 and Docker Compose v2 (version pinning is supported)
+- Install Docker Compose v2 and / or Docker Compose v1 (version pinning is supported)
 - Install the `docker` PIP package so Ansible's `docker_*` modules work
 - Manage Docker registry login credentials
 - Configure 1 or more users to run Docker without needing root access
@@ -142,11 +142,11 @@ and pinned
 ```yml
 docker__compose_v2_version: ""
 
-# For example, pin it to 2.10.
-docker__compose_v2_version: "2.10"
+# For example, pin it to 2.21.
+docker__compose_v2_version: "2.21"
 
-# For example, pin it to a more precise version of 2.10.
-docker__compose_v2_version: "2.10.2"
+# For example, pin it to a more precise version of 2.21.
+docker__compose_v2_version: "2.10.0"
 ```
 
 ##### Upgrade strategy
@@ -166,14 +166,19 @@ ansible all -m apt -a "name=docker-compose-plugin autoremove=true purge=true sta
 
 ### Installing Docker Compose v1
 
-Docker Compose v1 will get PIP installed inside of a Virtualenv. If you plan to
-use Docker Compose v2 instead it will be very easy to skip installing v1
-although technically both can be installed together since v1 is accessed with
+By default this role doesn't install Docker Compose v1 since it's been
+officially deprecated and no longer receives updates by Docker. However, this
+role is capable of installing it. All you have to do is set
+`docker__pip_docker_compose_state: "present"` since this role defaults to
+`absent` for this value.
+
+Technically both versions can be installed together since v1 is accessed with
 `docker-compose` and v2 is accessed with `docker compose` (notice the lack of
 hyphen).
 
-In any case details about this is covered in detail in a later section of this
-README file.
+I'd suggest not installing v1 unless you really need it for legacy purposes. If
+you do decide to install it you can configure which version gets installed
+below. If it's not set to be installed these versions are left unused:
 
 #### Version
 
@@ -437,21 +442,12 @@ docker__pip_packages: []
 future runs
 - When set to `"forcereinstall"`, the package will always be (re)installed and
 updated on future runs
-- When set to `"absent"`, the package will be removed
+- When set to `"absent"`, the package will be skipped or removed
 
 ```yml
 docker__pip_docker_state: "present"
-docker__pip_docker_compose_state: "present"
+docker__pip_docker_compose_state: "absent"
 ```
-
-##### Skipping the installation of Docker Compose v1
-
-You can set `docker__pip_docker_compose_state: "absent"` in your inventory.
-That's it!
-
-Honestly, in the future I think this will be the default behavior. Since Docker
-Compsose v2 is still fairly new I wanted to ease into using v2. There's also no
-harm in having both installed together. You can pick which one to use.
 
 #### Working with Ansible's `docker_*` modules
 

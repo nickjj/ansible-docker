@@ -69,10 +69,6 @@ def test_customized_systemd_override(host):
     assert "ATest" in file_contents
 
 
-def test_docker_compose_v1_is_pip_installed_and_symlinked(host):
-    assert 0 == host.run("docker-compose --version").rc
-
-
 def test_docker_clean_up_cron_job(host):
     cron_conf = host.file("/etc/cron.d/docker-disk-clean-up").content_string
 
