@@ -3,6 +3,6 @@
 {%-   set _docker__version = "5:" + _docker__version %}
 {%- endif %}
 Explanation: Pin added by Ansible role "{{ role_name }}"
-Package: docker-{{ docker__edition }}*
+Package: docker-ce*
 Pin: version {{ _docker__version }}*
 Pin-Priority: 600

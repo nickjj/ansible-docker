@@ -70,14 +70,6 @@ Usage: `ansible-playbook docker.yml`
 
 ### Installing Docker
 
-#### Edition
-
-Do you want to use "ce" (community edition) or "ee" (enterprise edition)?
-
-```yml
-docker__edition: "ce"
-```
-
 #### Channel
 
 Do you want to use the "stable", "edge", "testing" or "nightly" channels? You

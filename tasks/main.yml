@@ -71,7 +71,7 @@
   delay: 15
   ansible.builtin.apt:
     name:
-      - "docker-{{ docker__edition }}"
+      - "docker-ce"
       - "docker-compose-plugin"
     state: "{{ docker__state }}"
 
