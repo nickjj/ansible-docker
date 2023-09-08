@@ -95,11 +95,11 @@ docker__channel: ["stable"]
 ```yml
 docker__version: ""
 
-# For example, pin it to 20.10.
-docker__version: "20.10"
+# For example, pin it to 24.0.
+docker__version: "24.0"
 
-# For example, pin it to a more precise version of 20.10.
-docker__version: "20.10.17"
+# For example, pin it to a more precise version of 24.0.
+docker__version: "24.0.6"
 ```
 
 *Pins are set with `*` at the end of the package version so you will end up
