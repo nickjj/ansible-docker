@@ -138,7 +138,7 @@ docker__compose_v2_version: ""
 docker__compose_v2_version: "2.21"
 
 # For example, pin it to a more precise version of 2.21.
-docker__compose_v2_version: "2.10.0"
+docker__compose_v2_version: "2.21.0"
 ```
 
 ##### Upgrade strategy
