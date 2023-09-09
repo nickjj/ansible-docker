@@ -13,17 +13,17 @@ on:
 
 jobs:
   test:
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-22.04"
     strategy:
       matrix:
-        distro: ["ubuntu2004", "debian10"]
+        distro: ["ubuntu2204", "debian12"]
 
     steps:
       - uses: "actions/checkout@v2"
 
       - name: "Download test script"
         run: |
-          wget -O tests/test.sh https://gist.githubusercontent.com/nickjj/d12353b5b601e33cd62fda111359957a/raw
+          wget -O tests/test.sh https://gist.githubusercontent.com/nickjj/d12353b5b601e33cd62fda111359957a/raw/0cae9eb77992981c81ed1f2235c529eeb7f4059b/ansible-role-test.sh
           chmod +x tests/test.sh
 
       - name: "Run test suite"

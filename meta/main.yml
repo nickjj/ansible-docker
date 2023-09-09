@@ -15,8 +15,8 @@ galaxy_info:
         - "jammy"
     - name: "Debian"
       versions:
-        - "buster"
         - "bullseye"
+        - "bookworm"
 
   galaxy_tags:
     - "containers"

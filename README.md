@@ -23,8 +23,10 @@ with it then check out
 
 - Ubuntu 20.04 LTS (Focal Fossa)
 - Ubuntu 22.04 LTS (Jammy Jellyfish)
-- Debian 10 (Buster)
 - Debian 11 (Bullseye)
+- Debian 12 (Bookworm)
+
+Previous releases may or may not work but they're not officially supported.
 
 ---
 
