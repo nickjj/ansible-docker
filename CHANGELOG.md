@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## v2.3.0
 
-**Released: TBD**
+*Released: September 10th 2023*
 
 - Remove `docker__edition` default variable since `ce` is the only choice, `ee` is long gone
 - Skip installing `docker-compose` v1 by default (you can still install it if you enable it)
