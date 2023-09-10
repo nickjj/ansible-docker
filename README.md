@@ -42,9 +42,9 @@ a way to customize nearly everything.
 
 ### What's configured by default?
 
-The latest Docker CE, Docker Compose v1 and Docker Compose v2 will be
-installed, Docker disk clean up will happen once a week and Docker container
-logs will be sent to `journald`.
+The latest stable release of Docker CE and Docker Compose v2 will be installed,
+Docker disk clean up will happen once a week and Docker container logs will be
+sent to `journald`.
 
 ### Example playbook
 
