@@ -367,17 +367,18 @@ docker__architecture_map:
   "armhf": "armhf"
   "armv7l": "armhf"
 
-# The Docker GPG key id used to sign the Docker package.
-docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
+# The Docker GPG key URL.
+docker__apt_repository_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
 
-# The Docker GPG key server address.
-docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+# The Docker GPG key checksum value.
+docker__apt_key_checksum: "sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570"
 
 # The Docker upstream APT repository.
 docker__apt_repository: >
-  deb [arch={{ docker__architecture_map[ansible_architecture] }}]
-  https://download.docker.com/linux/{{ ansible_distribution | lower }}
-  {{ ansible_distribution_release }} {{ docker__channel | join (' ') }}
+  deb [arch={{ docker__architecture_map[ansible_architecture] }}
+  signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+  {{ docker__apt_repository_url }}
+  {{ ansible_distribution_release }} {{ docker__channel | join(' ') }}
 ```
 
 ### Installing Python packages with Virtualenv and PIP

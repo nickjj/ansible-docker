@@ -6,6 +6,7 @@
 
 - Remove `docker__edition` default variable since `ce` is the only choice, `ee` is long gone
 - Skip installing `docker-compose` v1 by default (you can still install it if you enable it)
+- Refactor handling APT repository GPG key to fix deprecation warnings
 - Officially support Debian 12 (Bookworm)
 
 ## v2.2.0

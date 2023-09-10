@@ -51,11 +51,12 @@ docker__architecture_map:
   "armhf": "armhf"
   "armv7l": "armhf"
 
-docker__apt_key_id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
-docker__apt_key_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"  # yamllint disable-line rule:line-length
+docker__apt_repository_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"  # yamllint disable-line rule:line-length
+docker__apt_key_checksum: "sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570"  # yamllint disable-line rule:line-length
 docker__apt_repository: >
-  deb [arch={{ docker__architecture_map[ansible_architecture] }}]
-  https://download.docker.com/linux/{{ ansible_distribution | lower }}
+  deb [arch={{ docker__architecture_map[ansible_architecture] }}
+  signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+  {{ docker__apt_repository_url }}
   {{ ansible_distribution_release }} {{ docker__channel | join(' ') }}
 
 docker__pip_dependencies:

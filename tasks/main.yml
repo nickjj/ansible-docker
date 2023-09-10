@@ -36,10 +36,14 @@
   ansible.builtin.apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
 
-- name: Add Docker's public GPG key to the APT keyring
-  ansible.builtin.apt_key:
-    id: "{{ docker__apt_key_id }}"
-    url: "{{ docker__apt_key_url }}"
+- name: Add Docker's APT repository key
+  ansible.builtin.get_url:
+    url: "{{ docker__apt_repository_url }}/gpg"
+    dest: "/etc/apt/trusted.gpg.d/docker.asc"
+    checksum: "{{ docker__apt_key_checksum }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
 
 - name: Configure Docker's upstream APT repository
   ansible.builtin.apt_repository:
