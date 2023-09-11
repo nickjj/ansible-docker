@@ -31,7 +31,7 @@ Previous releases may or may not work but they're not officially supported.
 ---
 
 *You are viewing the master branch's documentation which might be ahead of the
-latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v2.2.0).*
+latest release. [Switch to the latest release](https://github.com/nickjj/ansible-docker/tree/v2.3.0).*
 
 ---
 
