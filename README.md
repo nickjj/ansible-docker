@@ -376,7 +376,7 @@ docker__apt_key_checksum: "sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce
 # The Docker upstream APT repository.
 docker__apt_repository: >
   deb [arch={{ docker__architecture_map[ansible_architecture] }}
-  signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+  signed-by=/etc/apt/keyrings/docker.asc]
   {{ docker__apt_repository_url }}
   {{ ansible_distribution_release }} {{ docker__channel | join(' ') }}
 ```
