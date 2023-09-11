@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## v2.4.0
 
-*Released: TBD*
+*Released: September 11th 2023*
 
 - Use `/etc/apt/keyrings` instead of `/etc/apt/trusted.gpg.d` for Docker's GPG key
 
