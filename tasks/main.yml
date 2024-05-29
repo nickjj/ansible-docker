@@ -35,6 +35,7 @@
   delay: 15
   ansible.builtin.apt:
     name: "{{ docker__package_dependencies + docker__pip_dependencies }}"
+    update_cache: "{{ docker__apt_update_cache }}"
 
 - name: Create /etc/apt/keyrings directory
   ansible.builtin.file:

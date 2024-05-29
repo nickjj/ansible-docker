@@ -51,6 +51,7 @@ docker__architecture_map:
   "armhf": "armhf"
   "armv7l": "armhf"
 
+docker__apt_update_cache: false
 docker__apt_repository_url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}"  # yamllint disable-line rule:line-length
 docker__apt_key_checksum: "sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570"  # yamllint disable-line rule:line-length
 docker__apt_repository: >
