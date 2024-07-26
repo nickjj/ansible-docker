@@ -84,6 +84,8 @@
   ansible.builtin.apt:
     name:
       - "docker-ce"
+      - "docker-ce-cli"
+      - "docker-ce-rootless-extras"
       - "docker-compose-plugin"
     state: "{{ docker__state }}"
 
