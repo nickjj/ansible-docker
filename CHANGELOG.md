@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.5.0
+
+*Released: July 30th 2024*
+
+- Explicitly install the Docker CLI and rootless extras so they get updated
+- Use the full Python binary path for `ansible_python_interpreter`
+
 ## v2.4.0
 
 *Released: September 11th 2023*
