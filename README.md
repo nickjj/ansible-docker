@@ -89,11 +89,11 @@ docker__channel: ["stable"]
 ```yml
 docker__version: ""
 
-# For example, pin it to 24.0.
-docker__version: "24.0"
+# For example, pin it to 25.0.
+docker__version: "25.0"
 
-# For example, pin it to a more precise version of 24.0.
-docker__version: "24.0.6"
+# For example, pin it to a more precise version of 25.0.
+docker__version: "25.0.5"
 ```
 
 *Pins are set with `*` at the end of the package version so you will end up
@@ -136,11 +136,11 @@ and pinned
 ```yml
 docker__compose_v2_version: ""
 
-# For example, pin it to 2.21.
-docker__compose_v2_version: "2.21"
+# For example, pin it to 2.29.
+docker__compose_v2_version: "2.29"
 
-# For example, pin it to a more precise version of 2.21.
-docker__compose_v2_version: "2.21.0"
+# For example, pin it to a more precise version of 2.29.1.
+docker__compose_v2_version: "2.29.1"
 ```
 
 ##### Upgrade strategy
