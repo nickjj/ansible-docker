@@ -31,3 +31,15 @@ jobs:
           ./tests/test.sh
         env:
           distro: ${{ matrix.distro }}
+
+  upgrade-test:
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: "actions/checkout@v2"
+
+    - name: "Run upgrade test"
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: false
+        file: tests/Dockerfile
