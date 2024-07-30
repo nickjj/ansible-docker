@@ -173,7 +173,7 @@
   become: true
   become_user: "{{ docker__login_become_user | d('root') }}"
   vars:
-    ansible_python_interpreter: "{{ '/usr/bin/env python3-docker' }}"
+    ansible_python_interpreter: "{{ '/usr/local/bin/python3-docker' }}"
 
 - name: Remove Docker related cron jobs
   ansible.builtin.file:
