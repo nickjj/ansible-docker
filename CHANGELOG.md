@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.5.1
+
+*Released: June 18th 2025*
+
+- Document official Ubuntu 24.04 LTS support (it was always supported and worked)
+
 ## v2.5.0
 
 *Released: July 30th 2024*
