@@ -19,9 +19,7 @@ def test_docker_compose_v2_version(host):
 
 
 def test_pinned_docker_compose_v2_version(host):
-    existing_docker_compose_version = host.check_output(
-        "docker compose version"
-    )
+    existing_docker_compose_version = host.check_output("docker compose version")
 
     host.run("sudo apt-get update")
     host.run("sudo apt-get upgrade")
@@ -29,10 +27,7 @@ def test_pinned_docker_compose_v2_version(host):
         "docker compose version"
     )
 
-    assert (
-        existing_docker_compose_version
-        == docker_compose_version_after_apt_update
-    )
+    assert existing_docker_compose_version == docker_compose_version_after_apt_update
 
 
 def test_able_to_access_docker_without_root(host):

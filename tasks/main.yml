@@ -1,5 +1,4 @@
 ---
-
 - name: Disable pinned Docker version
   ansible.builtin.file:
     dest: "/etc/apt/preferences.d/docker.pref"
@@ -158,7 +157,7 @@
 # It's safe to ignore no-log-password because we're removing the password from
 # the output with the loop_control property.
 - name: Manage Docker registry login credentials
-  community.docker.docker_login:  # noqa no-log-password
+  community.docker.docker_login: # noqa no-log-password
     registry_url: "{{ item.registry_url | d(omit) }}"
     username: "{{ item.username }}"
     password: "{{ item.password }}"
@@ -168,7 +167,7 @@
     state: "{{ item.state | d('present') }}"
   loop: "{{ docker__registries }}"
   loop_control:
-    label: '{{ {"registry_url": item.registry_url | d("https://index.docker.io/v1/"), "username": item.username, "state": item.state | d("present")} }}'  # yamllint disable-line rule:line-length
+    label: '{{ {"registry_url": item.registry_url | d("https://index.docker.io/v1/"), "username": item.username, "state": item.state | d("present")} }}' # yamllint disable-line rule:line-length
   when: item.username | d() and item.password | d()
   become: true
   become_user: "{{ docker__login_become_user | d('root') }}"
