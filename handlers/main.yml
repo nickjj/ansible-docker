@@ -2,8 +2,10 @@
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     daemon_reload: true
+  when: docker__restart
 
 - name: Restart Docker
   ansible.builtin.systemd:
     name: "docker"
     state: "restarted"
+  when: docker__systemd_restart

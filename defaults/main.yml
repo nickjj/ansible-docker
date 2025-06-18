@@ -26,6 +26,8 @@ docker__daemon_flags:
 docker__daemon_environment: []
 
 docker__systemd_override: ""
+docker__systemd_restart: true # toggle off if you have a system without systemd
+docker__restart: true         # toggle off if you have a system you can't restart docker on (docker build environment for example)
 
 docker__cron_jobs_prune_flags: "af"
 docker__cron_jobs_prune_schedule: ["0", "0", "*", "*", "0"]
