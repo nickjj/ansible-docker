@@ -1,4 +1,4 @@
-## What is ansible-docker? ![CI](https://github.com/nickjj/ansible-docker/workflows/CI/badge.svg?branch=master)
+## 🐳 What is ansible-docker?
 
 It is an [Ansible](http://www.ansible.com/home) role to:
 
@@ -10,7 +10,7 @@ It is an [Ansible](http://www.ansible.com/home) role to:
 - Configure the Docker daemon's options and environment variables
 - Configure a cron job to run Docker clean up commands
 
-## Why would you want to use this role?
+## ❔ Why would you want to use this role?
 
 If you're like me, you probably love Docker. This role provides everything you
 need to get going with a production ready Docker host.
@@ -19,7 +19,7 @@ By the way, if you don't know what Docker is, or are looking to become an expert
 with it then check out
 [Dive into Docker: The Complete Docker Course for Developers](https://diveintodocker.com/?utm_source=ansibledocker&utm_medium=github&utm_campaign=readmetop).
 
-## Supported platforms
+## 🛟 Supported platforms
 
 - Ubuntu 22.04 LTS (Jammy Jellyfish)
 - Ubuntu 24.04 LTS (Noble Numbat)
@@ -35,7 +35,7 @@ latest release. [Switch to the latest release](https://github.com/nickjj/ansible
 
 ---
 
-## Quick start
+## ✨ Quick start
 
 The philosophy for all of my roles is to make it easy to get going, but provide
 a way to customize nearly everything.
@@ -68,7 +68,7 @@ Usage: `ansible-playbook docker.yml`
 
 `$ ansible-galaxy install nickjj.docker`
 
-## Default role variables
+## ⚙️ Default role variables
 
 ### Installing Docker
 
@@ -458,6 +458,15 @@ because this role creates a proxy script from the Virtualenv's Python binary to
 You can look at this role's `docker_login` task as an example on how to do it
 at the task level.
 
-## License
+## 👀 About the author
 
-MIT
+- Nick Janetakis | <https://nickjanetakis.com> | [@nickjanetakis](https://twitter.com/nickjanetakis)
+
+I'm a self taught developer and have been freelancing for the last ~20 years.
+You can read about everything I've learned along the way on my site at
+[https://nickjanetakis.com](https://nickjanetakis.com/).
+
+There's hundreds of [blog posts](https://nickjanetakis.com/blog) and a couple
+of [video courses](https://nickjanetakis.com/courses) on web development and
+deployment topics. I also have a [podcast](https://runninginproduction.com)
+where I talk with folks about running web apps in production.
