@@ -2,8 +2,8 @@
 
 It is an [Ansible](http://www.ansible.com/home) role to:
 
-- Install Docker (editions, channels and version pinning are all supported)
-- Install Docker Compose v2 and / or Docker Compose v1 (version pinning is supported)
+- Install Docker (channels and version pinning are supported)
+- Install Docker Compose v2 (version pinning is supported)
 - Install the `docker` PIP package so Ansible's `docker_*` modules work
 - Manage Docker registry login credentials
 - Configure 1 or more users to run Docker without needing root access
