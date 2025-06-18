@@ -10,8 +10,8 @@ galaxy_info:
   platforms:
     - name: "Ubuntu"
       versions:
-        - "focal"
         - "jammy"
+        - "noble"
     - name: "Debian"
       versions:
         - "bullseye"
