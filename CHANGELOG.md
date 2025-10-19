@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v2.5.2
 
 - Fix Ansible 12 compatibility by updating conditionals to use proper boolean evaluation
 - Add `community.docker` as a collection dependency
