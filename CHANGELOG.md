@@ -2,6 +2,8 @@
 
 ## v2.5.2
 
+*Released: October 19th 2025*
+
 - Fix Ansible 12 compatibility by updating conditionals to use proper boolean evaluation
 - Add `community.docker` as a collection dependency
 
