@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fix Ansible 12 compatibility by updating conditionals to use proper boolean evaluation
+
 ## v2.5.1
 
 *Released: June 18th 2025*
