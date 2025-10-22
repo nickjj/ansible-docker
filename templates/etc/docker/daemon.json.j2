@@ -1,3 +1,6 @@
+{% if docker__daemon_json_dict is defined %}
+{{ docker__daemon_json_dict | to_nice_json }}
+{% else %}
 {
 {% if docker__default_daemon_json | d() %}
 {{ docker__default_daemon_json | indent(2, true) }}
@@ -7,3 +10,4 @@
 {{ docker__daemon_json | indent(2, true) }}
 {% endif %}
 }
+{% endif %}
