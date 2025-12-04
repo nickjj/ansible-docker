@@ -268,6 +268,13 @@ docker__default_daemon_json: |
 docker__daemon_json: ""
 ```
 
+#### Alternative dict-based approach
+
+```yml
+docker__daemon_json_dict:
+  log-driver: journald
+```
+
 ### Configure the Docker daemon options (flags)
 
 Flags that are set when starting the Docker daemon cannot be changed in the
