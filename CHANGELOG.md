@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.5.3
+
+*Released: December 4th 2025*
+
+- Officially support Debian 13 (Trixie)
+
 ## v2.5.2
 
 *Released: October 19th 2025*
