@@ -14,8 +14,8 @@ galaxy_info:
         - "noble"
     - name: "Debian"
       versions:
-        - "bullseye"
         - "bookworm"
+        - "trixie"
 
   galaxy_tags:
     - "containers"

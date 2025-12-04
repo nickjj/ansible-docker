@@ -41,7 +41,6 @@ docker__package_dependencies:
   - "ca-certificates"
   - "cron"
   - "gnupg2"
-  - "software-properties-common"
 
 docker__architecture_map:
   "x86_64": "amd64"
